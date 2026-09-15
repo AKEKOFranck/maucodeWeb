@@ -1,0 +1,1403 @@
+/* =====================================================
+   PAGE
+===================================================== */
+
+.page {
+  width: 100%;
+
+  min-height: 100vh;
+
+  background: #ffffff;
+
+  color: #4c73f7;
+}
+
+
+/* =====================================================
+   FIRST SECTION
+===================================================== */
+
+.first_section {
+  width: calc(100% - 80px);
+
+  max-width: 1280px;
+
+  min-height: calc(100vh - 80px);
+
+  margin: 40px auto;
+
+  padding: 0 34px 34px;
+
+  background: #e9eeff;
+
+  border: 2px solid #b9caff;
+
+  border-radius: 32px;
+
+  overflow: hidden;
+}
+
+
+/* =====================================================
+   HERO
+===================================================== */
+
+.hero {
+  padding: 45px 0 42px;
+}
+
+
+/* =====================================================
+   BADGE
+===================================================== */
+
+.heroBadge {
+  width: fit-content;
+
+  min-height: 43px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  padding: 8px 17px;
+
+  background: #ffffff;
+
+  color: #5873c9;
+
+  border-radius: 999px;
+
+  font-size: 12px;
+
+  font-weight: 600;
+
+  box-shadow:
+    0 5px 20px rgba(76, 115, 247, 0.04);
+}
+
+
+/* =====================================================
+   PETIT POINT DU BADGE
+===================================================== */
+
+.badgeDot {
+  width: 9px;
+
+  height: 9px;
+
+  display: block;
+
+  flex-shrink: 0;
+
+  background: #4c73f7;
+
+  border-radius: 50%;
+
+  box-shadow:
+    0 0 0 5px #e6ebff;
+}
+
+
+/* =====================================================
+   HERO CONTENT
+===================================================== */
+
+.heroContent {
+  max-width: 1050px;
+
+  margin-top: 27px;
+}
+
+
+/* =====================================================
+   TITRE
+===================================================== */
+
+.heroContent h1 {
+  max-width: 1050px;
+
+  margin: 0;
+
+  color: #4c73f7;
+
+  font-size: clamp(48px, 6.2vw, 84px);
+
+  font-weight: 500;
+
+  line-height: 0.98;
+
+  letter-spacing: -4px;
+}
+
+
+/* =====================================================
+   DESCRIPTION
+===================================================== */
+
+.heroContent p {
+  max-width: 720px;
+
+  margin-top: 25px;
+
+  color: #5c70ac;
+
+  font-size: 15px;
+
+  line-height: 1.7;
+
+  font-weight: 500;
+}
+
+
+/* =====================================================
+   HERO BUTTONS
+===================================================== */
+
+.heroButtons {
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+  margin-top: 28px;
+}
+
+
+/* =====================================================
+   BUTTONS
+===================================================== */
+
+.primaryButton,
+.secondaryButton {
+  min-height: 50px;
+
+  padding: 0 20px;
+
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 12px;
+
+  border-radius: 999px;
+
+  font-size: 12px;
+
+  font-weight: 700;
+
+  transition:
+    transform 0.25s ease,
+    background 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+
+/* =====================================================
+   PRIMARY BUTTON
+===================================================== */
+
+.primaryButton {
+  color: #ffffff;
+
+  background: #4c73f7;
+
+  box-shadow:
+    0 10px 25px rgba(76, 115, 247, 0.20);
+}
+
+
+.primaryButton:hover {
+  background: #3c5fdc;
+
+  transform: translateY(-3px);
+
+  box-shadow:
+    0 14px 30px rgba(76, 115, 247, 0.25);
+}
+
+
+/* =====================================================
+   SECONDARY BUTTON
+===================================================== */
+
+.secondaryButton {
+  color: #4c73f7;
+
+  background: #ffffff;
+}
+
+
+.secondaryButton:hover {
+  transform: translateY(-3px);
+
+  box-shadow:
+    0 10px 25px rgba(76, 115, 247, 0.10);
+}
+
+
+/* =====================================================
+   BUTTON ICON
+===================================================== */
+
+.primaryButton svg,
+.secondaryButton svg {
+  font-size: 16px;
+
+  transition:
+    transform 0.25s ease;
+}
+
+
+.primaryButton:hover svg,
+.secondaryButton:hover svg {
+  transform: translateX(3px);
+}
+
+
+/* =====================================================
+   SERVICES
+===================================================== */
+
+.services {
+  width: 100%;
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: 14px;
+}
+
+
+/* =====================================================
+   SERVICE CARD
+===================================================== */
+
+.serviceCard {
+  min-height: 320px;
+
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 1fr)
+    minmax(0, 0.95fr);
+
+  overflow: hidden;
+
+  background: #ffffff;
+
+  border-radius: 27px;
+
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+
+.serviceCard:hover {
+  transform: translateY(-4px);
+
+  box-shadow:
+    0 18px 40px rgba(76, 115, 247, 0.10);
+}
+
+
+/* =====================================================
+   SERVICE CONTENT
+===================================================== */
+
+.serviceContent {
+  min-width: 0;
+
+  padding: 32px 27px;
+
+  display: flex;
+
+  flex-direction: column;
+}
+
+
+/* =====================================================
+   SERVICE ICON
+===================================================== */
+
+.serviceIcon {
+  width: 43px;
+
+  height: 43px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  margin-bottom: 17px;
+
+  color: #4c73f7;
+
+  background: #edf1ff;
+
+  border-radius: 13px;
+}
+
+
+.serviceIcon svg {
+  font-size: 20px;
+}
+
+
+/* =====================================================
+   SERVICE TITLE
+===================================================== */
+
+.serviceContent h2 {
+  margin: 0;
+
+  color: #4c73f7;
+
+  font-size: 22px;
+
+  font-weight: 600;
+
+  line-height: 1.2;
+
+  letter-spacing: -0.5px;
+}
+
+
+/* =====================================================
+   SERVICE DESCRIPTION
+===================================================== */
+
+.serviceContent p {
+  max-width: 270px;
+
+  margin-top: auto;
+
+  margin-bottom: 23px;
+
+  color: #68799f;
+
+  font-size: 12px;
+
+  line-height: 1.75;
+}
+
+
+/* =====================================================
+   SERVICE LINK
+===================================================== */
+
+.serviceLink {
+  width: fit-content;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 9px;
+
+  color: #4c73f7;
+
+  font-size: 12px;
+
+  font-weight: 700;
+
+  transition:
+    gap 0.25s ease,
+    color 0.25s ease;
+}
+
+
+.serviceLink:hover {
+  gap: 14px;
+
+  color: #3c5fdc;
+}
+
+
+.serviceLink svg {
+  font-size: 17px;
+}
+
+
+/* =====================================================
+   SERVICE IMAGE CONTAINER
+===================================================== */
+
+.serviceImage {
+  position: relative;
+
+  min-height: 320px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  padding: 18px;
+
+  background: #4c73f7;
+
+  overflow: hidden;
+}
+
+
+/* =====================================================
+   IMAGE
+===================================================== */
+
+.serviceImage img {
+  width: 100%;
+
+  height: 100%;
+
+  display: block;
+
+  object-fit: cover;
+
+  object-position: center;
+
+  border-radius: 18px;
+
+  transition:
+    transform 0.45s ease,
+    filter 0.45s ease;
+}
+
+
+/* =====================================================
+   EFFET HOVER IMAGE
+===================================================== */
+
+.serviceCard:hover .serviceImage img {
+  transform: scale(1.035);
+}
+
+
+/* =====================================================
+   IMAGE FORMATION
+===================================================== */
+
+.serviceCard:first-child .serviceImage img {
+  object-position: center center;
+}
+
+
+/* =====================================================
+   IMAGE CRÉATION WEB
+===================================================== */
+
+.websiteCard .serviceImage {
+  background: #b9caff;
+
+  padding: 18px;
+}
+
+
+.websiteCard .serviceImage img {
+  transform: scale(1.08);
+
+  object-position: center;
+}
+
+
+.websiteCard:hover .serviceImage img {
+  transform: scale(1.12);
+}
+
+
+/* =====================================================================
+   =====================================================================
+   SECTIONS : FORMATIONS / CRÉATION DE SITES WEB
+   (construites sur les tokens de globals.css)
+   =====================================================================
+   ===================================================================== */
+
+.sectionWrap {
+  width: calc(100% - 80px);
+
+  max-width: 1280px;
+
+  margin: 26px auto;
+}
+
+
+/* =====================================================
+   CARTE DE SECTION (claire)
+===================================================== */
+
+.sectionCard {
+  padding: 56px 44px;
+
+  background: var(--primary-light);
+
+  border: 2px solid var(--border);
+
+  border-radius: 32px;
+}
+
+
+/* =====================================================
+   CARTE DE SECTION (foncée — création de sites)
+===================================================== */
+
+.sectionCardDark {
+  background: var(--foreground);
+
+  border-color: var(--foreground);
+}
+
+
+/* =====================================================
+   EN-TÊTE DE SECTION
+===================================================== */
+
+.sectionHead {
+  max-width: 640px;
+}
+
+
+.sectionBadge {
+  width: fit-content;
+
+  min-height: 40px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  padding: 8px 16px;
+
+  background: var(--white);
+
+  color: #5873c9;
+
+  border-radius: 999px;
+
+  font-size: 12px;
+
+  font-weight: 600;
+}
+
+
+.sectionBadgeOnDark {
+  background: rgba(255, 255, 255, 0.08);
+
+  color: var(--secondary);
+}
+
+
+.sectionTitle {
+  margin-top: 20px;
+
+  color: var(--text-primary);
+
+  font-size: clamp(28px, 3.4vw, 40px);
+
+  font-weight: 600;
+
+  line-height: 1.15;
+
+  letter-spacing: -1px;
+}
+
+
+.sectionTitleOnDark {
+  color: var(--white);
+}
+
+
+.sectionText {
+  margin-top: 16px;
+
+  color: var(--text-secondary);
+
+  font-size: 15px;
+
+  line-height: 1.7;
+
+  font-weight: 500;
+}
+
+
+.sectionTextOnDark {
+  color: var(--secondary);
+}
+
+
+/* =====================================================
+   GRILLE D'INFOS — FORMATIONS
+===================================================== */
+
+.infoGrid {
+  margin-top: 40px;
+
+  display: grid;
+
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+
+  gap: 16px;
+}
+
+
+.infoCard {
+  padding: 28px 24px;
+
+  background: var(--white);
+
+  border-radius: 22px;
+
+  display: flex;
+
+  flex-direction: column;
+}
+
+
+.infoIcon {
+  width: 40px;
+
+  height: 40px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  margin-bottom: 16px;
+
+  color: var(--primary);
+
+  background: var(--primary-light);
+
+  border-radius: 12px;
+
+  font-size: 18px;
+}
+
+
+.infoCardTitle {
+  color: var(--text-primary);
+
+  font-size: 16px;
+
+  font-weight: 600;
+}
+
+
+.infoNote {
+  margin-top: 10px;
+
+  color: var(--text-secondary);
+
+  font-size: 13px;
+
+  line-height: 1.65;
+}
+
+
+/* =====================================================
+   CARTE PRIX
+===================================================== */
+
+.priceCard {
+  background: var(--primary);
+}
+
+
+.priceRow {
+  display: flex;
+
+  align-items: baseline;
+
+  gap: 6px;
+}
+
+
+.priceAmount {
+  color: var(--white);
+
+  font-size: 40px;
+
+  font-weight: 700;
+
+  letter-spacing: -1px;
+}
+
+
+.priceCurrency {
+  color: var(--white);
+
+  font-size: 15px;
+
+  font-weight: 700;
+}
+
+
+.priceUnit {
+  color: rgba(255, 255, 255, 0.75);
+
+  font-size: 13px;
+
+  font-weight: 600;
+}
+
+
+.priceCard .infoNote {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+
+/* =====================================================
+   LISTE DES MODULES
+===================================================== */
+
+.moduleList {
+  margin-top: 4px;
+
+  list-style: none;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 10px;
+}
+
+
+.moduleItem {
+  display: flex;
+
+  flex-direction: column;
+
+  padding: 10px 0;
+
+  border-bottom: 1px solid var(--border);
+}
+
+
+.moduleItem:last-child {
+  border-bottom: none;
+}
+
+
+.moduleName {
+  color: var(--text-primary);
+
+  font-size: 14px;
+
+  font-weight: 700;
+}
+
+
+.moduleNote {
+  margin-top: 2px;
+
+  color: var(--text-light);
+
+  font-size: 12px;
+}
+
+
+/* =====================================================
+   LIEN DE CARTE
+===================================================== */
+
+.cardLink {
+  width: fit-content;
+
+  margin-top: 18px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+  color: var(--primary);
+
+  font-size: 13px;
+
+  font-weight: 700;
+
+  transition: gap 0.25s ease;
+}
+
+
+.cardLink:hover {
+  gap: 13px;
+}
+
+
+/* =====================================================
+   GRILLE D'OFFRES — CRÉATION DE SITES
+===================================================== */
+
+.offerGrid {
+  margin-top: 40px;
+
+  display: grid;
+
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+
+  gap: 16px;
+}
+
+
+.offerCard {
+  padding: 30px 26px;
+
+  background: rgba(255, 255, 255, 0.04);
+
+  border: 1px solid rgba(255, 255, 255, 0.12);
+
+  border-radius: 22px;
+}
+
+
+.offerCard .infoIcon {
+  background: rgba(76, 115, 247, 0.16);
+
+  color: #9db2ff;
+}
+
+
+.offerTitle {
+  color: var(--white);
+
+  font-size: 19px;
+
+  font-weight: 600;
+}
+
+
+.offerDescription {
+  margin-top: 10px;
+
+  color: var(--secondary);
+
+  font-size: 13.5px;
+
+  line-height: 1.65;
+}
+
+
+.offerPoints {
+  margin-top: 18px;
+
+  list-style: none;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 10px;
+}
+
+
+.offerPoint {
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  color: var(--secondary);
+
+  font-size: 13px;
+}
+
+
+.offerPoint svg {
+  flex-shrink: 0;
+
+  color: var(--primary);
+
+  font-size: 14px;
+}
+
+
+/* =====================================================
+   CTA — CRÉATION DE SITES
+===================================================== */
+
+.offerCtaRow {
+  margin-top: 32px;
+
+  padding-top: 28px;
+
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+
+  display: flex;
+
+  flex-wrap: wrap;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 18px;
+}
+
+
+.offerCtaNote {
+  color: var(--secondary);
+
+  font-size: 13.5px;
+
+  max-width: 40ch;
+}
+
+
+.primaryButtonOnDark {
+  min-height: 50px;
+
+  padding: 0 22px;
+
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 12px;
+
+  color: var(--foreground);
+
+  background: var(--white);
+
+  border-radius: 999px;
+
+  font-size: 12px;
+
+  font-weight: 700;
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+
+.primaryButtonOnDark:hover {
+  transform: translateY(-3px);
+
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.25);
+}
+
+
+.primaryButtonOnDark svg {
+  font-size: 16px;
+
+  transition: transform 0.25s ease;
+}
+
+
+.primaryButtonOnDark:hover svg {
+  transform: translateX(3px);
+}
+
+
+/* =====================================================
+   TABLETTE
+===================================================== */
+
+@media (max-width: 1100px) {
+
+  .first_section {
+    width: calc(100% - 50px);
+
+    padding:
+      0 27px 27px;
+  }
+
+
+  .serviceCard {
+    grid-template-columns:
+      minmax(0, 1fr)
+      minmax(0, 0.9fr);
+
+    min-height: 300px;
+  }
+
+
+  .serviceImage {
+    min-height: 300px;
+  }
+
+
+  .serviceContent {
+    padding: 27px 22px;
+  }
+
+
+  .sectionWrap {
+    width: calc(100% - 50px);
+  }
+
+
+  .sectionCard {
+    padding: 46px 32px;
+  }
+
+
+  .infoGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+}
+
+
+/* =====================================================
+   TABLETTE PETITE
+===================================================== */
+
+@media (max-width: 950px) {
+
+  .first_section {
+    width: calc(100% - 40px);
+
+    margin: 20px auto;
+
+    padding:
+      0 25px 25px;
+
+    border-radius: 28px;
+  }
+
+
+  .hero {
+    padding:
+      40px 0 35px;
+  }
+
+
+  .heroContent h1 {
+    font-size:
+      clamp(45px, 8vw, 70px);
+
+    letter-spacing: -3px;
+  }
+
+
+  .services {
+    grid-template-columns: 1fr;
+  }
+
+
+  .serviceCard {
+    min-height: 320px;
+
+    grid-template-columns:
+      minmax(0, 1fr)
+      minmax(0, 0.85fr);
+  }
+
+
+  .serviceImage {
+    min-height: 320px;
+  }
+
+
+  .sectionWrap {
+    width: calc(100% - 40px);
+
+    margin: 20px auto;
+  }
+
+
+  .sectionCard {
+    padding: 40px 26px;
+
+    border-radius: 28px;
+  }
+
+
+  .offerGrid {
+    grid-template-columns: 1fr;
+  }
+
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 600px) {
+
+  .first_section {
+    width: calc(100% - 24px);
+
+    margin: 12px auto;
+
+    padding:
+      0 15px 15px;
+
+    border-radius: 23px;
+  }
+
+
+  /* ==================================
+     HERO
+  ================================== */
+
+  .hero {
+    padding:
+      32px 0 30px;
+  }
+
+
+  /* ==================================
+     BADGE
+  ================================== */
+
+  .heroBadge {
+    min-height: 40px;
+
+    padding:
+      8px 14px;
+
+    font-size: 11px;
+  }
+
+
+  /* ==================================
+     TITRE
+  ================================== */
+
+  .heroContent {
+    margin-top: 23px;
+  }
+
+
+  .heroContent h1 {
+    font-size:
+      clamp(40px, 13vw, 57px);
+
+    line-height: 1;
+
+    letter-spacing: -2.5px;
+  }
+
+
+  /* ==================================
+     DESCRIPTION
+  ================================== */
+
+  .heroContent p {
+    margin-top: 20px;
+
+    font-size: 13px;
+
+    line-height: 1.65;
+  }
+
+
+  /* ==================================
+     BUTTONS
+  ================================== */
+
+  .heroButtons {
+    flex-direction: column;
+
+    align-items: stretch;
+
+    margin-top: 24px;
+  }
+
+
+  .primaryButton,
+  .secondaryButton {
+    width: 100%;
+  }
+
+
+  /* ==================================
+     SERVICES
+  ================================== */
+
+  .services {
+    grid-template-columns: 1fr;
+
+    gap: 12px;
+  }
+
+
+  /* ==================================
+     CARD
+  ================================== */
+
+  .serviceCard {
+    grid-template-columns: 1fr;
+
+    min-height: auto;
+
+    border-radius: 23px;
+  }
+
+
+  /* ==================================
+     CONTENT
+  ================================== */
+
+  .serviceContent {
+    min-height: 235px;
+
+    padding:
+      24px 21px;
+  }
+
+
+  .serviceContent h2 {
+    font-size: 20px;
+  }
+
+
+  .serviceContent p {
+    max-width: 100%;
+
+    font-size: 12px;
+  }
+
+
+  /* ==================================
+     IMAGE
+  ================================== */
+
+  .serviceImage {
+    min-height: 260px;
+
+    height: 260px;
+
+    padding: 12px;
+
+    border-radius: 0;
+  }
+
+
+  .serviceImage img {
+    width: 100%;
+
+    height: 100%;
+
+    border-radius: 17px;
+  }
+
+
+  /* ==================================
+     IMAGE WEB MOBILE
+  ================================== */
+
+  .websiteCard .serviceImage {
+    padding: 12px;
+  }
+
+
+  .websiteCard .serviceImage img {
+    transform: scale(1.06);
+  }
+
+
+  .websiteCard:hover .serviceImage img {
+    transform: scale(1.09);
+  }
+
+
+  /* ==================================
+     SECTIONS FORMATIONS / SITES WEB
+  ================================== */
+
+  .sectionWrap {
+    width: calc(100% - 16px);
+
+    margin: 10px auto;
+  }
+
+
+  .sectionCard {
+    padding: 30px 18px;
+
+    border-radius: 20px;
+  }
+
+
+  .infoGrid {
+    grid-template-columns: 1fr;
+  }
+
+
+  .priceAmount {
+    font-size: 34px;
+  }
+
+
+  .offerCtaRow {
+    flex-direction: column;
+
+    align-items: flex-start;
+  }
+
+
+  .primaryButtonOnDark {
+    width: 100%;
+  }
+
+}
+
+
+/* =====================================================
+   PETIT MOBILE
+===================================================== */
+
+@media (max-width: 400px) {
+
+  .first_section {
+    width: calc(100% - 16px);
+
+    margin: 8px auto;
+
+    padding:
+      0 12px 12px;
+
+    border-radius: 20px;
+  }
+
+
+  .heroContent h1 {
+    font-size: 39px;
+
+    letter-spacing: -2px;
+  }
+
+
+  .serviceContent {
+    min-height: 245px;
+  }
+
+
+  .serviceImage {
+    min-height: 230px;
+
+    height: 230px;
+
+    padding: 10px;
+  }
+
+
+  .websiteCard .serviceImage {
+    padding: 10px;
+  }
+
+}

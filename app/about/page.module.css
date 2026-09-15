@@ -1,0 +1,369 @@
+.page {
+  min-height: 100vh;
+
+  background: #ffffff;
+}
+
+.aboutSection {
+  width: calc(100% - 80px);
+
+  max-width: 1280px;
+
+  margin: 40px auto;
+
+  padding: 0 34px 40px;
+
+  background: #e9eeff;
+
+  border: 2px solid #b9caff;
+
+  border-radius: 32px;
+}
+
+
+/* ==================================
+   HERO
+================================== */
+
+.hero {
+  max-width: 900px;
+
+  padding: 80px 0 60px;
+}
+
+.badge {
+  display: inline-flex;
+
+  padding: 10px 16px;
+
+  color: #4c73f7;
+
+  background: #ffffff;
+
+  border-radius: 999px;
+
+  font-size: 11px;
+
+  font-weight: 700;
+}
+
+.hero h1 {
+  margin-top: 25px;
+
+  color: #4c73f7;
+
+  font-size: clamp(48px, 6vw, 78px);
+
+  line-height: 1;
+
+  font-weight: 500;
+
+  letter-spacing: -3px;
+}
+
+.hero h1 span {
+  display: block;
+
+  color: #172554;
+}
+
+.hero p {
+  max-width: 650px;
+
+  margin-top: 25px;
+
+  color: #6274a7;
+
+  font-size: 15px;
+
+  line-height: 1.8;
+}
+
+
+/* ==================================
+   ABOUT CONTENT
+================================== */
+
+.aboutContent {
+  display: grid;
+
+  grid-template-columns: 0.9fr 1.1fr;
+
+  gap: 60px;
+
+  padding: 45px 0;
+}
+
+.textBlock {
+  padding: 30px;
+
+  background: #ffffff;
+
+  border-radius: 25px;
+}
+
+.smallTitle {
+  color: #4c73f7;
+
+  font-size: 10px;
+
+  font-weight: 800;
+
+  letter-spacing: 2px;
+}
+
+.textBlock h2 {
+  margin-top: 15px;
+
+  color: #172554;
+
+  font-size: 30px;
+
+  line-height: 1.2;
+}
+
+.textBlock p {
+  margin-top: 18px;
+
+  color: #65749a;
+
+  font-size: 13px;
+
+  line-height: 1.8;
+}
+
+
+/* ==================================
+   CARDS
+================================== */
+
+.cards {
+  display: grid;
+
+  grid-template-columns: 1fr 1fr;
+
+  gap: 12px;
+}
+
+.card {
+  padding: 25px;
+
+  background: #ffffff;
+
+  border-radius: 23px;
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+
+  box-shadow:
+    0 15px 30px rgba(76, 115, 247, 0.08);
+}
+
+.icon {
+  width: 43px;
+  height: 43px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  color: #4c73f7;
+
+  background: #edf1ff;
+
+  border-radius: 13px;
+}
+
+.icon svg {
+  font-size: 20px;
+}
+
+.card h3 {
+  margin-top: 18px;
+
+  color: #172554;
+
+  font-size: 16px;
+}
+
+.card p {
+  margin-top: 10px;
+
+  color: #71809e;
+
+  font-size: 12px;
+
+  line-height: 1.7;
+}
+
+
+/* ==================================
+   CTA
+================================== */
+
+.bottomCta {
+  padding: 30px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 30px;
+
+  background: #4c73f7;
+
+  border-radius: 25px;
+
+  color: #ffffff;
+}
+
+.bottomCta span {
+  font-size: 11px;
+
+  opacity: 0.8;
+}
+
+.bottomCta h2 {
+  margin-top: 5px;
+
+  font-size: 25px;
+}
+
+.ctaButton {
+  min-height: 50px;
+
+  padding: 0 20px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  color: #4c73f7;
+
+  background: #ffffff;
+
+  border-radius: 999px;
+
+  font-size: 12px;
+
+  font-weight: 700;
+}
+
+
+/* ==================================
+   MAUCODE LINK
+================================== */
+
+.maucodeLink {
+  padding-top: 35px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+
+  color: #71809e;
+
+  font-size: 12px;
+}
+
+.maucodeLink a {
+  display: flex;
+
+  align-items: center;
+
+  gap: 6px;
+
+  color: #4c73f7;
+
+  font-weight: 700;
+}
+
+
+/* ==================================
+   TABLETTE
+================================== */
+
+@media (max-width: 900px) {
+
+  .aboutSection {
+    width: calc(100% - 40px);
+
+    margin: 20px auto;
+
+    padding: 0 25px 30px;
+  }
+
+  .aboutContent {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* ==================================
+   MOBILE
+================================== */
+
+@media (max-width: 600px) {
+
+  .aboutSection {
+    width: calc(100% - 24px);
+
+    margin: 12px auto;
+
+    padding: 0 15px 20px;
+
+    border-radius: 23px;
+  }
+
+  .hero {
+    padding: 50px 0 35px;
+  }
+
+  .hero h1 {
+    font-size: 43px;
+
+    letter-spacing: -2px;
+  }
+
+  .hero p {
+    font-size: 13px;
+  }
+
+  .aboutContent {
+    gap: 25px;
+  }
+
+  .cards {
+    grid-template-columns: 1fr;
+  }
+
+  .bottomCta {
+    flex-direction: column;
+
+    align-items: flex-start;
+  }
+
+  .ctaButton {
+    width: 100%;
+
+    justify-content: center;
+  }
+
+  .maucodeLink {
+    flex-direction: column;
+
+    text-align: center;
+  }
+}

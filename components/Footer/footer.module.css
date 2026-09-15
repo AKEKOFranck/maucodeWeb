@@ -1,0 +1,686 @@
+/* =====================================================
+   FOOTER
+===================================================== */
+
+.footer {
+  width: 100%;
+
+  margin-top: 80px;
+
+  color: #ffffff;
+
+  background: #111318;
+
+  border-top: 1px solid #20242d;
+}
+
+
+/* =====================================================
+   CONTAINER
+===================================================== */
+
+.footerContainer {
+  width: calc(100% - 80px);
+
+  max-width: 1280px;
+
+  margin: 0 auto;
+
+  padding: 70px 0 0;
+}
+
+
+/* =====================================================
+   FOOTER TOP
+===================================================== */
+
+.footerTop {
+  display: grid;
+
+  grid-template-columns:
+    1.4fr
+    1fr
+    1fr;
+
+  gap: 70px;
+
+  min-height: 220px;
+}
+
+
+/* =====================================================
+   BRAND
+===================================================== */
+
+.footerBrand {
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: flex-start;
+}
+
+
+/* =====================================================
+   LOGO LINK
+===================================================== */
+
+.footerLogoLink {
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 11px;
+
+  color: #ffffff;
+
+  transition:
+    transform 0.25s ease,
+    opacity 0.25s ease;
+}
+
+.footerLogoLink:hover {
+  transform: translateY(-2px);
+
+  opacity: 0.9;
+}
+
+
+/* =====================================================
+   LOGO MARK
+===================================================== */
+
+.logoMark {
+  width: 42px;
+
+  height: 42px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 3px;
+
+  padding: 9px;
+
+  background: #4c73f7;
+
+  border-radius: 13px;
+
+  box-shadow:
+    0 8px 25px rgba(76, 115, 247, 0.22);
+
+  transition:
+    transform 0.25s ease,
+    background 0.25s ease;
+}
+
+
+.footerLogoLink:hover .logoMark {
+  transform: rotate(-3deg);
+
+  background: #5a7df8;
+}
+
+
+/* =====================================================
+   LOGO BARS
+===================================================== */
+
+.logoMark span {
+  width: 3px;
+
+  display: block;
+
+  background: #ffffff;
+
+  border-radius: 999px;
+}
+
+
+.logoMark span:nth-child(1) {
+  height: 10px;
+}
+
+
+.logoMark span:nth-child(2) {
+  height: 18px;
+}
+
+
+.logoMark span:nth-child(3) {
+  height: 13px;
+}
+
+
+/* =====================================================
+   LOGO TEXT
+===================================================== */
+
+.logoText {
+  display: flex;
+
+  flex-direction: column;
+
+  justify-content: center;
+
+  line-height: 1;
+}
+
+
+.logoText strong {
+  color: #ffffff;
+
+  font-size: 20px;
+
+  font-weight: 750;
+
+  letter-spacing: -0.8px;
+}
+
+
+.logoText small {
+  margin-top: 5px;
+
+  color: #6f8cf5;
+
+  font-size: 7px;
+
+  font-weight: 800;
+
+  letter-spacing: 3px;
+}
+
+
+/* =====================================================
+   DESCRIPTION
+===================================================== */
+
+.brandDescription {
+  max-width: 280px;
+
+  margin-top: 22px;
+
+  color: #8f96a6;
+
+  font-size: 12px;
+
+  line-height: 1.8;
+}
+
+
+/* =====================================================
+   COLONNES
+===================================================== */
+
+.socialSection,
+.footerColumn {
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: flex-start;
+}
+
+
+/* =====================================================
+   TITRES
+===================================================== */
+
+.socialSection h3,
+.footerColumn h3 {
+  margin: 0;
+
+  color: #ffffff;
+
+  font-size: 15px;
+
+  font-weight: 700;
+
+  line-height: 1.3;
+}
+
+
+/* =====================================================
+   DESCRIPTION COLONNE
+===================================================== */
+
+.columnDescription {
+  max-width: 220px;
+
+  margin-top: 13px;
+
+  color: #858c9c;
+
+  font-size: 11px;
+
+  line-height: 1.7;
+}
+
+
+/* =====================================================
+   LIGNE BLEUE
+===================================================== */
+
+.blueLine {
+  width: 34px;
+
+  height: 3px;
+
+  display: block;
+
+  margin-top: 12px;
+
+  margin-bottom: 23px;
+
+  background: #4c73f7;
+
+  border-radius: 999px;
+}
+
+
+/* =====================================================
+   RÉSEAUX SOCIAUX
+===================================================== */
+
+.socialLinks {
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  margin-top: 22px;
+}
+
+
+/* =====================================================
+   SOCIAL LINK
+===================================================== */
+
+.socialLink {
+  width: 46px;
+
+  height: 46px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  color: #9ca4b4;
+
+  background: #191c23;
+
+  border: 1px solid #292e38;
+
+  border-radius: 50%;
+
+  transition:
+    color 0.25s ease,
+    background 0.25s ease,
+    border-color 0.25s ease,
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+
+.socialLink:hover {
+  color: #ffffff;
+
+  background: #4c73f7;
+
+  border-color: #4c73f7;
+
+  transform: translateY(-4px);
+
+  box-shadow:
+    0 10px 25px rgba(76, 115, 247, 0.22);
+}
+
+
+.socialLink svg {
+  font-size: 18px;
+
+  transition:
+    transform 0.25s ease;
+}
+
+
+.socialLink:hover svg {
+  transform: scale(1.08);
+}
+
+
+/* =====================================================
+   NAVIGATION
+===================================================== */
+
+.footerNavigation {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 15px;
+}
+
+
+/* =====================================================
+   FOOTER NAV LINK
+===================================================== */
+
+.footerNavLink {
+  width: 170px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 12px;
+
+  color: #969ead;
+
+  font-size: 12px;
+
+  font-weight: 500;
+
+  transition:
+    color 0.25s ease,
+    transform 0.25s ease;
+}
+
+
+.footerNavLink:hover {
+  color: #ffffff;
+
+  transform: translateX(5px);
+}
+
+
+.footerNavLink svg {
+  color: #59657e;
+
+  font-size: 14px;
+
+  transition:
+    color 0.25s ease,
+    transform 0.25s ease;
+}
+
+
+.footerNavLink:hover svg {
+  color: #4c73f7;
+
+  transform: translate(2px, -2px);
+}
+
+
+/* =====================================================
+   ANCIEN MAUCODE
+===================================================== */
+
+.originalMaucode {
+  margin-top: 35px;
+
+  padding: 19px 0;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 10px;
+
+  border-top: 1px solid #252932;
+
+  border-bottom: 1px solid #252932;
+
+  color: #747b8b;
+
+  font-size: 11px;
+}
+
+
+.originalMaucode a {
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 5px;
+
+  color: #ffffff;
+
+  font-size: 11px;
+
+  font-weight: 700;
+
+  transition:
+    color 0.25s ease,
+    transform 0.25s ease;
+}
+
+
+.originalMaucode a:hover {
+  color: #4c73f7;
+
+  transform: translateX(3px);
+}
+
+
+.originalMaucode svg {
+  font-size: 14px;
+}
+
+
+/* =====================================================
+   FOOTER BOTTOM
+===================================================== */
+
+.footerBottom {
+  min-height: 75px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 20px;
+}
+
+
+.footerBottom p,
+.footerBottom span {
+  margin: 0;
+
+  color: #656c7b;
+
+  font-size: 10px;
+}
+
+
+.footerBottom span {
+  color: #505765;
+}
+
+
+/* =====================================================
+   TABLETTE
+===================================================== */
+
+@media (max-width: 950px) {
+
+  .footerContainer {
+    width: calc(100% - 50px);
+  }
+
+
+  .footerTop {
+    grid-template-columns:
+      1fr
+      1fr;
+
+    gap: 50px;
+  }
+
+
+  .footerBrand {
+    grid-column: 1 / -1;
+  }
+
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 600px) {
+
+  .footer {
+    margin-top: 55px;
+  }
+
+
+  .footerContainer {
+    width: calc(100% - 35px);
+
+    padding-top: 50px;
+  }
+
+
+  .footerTop {
+    grid-template-columns: 1fr;
+
+    gap: 40px;
+  }
+
+
+  .footerBrand {
+    grid-column: auto;
+
+    align-items: center;
+
+    text-align: center;
+  }
+
+
+  .brandDescription {
+    max-width: 290px;
+  }
+
+
+  /* ==================================
+     SOCIAL
+  ================================== */
+
+  .socialSection {
+    width: 100%;
+
+    align-items: center;
+
+    text-align: center;
+  }
+
+
+  .columnDescription {
+    max-width: 290px;
+  }
+
+
+  .socialLinks {
+    justify-content: center;
+  }
+
+
+  /* ==================================
+     NAVIGATION
+  ================================== */
+
+  .footerColumn {
+    align-items: center;
+
+    text-align: center;
+  }
+
+
+  .footerNavigation {
+    align-items: center;
+  }
+
+
+  /* ==================================
+     ANCIEN MAUCODE
+  ================================== */
+
+  .originalMaucode {
+    flex-direction: column;
+
+    gap: 7px;
+
+    text-align: center;
+
+    line-height: 1.6;
+  }
+
+
+  /* ==================================
+     BOTTOM
+  ================================== */
+
+  .footerBottom {
+    min-height: 90px;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    text-align: center;
+
+    gap: 7px;
+  }
+
+}
+
+
+/* =====================================================
+   PETIT MOBILE
+===================================================== */
+
+@media (max-width: 400px) {
+
+  .footerContainer {
+    width: calc(100% - 25px);
+  }
+
+
+  .logoMark {
+    width: 38px;
+
+    height: 38px;
+  }
+
+
+  .logoText strong {
+    font-size: 17px;
+  }
+
+
+  .originalMaucode {
+    font-size: 10px;
+  }
+
+
+  .socialLink {
+    width: 43px;
+
+    height: 43px;
+  }
+
+}

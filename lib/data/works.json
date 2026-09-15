@@ -1,0 +1,211 @@
+{
+  "program": {
+    "name": "Maucode Bureautique",
+    "tagline": "Word, Excel, PowerPoint : l'essentiel pour être vraiment à l'aise",
+    "description": "Un second programme Maucode, dédié à ceux qui veulent maîtriser les logiciels Office du quotidien. Pas de blabla technique : que les bases solides et les astuces qui servent vraiment, au bureau, à l'école ou pour un projet perso.",
+    "audience": "Étudiants, chercheurs d'emploi, employés, entrepreneurs — aucune expérience requise.",
+    "contact": {
+      "phone": "+225 07 89 76 30 83",
+      "website": "mau-code.online"
+    }
+  },
+  "courses": [
+    {
+      "id": "word",
+      "slug": "word",
+      "software": "Word",
+      "accentColor": "#2b579a",
+      "title": "Word essentiel",
+      "level": "Débutant",
+      "duration": "3 semaines",
+      "format": "Vidéos courtes + exercices pratiques",
+      "pitch": "Rédige, mets en forme et imprime des documents propres et professionnels : CV, lettres, rapports.",
+      "outcomes": [
+        "Rédiger un document propre sans perdre de temps sur la mise en forme",
+        "Construire un CV ou une lettre de motivation qui a de l'allure",
+        "Structurer un rapport long avec sommaire automatique",
+        "Préparer un document prêt à imprimer ou à envoyer"
+      ],
+      "modules": [
+        {
+          "title": "Prise en main de Word",
+          "intro": "Découvrir l'interface et comprendre où se trouve chaque outil, pour ne plus jamais chercher pendant 10 minutes.",
+          "lessons": [
+            "Le ruban, la barre d'outils et les menus essentiels",
+            "Créer, enregistrer et retrouver ses documents",
+            "Saisir, sélectionner et corriger du texte rapidement",
+            "Les raccourcis clavier qui font gagner du temps"
+          ]
+        },
+        {
+          "title": "Mettre en forme un texte",
+          "intro": "Rendre un document lisible et soigné : polices, paragraphes, couleurs, sans surcharge inutile.",
+          "lessons": [
+            "Polices, tailles et styles de titres",
+            "Alignement, interlignes et espacement des paragraphes",
+            "Listes à puces et listes numérotées",
+            "Utiliser les styles pour gagner en cohérence"
+          ]
+        },
+        {
+          "title": "Mise en page et impression",
+          "intro": "Préparer un document pour qu'il soit impeccable à l'écran comme sur papier.",
+          "lessons": [
+            "Marges, orientation et format de page",
+            "En-têtes, pieds de page et numérotation",
+            "Aperçu avant impression et réglages d'impression",
+            "Exporter en PDF proprement"
+          ]
+        },
+        {
+          "title": "Tableaux et documents structurés",
+          "intro": "Organiser de l'information complexe : tableaux, sommaires, documents longs.",
+          "lessons": [
+            "Créer et mettre en forme un tableau",
+            "Insérer des images et les positionner correctement",
+            "Table des matières automatique",
+            "Sauts de page et de section"
+          ]
+        },
+        {
+          "title": "Aller plus loin",
+          "intro": "Les astuces qui distinguent un document amateur d'un document professionnel.",
+          "lessons": [
+            "Créer un CV et une lettre de motivation à partir de zéro",
+            "Le publipostage pour envoyer un document personnalisé à plusieurs personnes",
+            "Vérification orthographique et suivi des modifications",
+            "Modèles réutilisables pour aller plus vite la prochaine fois"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "excel",
+      "slug": "excel",
+      "software": "Excel",
+      "accentColor": "#217346",
+      "title": "Excel essentiel",
+      "level": "Débutant",
+      "duration": "4 semaines",
+      "format": "Vidéos courtes + exercices pratiques",
+      "pitch": "Organise des données, calcule automatiquement et construis des tableaux qui font le travail à ta place.",
+      "outcomes": [
+        "Construire un tableau de suivi (budget, stock, notes, ventes)",
+        "Utiliser les formules essentielles sans les apprendre par cœur",
+        "Trier, filtrer et analyser rapidement une liste de données",
+        "Créer un graphique clair pour présenter un résultat"
+      ],
+      "modules": [
+        {
+          "title": "Prise en main d'Excel",
+          "intro": "Comprendre la logique des cellules, lignes et colonnes avant de foncer dans les formules.",
+          "lessons": [
+            "L'interface : cellules, feuilles, classeurs",
+            "Saisir, déplacer et corriger des données",
+            "Sélectionner, copier, recopier vers le bas",
+            "Enregistrer et organiser ses fichiers"
+          ]
+        },
+        {
+          "title": "Les formules de base",
+          "intro": "Faire calculer Excel à ta place : additions, moyennes, pourcentages.",
+          "lessons": [
+            "Comprendre une formule et la logique du signe =",
+            "SOMME, MOYENNE, MIN, MAX",
+            "Références relatives et absolues (le fameux $)",
+            "Calculer un pourcentage, une TVA, une marge"
+          ]
+        },
+        {
+          "title": "Mise en forme et lisibilité",
+          "intro": "Un tableau clair se lit en 5 secondes. Voici comment l'obtenir.",
+          "lessons": [
+            "Mise en forme des cellules et des nombres",
+            "Mise en forme conditionnelle (couleurs automatiques)",
+            "Figer les volets pour garder les en-têtes visibles",
+            "Mettre un tableau sous forme de tableau Excel"
+          ]
+        },
+        {
+          "title": "Trier, filtrer, analyser",
+          "intro": "Retrouver et analyser l'information dans une grande liste de données.",
+          "lessons": [
+            "Trier des données sur un ou plusieurs critères",
+            "Filtrer pour n'afficher que ce qui compte",
+            "RECHERCHEV : retrouver une information ailleurs dans le fichier",
+            "Fonctions conditionnelles : SI, NB.SI, SOMME.SI"
+          ]
+        },
+        {
+          "title": "Graphiques et cas pratiques",
+          "intro": "Transformer un tableau de chiffres en résultat visuel et exploitable.",
+          "lessons": [
+            "Créer un graphique adapté à ses données",
+            "Construire un budget personnel ou un suivi de stock",
+            "Tableau croisé dynamique, en douceur",
+            "Protéger et partager un fichier Excel"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "powerpoint",
+      "slug": "powerpoint",
+      "software": "PowerPoint",
+      "accentColor": "#d24726",
+      "title": "PowerPoint essentiel",
+      "level": "Débutant",
+      "duration": "2 semaines",
+      "format": "Vidéos courtes + exercices pratiques",
+      "pitch": "Construis des présentations claires, agréables à regarder, et apprends à les présenter avec assurance.",
+      "outcomes": [
+        "Construire une présentation structurée du début à la fin",
+        "Habiller ses slides sans les surcharger",
+        "Utiliser images, formes et animations à bon escient",
+        "Présenter à l'oral ou exporter en PDF/vidéo"
+      ],
+      "modules": [
+        {
+          "title": "Prise en main de PowerPoint",
+          "intro": "Comprendre comment est construite une présentation avant de se lancer dans le design.",
+          "lessons": [
+            "L'interface et les modes d'affichage",
+            "Créer, réorganiser et dupliquer des diapositives",
+            "Choisir et adapter un thème",
+            "Le mode plan pour structurer ses idées d'abord"
+          ]
+        },
+        {
+          "title": "Habiller une diapositive",
+          "intro": "Les bons réflexes pour des slides lisibles, pas surchargées, agréables à l'œil.",
+          "lessons": [
+            "Texte : titres, tailles, hiérarchie de l'information",
+            "Couleurs et polices cohérentes sur toute la présentation",
+            "Insérer et recadrer des images",
+            "Formes, icônes et mise en page équilibrée"
+          ]
+        },
+        {
+          "title": "Dynamiser sa présentation",
+          "intro": "Utiliser le mouvement pour clarifier son propos, pas pour faire joli.",
+          "lessons": [
+            "Transitions entre diapositives",
+            "Animations d'apparition sur le texte et les objets",
+            "Insérer un graphique ou un tableau simple",
+            "Insérer vidéo et audio"
+          ]
+        },
+        {
+          "title": "Présenter avec assurance",
+          "intro": "Une bonne présentation se joue aussi à l'oral, devant le public.",
+          "lessons": [
+            "Mode présentateur et notes de diapositive",
+            "Minuter et répéter son intervention",
+            "Exporter en PDF, image ou vidéo",
+            "Astuces pour capter l'attention du public"
+          ]
+        }
+      ]
+    }
+  ]
+}

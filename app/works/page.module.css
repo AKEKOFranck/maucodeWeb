@@ -1,0 +1,358 @@
+/* ==========================================================================
+   Maucode Bureautique — page styles
+   Reuses the global tokens from globals.css (--primary, --foreground, etc.)
+   Only page-specific rules live here.
+   ========================================================================== */
+
+.page {
+  width: 100%;
+}
+
+.container {
+  width: 100%;
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ---------- Hero ---------- */
+
+.hero {
+  padding: 96px 0 64px;
+  background: var(--background);
+}
+
+.eyebrowRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.eyebrowDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--primary);
+}
+
+.eyebrow {
+  font-size: 15px;
+  color: var(--text-secondary);
+}
+
+.heroTitle {
+  font-size: clamp(36px, 5vw, 58px);
+  line-height: 1.08;
+  font-weight: 800;
+  color: var(--text-primary);
+  max-width: 14ch;
+}
+
+.heroLead {
+  margin-top: 22px;
+  font-size: 19px;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  max-width: 52ch;
+}
+
+.heroMeta {
+  margin-top: 36px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.heroMetaItem {
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 10px 18px;
+  font-size: 14px;
+  color: var(--text-primary);
+  background: var(--white);
+}
+
+/* ---------- Value props ---------- */
+
+.values {
+  padding: 40px 0 80px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.valueCard {
+  background: var(--primary-light);
+  border-radius: var(--card-radius);
+  padding: 28px 26px;
+}
+
+.valueTitle {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+
+.valueText {
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--text-secondary);
+}
+
+/* ---------- Courses ---------- */
+
+.courses {
+  padding: 20px 0 100px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.courseCard {
+  border: 1px solid var(--border);
+  border-radius: var(--card-radius);
+  background: var(--white);
+  overflow: hidden;
+}
+
+.courseHead {
+  padding: 32px 32px 28px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 24px;
+  align-items: start;
+}
+
+.softwareTag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 999px;
+  margin-bottom: 16px;
+}
+
+.softwareDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.courseTitle {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--text-primary);
+}
+
+.coursePitch {
+  margin-top: 10px;
+  font-size: 15.5px;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  max-width: 56ch;
+}
+
+.courseMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 160px;
+  text-align: right;
+}
+
+.metaRow {
+  font-size: 13px;
+  color: var(--text-light);
+}
+
+.metaRow strong {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.toggleBtn {
+  margin-top: 6px;
+  align-self: flex-end;
+  background: var(--primary);
+  color: var(--white);
+  border-radius: 999px;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.toggleBtn:hover {
+  background: var(--primary-dark);
+}
+
+.outcomes {
+  padding: 0 32px 28px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px 24px;
+}
+
+.outcomeItem {
+  font-size: 14.5px;
+  line-height: 1.5;
+  color: var(--text-secondary);
+  padding-left: 20px;
+  position: relative;
+}
+
+.outcomeItem::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 8px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--primary);
+}
+
+.modules {
+  border-top: 1px solid var(--border);
+  background: var(--primary-light);
+  padding: 28px 32px 32px;
+  display: grid;
+  gap: 18px;
+}
+
+.moduleRow {
+  display: grid;
+  grid-template-columns: 28px 1fr;
+  gap: 14px;
+}
+
+.moduleIndex {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--primary);
+  padding-top: 2px;
+}
+
+.moduleTitle {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.moduleIntro {
+  margin-top: 4px;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--text-secondary);
+}
+
+.lessonList {
+  margin-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.lessonPill {
+  font-size: 12.5px;
+  color: var(--text-primary);
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 6px 12px;
+}
+
+/* ---------- CTA band ---------- */
+
+.ctaBand {
+  background: var(--foreground);
+  padding: 56px 0;
+}
+
+.ctaInner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.ctaTitle {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--white);
+  max-width: 30ch;
+}
+
+.ctaContacts {
+  display: flex;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+
+.ctaContact {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.ctaIcon {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.ctaLabel {
+  font-size: 13px;
+  color: var(--secondary);
+}
+
+.ctaValue {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--white);
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 860px) {
+  .values {
+    grid-template-columns: 1fr;
+  }
+
+  .courseHead {
+    grid-template-columns: 1fr;
+  }
+
+  .courseMeta {
+    text-align: left;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .toggleBtn {
+    align-self: flex-start;
+  }
+
+  .outcomes {
+    grid-template-columns: 1fr;
+  }
+
+  .moduleRow {
+    grid-template-columns: 1fr;
+  }
+
+  .moduleIndex {
+    display: none;
+  }
+}
