@@ -1,386 +1,155 @@
-/* =====================================================
-   HEADER
-===================================================== */
-
-.header {
-  width: 100%;
-
-  position: relative;
-
+.wrapper {
+  position: fixed;
+  top: 16px;
+  left: 0;
+  right: 0;
   z-index: 50;
+  display: flex;
+  justify-content: center;
+  padding: 0 16px;
+  pointer-events: none;
 }
 
-
-/* =====================================================
-   HEADER INNER
-===================================================== */
-
-.headerInner {
+.nav {
+  pointer-events: auto;
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 24px;
   width: 100%;
-
-  min-height: 92px;
-
-  display: flex;
-
-  align-items: center;
-
-  justify-content: space-between;
-
-  gap: 30px;
+  max-width: 760px;
+  padding: 10px 12px 10px 20px;
+  background: #000;
+  border-radius: 24px;
+  box-shadow: 0 10px 40px rgba(0, 40, 90, 0.25);
 }
 
-
-/* =====================================================
-   LOGO LINK
-===================================================== */
-
-.logoLink {
-  display: inline-flex;
-
-  align-items: center;
-
-  gap: 11px;
-
-  flex-shrink: 0;
-
-  color: #4c73f7;
-
-  transition:
-    transform 0.25s ease,
-    opacity 0.25s ease;
-}
-
-
-.logoLink:hover {
-  transform: translateY(-2px);
-
-  opacity: 0.9;
-}
-
-
-/* =====================================================
-   LOGO MARK
-===================================================== */
-
-.logoMark {
-  width: 38px;
-
-  height: 38px;
-
-  display: flex;
-
-  align-items: center;
-
-  justify-content: center;
-
-  gap: 3px;
-
-  padding: 9px;
-
-  background: #4c73f7;
-
-  border-radius: 12px;
-
-  box-shadow:
-    0 8px 18px rgba(76, 115, 247, 0.18);
-}
-
-
-/* =====================================================
-   LOGO MARK — PETITS TRAITS
-===================================================== */
-
-.logoMark span {
-  width: 3px;
-
-  height: 13px;
-
-  display: block;
-
-  background: #ffffff;
-
-  border-radius: 999px;
-}
-
-
-/* Premier trait */
-
-.logoMark span:nth-child(1) {
-  height: 9px;
-}
-
-
-/* Deuxième trait */
-
-.logoMark span:nth-child(2) {
-  height: 15px;
-}
-
-
-/* Troisième trait */
-
-.logoMark span:nth-child(3) {
-  height: 11px;
-}
-
-
-/* =====================================================
-   LOGO TEXT
-===================================================== */
-
-.logoText {
-  display: flex;
-
-  flex-direction: column;
-
-  justify-content: center;
-
-  line-height: 1;
-}
-
-
-/* =====================================================
-   MAUCODE
-===================================================== */
-
-.logoText strong {
-  color: #355bcf;
-
-  font-size: 18px;
-
-  font-weight: 750;
-
-  letter-spacing: -0.8px;
-}
-
-
-/* =====================================================
-   WEB
-===================================================== */
-
-.logoText small {
-  margin-top: 4px;
-
-  color: #7d91c7;
-
-  font-size: 7px;
-
-  font-weight: 800;
-
-  letter-spacing: 2.5px;
-}
-
-
-/* =====================================================
-   NAVIGATION
-===================================================== */
-
-.navigation {
-  display: flex;
-
-  align-items: center;
-
-  justify-content: center;
-
-  gap: 4px;
-
-  padding: 6px;
-
-  background: rgba(255, 255, 255, 0.82);
-
-  border: 1px solid #f1f4fb;
-
-  border-radius: 999px;
-
-  box-shadow:
-    0 10px 35px rgba(68, 91, 160, 0.06);
-}
-
-
-/* =====================================================
-   NAV LINK
-===================================================== */
-
-.navLink {
-  min-height: 43px;
-
-  display: flex;
-
-  align-items: center;
-
-  justify-content: center;
-
-  gap: 8px;
-
-  padding: 0 17px;
-
-  color: #5970b2;
-
-  border-radius: 999px;
-
-  font-size: 12px;
-
+.brand {
+  color: #fff;
   font-weight: 600;
-
+  font-size: 15px;
+  letter-spacing: -0.01em;
+  text-decoration: none;
   white-space: nowrap;
-
-  transition:
-    color 0.25s ease,
-    background 0.25s ease,
-    transform 0.25s ease,
-    box-shadow 0.25s ease;
 }
 
-
-/* =====================================================
-   NAV HOVER
-===================================================== */
-
-.navLink:hover {
-  color: #4265df;
-
-  background: #f7f9ff;
-
-  transform: translateY(-1px);
+.brand span {
+  color: #0080ff;
 }
 
+.list {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0 0 0 auto;
+  padding: 0;
+  list-style: none;
+}
 
-/* =====================================================
-   NAV ICON
-===================================================== */
+.pill {
+  display: block;
+  padding: 7px 16px;
+  border-radius: 999px;
+  background: #1c1c1e;
+  color: #a1a1a6;
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.2s ease, color 0.2s ease;
+}
 
-.navIcon {
+.pill:hover {
+  background: #2c2c2e;
+  color: #fff;
+}
+
+.pill:focus-visible,
+.brand:focus-visible,
+.burger:focus-visible {
+  outline: 2px solid #0080ff;
+  outline-offset: 2px;
+}
+
+.pillActive,
+.pillActive:hover {
+  background: #fff;
+  color: #000;
+}
+
+/* Bouton burger : caché sur desktop */
+.burger {
+  display: none;
+  margin-left: auto;
+  width: 38px;
+  height: 38px;
+  border: 0;
+  border-radius: 50%;
+  background: #1c1c1e;
+  cursor: pointer;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.burger span {
+  display: block;
   width: 16px;
-
-  height: 16px;
-
-  flex-shrink: 0;
-
-  stroke-width: 1.8;
+  height: 2px;
+  border-radius: 2px;
+  background: #fff;
+  transition: transform 0.25s ease;
 }
 
-/* =====================================================
-   MOBILE
-===================================================== */
+.burger[aria-expanded="true"] span:first-child {
+  transform: translateY(3.5px) rotate(45deg);
+}
 
-@media (max-width: 700px) {
+.burger[aria-expanded="true"] span:last-child {
+  transform: translateY(-3.5px) rotate(-45deg);
+}
 
-  .headerInner {
-    min-height: 75px;
-
-    gap: 10px;
+@media (max-width: 640px) {
+  .burger {
+    display: flex;
   }
 
-
-  /* =================================================
-     LOGO
-  ================================================= */
-
-  .logoMark {
-    width: 34px;
-
-    height: 34px;
-
-    padding: 8px;
-
-    border-radius: 10px;
-  }
-
-
-  .logoText strong {
-    font-size: 16px;
-  }
-
-
-  .logoText small {
-    font-size: 6px;
-
-    letter-spacing: 2px;
-  }
-
-
-  /* =================================================
-     NAVIGATION
-  ================================================= */
-
-  .navigation {
-    gap: 2px;
-
-    padding: 4px;
-  }
-
-
-  .navLink {
-    min-height: 38px;
-
-    min-width: 38px;
-
-    padding: 0 10px;
-
-    gap: 0;
-
-    font-size: 0;
-
-    overflow: hidden;
-
-    transition:
-      color 0.25s ease,
-      background 0.25s ease,
-      transform 0.25s ease,
-      min-width 0.25s ease,
-      gap 0.25s ease;
-  }
-
-
-  .navIcon {
-    width: 17px;
-
-    height: 17px;
-
-    flex-shrink: 0;
-  }
-
-
-  /* =================================================
-     NOM CACHÉ
-  ================================================= */
-
-  .navLink span {
-    max-width: 0;
-
+  .list {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 6px;
+    margin: 0;
+    padding: 12px;
+    background: #000;
+    border-radius: 24px;
+    box-shadow: 0 10px 40px rgba(0, 40, 90, 0.25);
     opacity: 0;
-
-    overflow: hidden;
-
-    white-space: nowrap;
-
-    transition:
-      max-width 0.25s ease,
-      opacity 0.2s ease;
+    transform: translateY(-6px);
+    visibility: hidden;
+    transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
   }
 
-
-  /* =================================================
-     AU SURVOL
-  ================================================= */
-
-  .navLink:hover {
-    gap: 7px;
-
-    padding-left: 12px;
-
-    padding-right: 12px;
-
-    font-size: 11px;
-
-    background: #f7f9ff;
-  }
-
-
-  .navLink:hover span {
-    max-width: 80px;
-
+  .listOpen {
     opacity: 1;
+    transform: none;
+    visibility: visible;
   }
 
+  .pill {
+    padding: 12px 16px;
+    font-size: 15px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pill,
+  .burger span,
+  .list {
+    transition: none;
+  }
 }

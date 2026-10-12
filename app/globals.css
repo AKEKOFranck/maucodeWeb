@@ -1,24 +1,27 @@
 :root {
   --background: #ffffff;
-  --foreground: #172554;
+  --foreground: #05070a;
 
-  --primary: #4c73f7;
-  --primary-dark: #3d5fe0;
-  --primary-light: #eef2ff;
+  --primary: #4cc3ff;
+  --primary-dark: #1fa3ec;
+  --primary-light: #e7f6ff;
+  --secondary: #bfe7ff;
 
-  --secondary: #dfe7ff;
-
+  --black: #05070a;
+  --black-soft: #10151c;
   --white: #ffffff;
 
-  --text-primary: #172554;
-  --text-secondary: #5d6b8a;
-  --text-light: #7b87a3;
+  --text-primary: #05070a;
+  --text-secondary: #4a5563;
+  --text-light: #8a96a6;
+  --text-on-dark: #c7d2df;
 
-  --border: #dce5ff;
+  --border: #d3ecfb;
 
   --card-radius: 28px;
-
   --container-width: 1240px;
+
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 * {
@@ -62,13 +65,36 @@ select {
 
 button {
   border: none;
+  cursor: pointer;
 }
 
 img {
   max-width: 100%;
 }
 
+ul {
+  list-style: none;
+}
+
+:focus-visible {
+  outline: 3px solid var(--primary);
+  outline-offset: 3px;
+}
+
 ::selection {
   background: var(--primary);
-  color: var(--white);
+  color: var(--black);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
 }

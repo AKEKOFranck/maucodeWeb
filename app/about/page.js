@@ -1,215 +1,83 @@
-import Link from "next/link";
-
-import {
-  FiBookOpen,
-  FiMonitor,
-  FiMapPin,
-  FiGlobe,
-  FiArrowRight,
-} from "react-icons/fi";
-
-
-
+import Image from "next/image";
 import styles from "./page.module.css";
+import ContactForm from "@/components/ContactForm/contactform";
 
-
-const aboutItems = [
+const infos = [
   {
-    id: 1,
-
-    icon: FiBookOpen,
-
-    title: "Apprendre",
-
-    description:
-      "Des formations simples et accessibles pour apprendre les bases de Word, Excel et PowerPoint.",
+    title: "Des cours 100 % en ligne",
+    text: "Vous suivez les formations Office depuis chez vous, avec un formateur en direct. Il suffit d'une connexion internet et d'un ordinateur.",
   },
-
   {
-    id: 2,
-
-    icon: FiMonitor,
-
-    title: "Créer",
-
-    description:
-      "Des sites web vitrines et des solutions e-commerce simplifiées pour présenter votre activité en ligne.",
+    title: "Un emploi du temps créé avec vous",
+    text: "Nous ne vous imposons pas de calendrier. Les jours et les horaires des séances sont fixés ensemble, selon votre disponibilité.",
   },
-
   {
-    id: 3,
-
-    icon: FiMapPin,
-
-    title: "À Abidjan",
-
-    description:
-      "Des solutions pensées pour les particuliers, entrepreneurs et petites structures à Abidjan.",
-  },
-
-  {
-    id: 4,
-
-    icon: FiGlobe,
-
-    title: "En ligne",
-
-    description:
-      "Les formations peuvent également être suivies à distance, selon vos disponibilités.",
+    title: "Site web : parlons-en d'abord",
+    text: "Chaque site est différent. Pour un projet de création de site web, contactez-nous : nous échangeons sur vos besoins avant de commencer.",
   },
 ];
 
-
-export default function AboutPage() {
-
+export default function About() {
   return (
-    <div className={styles.page}>
+    <main className={styles.main}>
+      <section className={styles.presentation}>
+        <Image
+          src="/fondAbout (2).png"
+          alt="L'équipe Maucode"
+          fill
+          priority
+          sizes="100vw"
+          className={styles.heroImage}
+        />
+        <div className={styles.heroShade} />
 
-      <main>
+        <div className={styles.heroContent}>
+          <h1 className={styles.heroTitle} style={{ "--i": 0 }}>
+            Apprendre à votre rythme.
+            <br />
+            Créer à votre image.
+          </h1>
+          <p className={styles.heroText} style={{ "--i": 1 }}>
+            Maucode forme aux bases d&apos;Office et réalise des sites web,
+            avec une équipe qui reste à votre écoute.
+          </p>
+        </div>
+      </section>
 
-        <section className={styles.aboutSection}>
+      <section className={styles.fonctionnement}>
+        <div className={styles.container}>
+          <div className={styles.fonctionnementGrid}>
+            <h2 className={styles.fonctionnementTitle}>
+              Comment ça se passe chez Maucode
+            </h2>
 
-          
+            <ul className={styles.infoList}>
+              {infos.map((info) => (
+                <li key={info.title} className={styles.infoCard}>
+                  <h3>{info.title}</h3>
+                  <p>{info.text}</p>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </section>
 
-
-          <div className={styles.hero}>
-
-            <span className={styles.badge}>
-              À propos de MauCodeWeb
-            </span>
-
-            <h1>
-              Le numérique devient
-              <span> plus accessible.</span>
-            </h1>
-
+      <section className={styles.invitation}>
+        <div className={styles.container}>
+          <div className={styles.inviteBox}>
+            <h2>Parlez-nous de votre besoin</h2>
             <p>
-              MauCodeWeb est une plateforme de l'univers MauCode,
-              dédiée à la formation numérique et à la création de
-              sites web accessibles.
+              Une formation à organiser ou un site à créer ? Remplissez un
+              petit formulaire : votre message part directement vers la boîte
+              Gmail de Maucode.
             </p>
-
-          </div>
-
-
-          <div className={styles.aboutContent}>
-
-            <div className={styles.textBlock}>
-
-              <span className={styles.smallTitle}>
-                NOTRE MISSION
-              </span>
-
-              <h2>
-                Apprendre, comprendre et créer.
-              </h2>
-
-              <p>
-                MauCodeWeb a été pensé pour permettre au plus grand
-                nombre d'acquérir des bases pratiques dans le domaine
-                du numérique.
-              </p>
-
-              <p>
-                La plateforme propose notamment des formations
-                accessibles sur les outils bureautiques essentiels
-                comme Microsoft Word, Excel et PowerPoint.
-              </p>
-
-              <p>
-                En parallèle, MauCodeWeb accompagne également les
-                particuliers, entrepreneurs et petites structures
-                dans la création de sites web vitrines et de
-                solutions e-commerce simplifiées.
-              </p>
-
+            <div className={styles.inviteActions}>
+              <ContactForm />
             </div>
-
-
-            <div className={styles.cards}>
-
-              {aboutItems.map((item) => {
-
-                const Icon = item.icon;
-
-                return (
-                  <article
-                    key={item.id}
-                    className={styles.card}
-                  >
-
-                    <div className={styles.icon}>
-                      <Icon />
-                    </div>
-
-                    <h3>
-                      {item.title}
-                    </h3>
-
-                    <p>
-                      {item.description}
-                    </p>
-
-                  </article>
-                );
-
-              })}
-
-            </div>
-
           </div>
-
-
-          <div className={styles.bottomCta}>
-
-            <div>
-
-              <span>
-                Une question ou un projet ?
-              </span>
-
-              <h2>
-                Parlons de votre projet.
-              </h2>
-
-            </div>
-
-            <Link
-              href="mailto:fr0055970@gmail.com"
-              className={styles.ctaButton}
-            >
-              Nous contacter
-
-              <FiArrowRight />
-            </Link>
-
-          </div>
-
-
-          <div className={styles.maucodeLink}>
-
-            <p>
-              MauCodeWeb fait partie de l'univers MauCode.
-            </p>
-
-            <a
-              href="https://maucode2.vercel.app/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Découvrir MauCode
-
-              <FiArrowRight />
-            </a>
-
-          </div>
-
-        </section>
-
-      </main>
-
-
-     
-    </div>
+        </div>
+      </section>
+    </main>
   );
 }

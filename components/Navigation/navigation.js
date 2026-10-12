@@ -1,150 +1,63 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Link from "next/link";
-
-import {
-  FiHome,
-  FiMonitor,
-  FiBookOpen,
-  FiInfo,
-} from "react-icons/fi";
-
+import { usePathname } from "next/navigation";
 import styles from "./navigation.module.css";
 
-
-/* =====================================================
-   DONNÉES DE NAVIGATION
-===================================================== */
-
-const navigationItems = [
-  {
-    id: 1,
-    label: "Accueil",
-    href: "/",
-    icon: FiHome,
-  },
-
-  {
-    id: 2,
-    label: "Création Web",
-    href: "/webPage",
-    icon: FiMonitor,
-  },
-
-  {
-    id: 3,
-    label: "Formations",
-    href: "/works",
-    icon: FiBookOpen,
-  },
-
-  {
-    id: 4,
-    label: "À propos",
-    href: "/about",
-    icon: FiInfo,
-  },
+const LINKS = [
+  { href: "/", label: "Accueil" },
+  { href: "/webPage", label: "Création web" },
+  { href: "/works", label: "Formations" },
+  { href: "/about", label: "À propos" },
 ];
 
-
-/* =====================================================
-   LOGO
-===================================================== */
-
-const logo = {
-  name: "MauCode",
-  suffix: "WEB",
-};
-
-
-/* =====================================================
-   NAVIGATION
-===================================================== */
-
 export default function Navigation() {
+  const pathname = usePathname();
+  const [open, setOpen] = useState(false);
+
+  // Ferme le menu mobile quand on change de page
+  useEffect(() => {
+    setOpen(false);
+  }, [pathname]);
+
+  const isActive = (href) =>
+    href === "/" ? pathname === "/" : pathname.startsWith(href);
 
   return (
-
-    <header className={styles.header}>
-
-      <div className={styles.headerInner}>
-
-
-        {/* =================================================
-            LOGO
-        ================================================= */}
-
-        <Link
-          href="/"
-          className={styles.logoLink}
-          aria-label="MauCodeWeb - Accueil"
-        >
-
-          <div className={styles.logoMark}>
-
-            <span></span>
-            <span></span>
-            <span></span>
-
-          </div>
-
-
-          <div className={styles.logoText}>
-
-            <strong>
-              {logo.name}
-            </strong>
-
-            <small>
-              {logo.suffix}
-            </small>
-
-          </div>
-
+    <header className={styles.wrapper}>
+      <nav className={styles.nav} aria-label="Navigation principale">
+        <Link href="/" className={styles.brand}>
+          Mau<span>caude</span>
         </Link>
 
-
-        {/* =================================================
-            NAVIGATION
-        ================================================= */}
-
-        <nav
-          className={styles.navigation}
-          aria-label="Navigation principale"
-        >
-
-          {navigationItems.map((item) => {
-
-            const Icon = item.icon;
-
-            return (
-
+        <ul className={`${styles.list} ${open ? styles.listOpen : ""}`}>
+          {LINKS.map(({ href, label }) => (
+            <li key={href}>
               <Link
-                key={item.id}
-                href={item.href}
-                className={styles.navLink}
+                href={href}
+                className={`${styles.pill} ${
+                  isActive(href) ? styles.pillActive : ""
+                }`}
+                aria-current={isActive(href) ? "page" : undefined}
               >
-
-                <Icon
-                  className={styles.navIcon}
-                  aria-hidden="true"
-                />
-
-                <span>
-                  {item.label}
-                </span>
-
+                {label}
               </Link>
+            </li>
+          ))}
+        </ul>
 
-            );
-
-          })}
-
-        </nav>
-
-      </div>
-
+        <button
+          type="button"
+          className={styles.burger}
+          aria-label={open ? "Fermer le menu" : "Ouvrir le menu"}
+          aria-expanded={open}
+          onClick={() => setOpen((v) => !v)}
+        >
+          <span />
+          <span />
+        </button>
+      </nav>
     </header>
-
   );
 }

@@ -1,6 +1,6 @@
 # File Tree: MaucodeWeb
 
-**Generated:** 9/15/2026, 5:51:59 AM
+**Generated:** 10/12/2026, 2:41:25 PM
 **Root Path:** `c:\Users\fm005\OneDrive\Desktop\MaucodeWeb`
 
 ```
@@ -9,10 +9,18 @@
     │   ├── 📁 about
     │   │   ├── 📄 page.js
     │   │   └── 🎨 page.module.css
+    │   ├── 📁 api
+    │   │   └── 📁 feedback
+    │   │       └── 📄 route.js
     │   ├── 📁 webPage
     │   │   ├── 📄 page.js
     │   │   └── 🎨 page.module.css
     │   ├── 📁 works
+    │   │   ├── 📁 [slug]
+    │   │   │   ├── 📁 [module]
+    │   │   │   │   └── 📄 page.js
+    │   │   │   ├── 📄 page.js
+    │   │   │   └── 🎨 page.module.css
     │   │   ├── 📄 page.js
     │   │   └── 🎨 page.module.css
     │   ├── 🎨 globals.css
@@ -22,22 +30,32 @@
     │   ├── 📄 page.js
     │   └── 🎨 page.module.css
     ├── 📁 components
+    │   ├── 📁 ContactForm
+    │   │   ├── 📄 contactform.js
+    │   │   └── 🎨 contactform.module.css
     │   ├── 📁 Footer
     │   │   ├── 📄 footer.js
     │   │   └── 🎨 footer.module.css
+    │   ├── 📁 Lesson
+    │   │   ├── 📄 lesson.js
+    │   │   └── 🎨 lesson.module.css
     │   └── 📁 Navigation
     │       ├── 📄 navigation.js
     │       └── 🎨 navigation.module.css
     ├── 📁 lib
     │   └── 📁 data
+    │       ├── 📄 modules.js
     │       └── ⚙️ works.json
     ├── 📁 public
-    │   ├── 🖼️ FondMain (1).png
-    │   ├── 🖼️ FondMain (2).png
     │   ├── 📄 LogoMC.ico
     │   ├── 🖼️ LogoMC.jpg
     │   ├── 🖼️ LogoMC.png
-    │   └── 🖼️ LogoMC.svg
+    │   ├── 🖼️ LogoMC.svg
+    │   ├── 🖼️ fondAbout (1).png
+    │   ├── 🖼️ fondAbout (2).png
+    │   ├── 🖼️ fondMain (1).png
+    │   ├── 🖼️ fondMain (2).png
+    │   └── 🖼️ fondMain (3).png
     ├── ⚙️ .gitignore
     ├── 📝 AGENTS.md
     ├── 📝 CLAUDE.md

@@ -1,358 +1,139 @@
-/* ==========================================================================
-   Maucode Bureautique — page styles
-   Reuses the global tokens from globals.css (--primary, --foreground, etc.)
-   Only page-specific rules live here.
-   ========================================================================== */
+.main { width: 100%; height: 100%; display: flex; flex-direction: column; }
+.container { width: 100%; max-width: var(--container-width); margin: 0 auto; padding: 0 24px; }
 
-.page {
-  width: 100%;
+/* ---------- Boutons ---------- */
+.btnPrimary, .btnDark, .btnOutline {
+  display: inline-flex; align-items: center; justify-content: center;
+  padding: 15px 28px; border-radius: 999px; font-weight: 700; font-size: 1rem;
+  transition: transform .35s var(--ease), background .35s var(--ease), color .35s var(--ease), box-shadow .35s var(--ease);
+}
+.btnPrimary { background: var(--primary); color: var(--black); }
+.btnPrimary:hover { transform: translateY(-3px); box-shadow: 0 14px 34px rgba(76,195,255,.45); }
+.btnDark { background: var(--black); color: var(--white); }
+.btnDark:hover { transform: translateY(-3px); box-shadow: 0 14px 34px rgba(5,7,10,.3); }
+.btnOutline { background: transparent; color: var(--black); box-shadow: inset 0 0 0 2px var(--black); }
+.btnOutline:hover { background: var(--black); color: var(--white); }
+
+/* ---------- 1. Présentation ---------- */
+.presentation {
+  position: relative; min-height: 80vh; min-height: 80svh;
+  display: flex; align-items: flex-end; overflow: hidden;
+  background: var(--black); color: var(--white);
+}
+.heroImage { object-fit: cover; animation: heroZoom 14s var(--ease) both; }
+.heroShade {
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(to top, rgba(5,7,10,.92) 5%, rgba(5,7,10,.45) 55%, rgba(5,7,10,.25) 100%),
+    linear-gradient(100deg, rgba(76,195,255,.22), transparent 55%);
+}
+.heroContent {
+  position: relative; z-index: 1; width: 100%;
+  max-width: var(--container-width); margin: 0 auto; padding: 120px 24px 80px;
+}
+.heroBrand, .heroTitle, .heroText, .heroTags {
+  animation: rise 1s var(--ease) both;
+  animation-delay: calc(var(--i) * .14s + .2s);
+}
+.heroBrand { font-size: 1.15rem; font-weight: 800; color: var(--primary); margin-bottom: 20px; }
+.heroTitle { font-size: clamp(2.6rem, 7vw, 5.6rem); line-height: 1.02; font-weight: 800; letter-spacing: -.035em; max-width: 16ch; }
+.heroText { margin-top: 28px; max-width: 52ch; font-size: clamp(1.05rem, 1.6vw, 1.25rem); line-height: 1.6; color: var(--text-on-dark); }
+.heroTags { margin-top: 36px; display: flex; flex-wrap: wrap; gap: 12px; }
+.heroTags span {
+  padding: 10px 18px; border-radius: 999px; font-size: .9rem; font-weight: 600;
+  background: rgba(255,255,255,.12); backdrop-filter: blur(8px);
 }
 
-.container {
-  width: 100%;
-  max-width: var(--container-width);
-  margin: 0 auto;
-  padding: 0 24px;
+@keyframes heroZoom { from { transform: scale(1.12); } to { transform: scale(1); } }
+@keyframes rise { from { opacity: 0; transform: translateY(36px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ---------- 2. Valeurs ---------- */
+.values { background: var(--black); color: var(--white); padding: 120px 0; }
+.sectionTitleLight { font-size: clamp(2rem, 4.4vw, 3.6rem); line-height: 1.1; letter-spacing: -.03em; font-weight: 800; max-width: 18ch; }
+.valueList { margin-top: 64px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.valueItem {
+  background: var(--black-soft); border-radius: var(--card-radius); padding: 36px 32px 44px;
+  transition: background .5s var(--ease), color .5s var(--ease), transform .5s var(--ease);
 }
+.valueItem:nth-child(2) { margin-top: 36px; }
+.valueItem h3 { font-size: 1.45rem; margin-bottom: 14px; }
+.valueItem p { line-height: 1.65; color: var(--text-on-dark); transition: color .5s var(--ease); }
+.valueItem:hover { background: var(--primary); color: var(--black); transform: translateY(-6px); }
+.valueItem:hover p { color: var(--black); }
 
-/* ---------- Hero ---------- */
-
-.hero {
-  padding: 96px 0 64px;
-  background: var(--background);
-}
-
-.eyebrowRow {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 20px;
-}
-
-.eyebrowDot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--primary);
-}
-
-.eyebrow {
-  font-size: 15px;
-  color: var(--text-secondary);
-}
-
-.heroTitle {
-  font-size: clamp(36px, 5vw, 58px);
-  line-height: 1.08;
-  font-weight: 800;
-  color: var(--text-primary);
-  max-width: 14ch;
-}
-
-.heroLead {
-  margin-top: 22px;
-  font-size: 19px;
-  line-height: 1.6;
-  color: var(--text-secondary);
-  max-width: 52ch;
-}
-
-.heroMeta {
-  margin-top: 36px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 14px;
-}
-
-.heroMetaItem {
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  padding: 10px 18px;
-  font-size: 14px;
-  color: var(--text-primary);
-  background: var(--white);
-}
-
-/* ---------- Value props ---------- */
-
-.values {
-  padding: 40px 0 80px;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-}
-
-.valueCard {
-  background: var(--primary-light);
-  border-radius: var(--card-radius);
-  padding: 28px 26px;
-}
-
-.valueTitle {
-  font-size: 17px;
-  font-weight: 700;
-  color: var(--text-primary);
-  margin-bottom: 8px;
-}
-
-.valueText {
-  font-size: 15px;
-  line-height: 1.55;
-  color: var(--text-secondary);
-}
-
-/* ---------- Courses ---------- */
-
-.courses {
-  padding: 20px 0 100px;
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-}
+/* ---------- 3. Parcours ---------- */
+.courses { background: var(--primary-light); padding: 120px 0; }
+.sectionTitle { font-size: clamp(2rem, 4.4vw, 3.6rem); letter-spacing: -.03em; font-weight: 800; margin-bottom: 56px; }
+.courseList { display: flex; flex-direction: column; gap: 24px; }
 
 .courseCard {
-  border: 1px solid var(--border);
-  border-radius: var(--card-radius);
-  background: var(--white);
-  overflow: hidden;
+  background: var(--white); border-radius: 36px; overflow: hidden;
+  transition: transform .5s var(--ease), box-shadow .5s var(--ease);
+}
+.courseCard:hover { transform: translateY(-6px); box-shadow: 0 30px 60px rgba(5,7,10,.14); }
+
+.courseHead { padding: 44px 44px 28px; display: grid; grid-template-columns: 1fr auto; gap: 32px; align-items: start; }
+.softwareTag { display: inline-flex; align-items: center; gap: 8px; font-size: .85rem; font-weight: 700; padding: 7px 16px; border-radius: 999px; margin-bottom: 18px; }
+.softwareDot { width: 8px; height: 8px; border-radius: 50%; }
+.courseTitle { font-size: clamp(1.7rem, 3vw, 2.3rem); letter-spacing: -.02em; font-weight: 800; }
+.coursePitch { margin-top: 12px; line-height: 1.65; color: var(--text-secondary); max-width: 56ch; }
+
+.courseMeta { display: grid; gap: 12px; min-width: 190px; padding: 20px 22px; background: var(--primary-light); border-radius: 22px; }
+.courseMeta div { display: flex; justify-content: space-between; gap: 18px; font-size: .9rem; }
+.courseMeta dt { color: var(--text-light); }
+.courseMeta dd { font-weight: 700; text-align: right; }
+
+.outcomes { padding: 0 44px 32px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px 32px; }
+.outcomes li { position: relative; padding-left: 28px; line-height: 1.5; font-weight: 500; }
+.outcomes li::before {
+  content: ""; position: absolute; left: 0; top: .45em; width: 12px; height: 12px;
+  border-radius: 4px; background: var(--primary); transform: rotate(45deg);
 }
 
-.courseHead {
-  padding: 32px 32px 28px;
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 24px;
-  align-items: start;
+.courseActions { padding: 0 44px 44px; display: flex; flex-wrap: wrap; gap: 14px; }
+
+.modules { background: var(--black); color: var(--white); padding: 44px; display: grid; gap: 28px; }
+.moduleRow { display: grid; grid-template-columns: 44px 1fr; gap: 18px; }
+.moduleIndex { width: 40px; height: 40px; border-radius: 50%; background: var(--primary); color: var(--black); display: grid; place-items: center; font-weight: 800; }
+.moduleTitle { font-size: 1.2rem; font-weight: 700; }
+.moduleIntro { margin-top: 6px; line-height: 1.6; color: var(--text-on-dark); }
+.lessonList { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; }
+.lessonPill { font-size: .85rem; padding: 7px 14px; border-radius: 999px; background: var(--black-soft); color: var(--text-on-dark); }
+.moduleLink {
+  display: inline-block; margin-top: 16px; padding: 10px 20px; border-radius: 999px;
+  font-weight: 700; font-size: .92rem; background: var(--primary); color: var(--black);
+  transition: transform .35s var(--ease);
 }
+.moduleLink:hover { transform: translateX(6px); }
 
-.softwareTag {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 13px;
-  font-weight: 600;
-  padding: 6px 14px;
-  border-radius: 999px;
-  margin-bottom: 16px;
+/* ---------- 4. Invitation ---------- */
+.invitations { background: var(--primary-light); padding: 0 0 120px; }
+.inviteBox { background: var(--primary); border-radius: 48px; padding: clamp(40px, 7vw, 96px); position: relative; overflow: hidden; }
+.inviteBox::after {
+  content: ""; position: absolute; right: -120px; bottom: -160px; width: 460px; height: 460px;
+  border-radius: 50%; background: var(--black); opacity: .9; animation: float 9s ease-in-out infinite alternate;
 }
+.inviteBox h2 { position: relative; z-index: 1; font-size: clamp(2.2rem, 5.2vw, 4.4rem); line-height: 1.04; letter-spacing: -.035em; font-weight: 800; max-width: 16ch; }
+.inviteBox p { position: relative; z-index: 1; margin-top: 24px; max-width: 50ch; font-size: 1.15rem; line-height: 1.65; }
+.inviteActions { position: relative; z-index: 1; margin-top: 40px; display: flex; flex-wrap: wrap; gap: 14px; }
+@keyframes float { from { transform: translate(0,0) scale(1); } to { transform: translate(-40px,-30px) scale(1.08); } }
 
-.softwareDot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-}
-
-.courseTitle {
-  font-size: 26px;
-  font-weight: 800;
-  color: var(--text-primary);
-}
-
-.coursePitch {
-  margin-top: 10px;
-  font-size: 15.5px;
-  line-height: 1.6;
-  color: var(--text-secondary);
-  max-width: 56ch;
-}
-
-.courseMeta {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  min-width: 160px;
-  text-align: right;
-}
-
-.metaRow {
-  font-size: 13px;
-  color: var(--text-light);
-}
-
-.metaRow strong {
-  color: var(--text-primary);
-  font-weight: 600;
-}
-
-.toggleBtn {
-  margin-top: 6px;
-  align-self: flex-end;
-  background: var(--primary);
-  color: var(--white);
-  border-radius: 999px;
-  padding: 10px 20px;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.15s ease;
-}
-
-.toggleBtn:hover {
-  background: var(--primary-dark);
-}
-
-.outcomes {
-  padding: 0 32px 28px;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px 24px;
-}
-
-.outcomeItem {
-  font-size: 14.5px;
-  line-height: 1.5;
-  color: var(--text-secondary);
-  padding-left: 20px;
-  position: relative;
-}
-
-.outcomeItem::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 8px;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--primary);
-}
-
-.modules {
-  border-top: 1px solid var(--border);
-  background: var(--primary-light);
-  padding: 28px 32px 32px;
-  display: grid;
-  gap: 18px;
-}
-
-.moduleRow {
-  display: grid;
-  grid-template-columns: 28px 1fr;
-  gap: 14px;
-}
-
-.moduleIndex {
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--primary);
-  padding-top: 2px;
-}
-
-.moduleTitle {
-  font-size: 16px;
-  font-weight: 700;
-  color: var(--text-primary);
-}
-
-.moduleIntro {
-  margin-top: 4px;
-  font-size: 14px;
-  line-height: 1.55;
-  color: var(--text-secondary);
-}
-
-.lessonList {
-  margin-top: 10px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.lessonPill {
-  font-size: 12.5px;
-  color: var(--text-primary);
-  background: var(--white);
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  padding: 6px 12px;
-}
-
-/* ---------- CTA band ---------- */
-
-.ctaBand {
-  background: var(--foreground);
-  padding: 56px 0;
-}
-
-.ctaInner {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 24px;
-}
-
-.ctaTitle {
-  font-size: 24px;
-  font-weight: 700;
-  color: var(--white);
-  max-width: 30ch;
-}
-
-.ctaContacts {
-  display: flex;
-  gap: 32px;
-  flex-wrap: wrap;
-}
-
-.ctaContact {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.ctaIcon {
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
-  background: var(--primary);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-.ctaLabel {
-  font-size: 13px;
-  color: var(--secondary);
-}
-
-.ctaValue {
-  font-size: 15px;
-  font-weight: 700;
-  color: var(--white);
+/* ---------- Apparition au scroll ---------- */
+@supports (animation-timeline: view()) {
+  .sectionTitleLight, .valueItem, .sectionTitle, .courseCard, .inviteBox {
+    animation: reveal linear both; animation-timeline: view(); animation-range: entry 0% entry 40%;
+  }
+  @keyframes reveal { from { opacity: 0; transform: translateY(60px); } to { opacity: 1; transform: translateY(0); } }
 }
 
 /* ---------- Responsive ---------- */
-
-@media (max-width: 860px) {
-  .values {
-    grid-template-columns: 1fr;
-  }
-
-  .courseHead {
-    grid-template-columns: 1fr;
-  }
-
-  .courseMeta {
-    text-align: left;
-    flex-direction: row;
-    flex-wrap: wrap;
-  }
-
-  .toggleBtn {
-    align-self: flex-start;
-  }
-
-  .outcomes {
-    grid-template-columns: 1fr;
-  }
-
-  .moduleRow {
-    grid-template-columns: 1fr;
-  }
-
-  .moduleIndex {
-    display: none;
-  }
+@media (max-width: 960px) {
+  .valueList, .outcomes { grid-template-columns: 1fr; }
+  .valueItem:nth-child(2) { margin-top: 0; }
+  .courseHead { grid-template-columns: 1fr; padding: 32px 26px 22px; }
+  .outcomes { padding: 0 26px 26px; }
+  .courseActions { padding: 0 26px 32px; }
+  .modules { padding: 32px 26px; }
+  .values, .courses { padding: 80px 0; }
+  .invitations { padding-bottom: 80px; }
 }
