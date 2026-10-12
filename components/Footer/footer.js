@@ -63,7 +63,7 @@ const socialLinks = [
 
     label: "Email",
 
-    href: "mailto:fr0055970@gmail.com",
+    href: "mailto:fa0055970@gmail.com",
 
     icon: FiMail,
 

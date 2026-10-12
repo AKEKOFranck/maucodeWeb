@@ -38,7 +38,7 @@ export default function About() {
             Créer à votre image.
           </h1>
           <p className={styles.heroText} style={{ "--i": 1 }}>
-            Maucode forme aux bases d&apos;Office et réalise des sites web,
+            MauCode forme aux bases d&apos;Office et réalise des sites web,
             avec une équipe qui reste à votre écoute.
           </p>
         </div>
