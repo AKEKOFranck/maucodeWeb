@@ -51,7 +51,7 @@ export default function Home() {
     <main className={styles.main}>
       <section className={styles.presentation}>
         <Image
-          src="/fondMain (1).jpg"
+          src="/fondMain (3).jpg"
           alt="Illustration Maucode"
           fill
           priority
