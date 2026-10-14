@@ -6,7 +6,9 @@ import {
   FiArrowUpRight,
 } from "react-icons/fi";
 
+
 import styles from "./footer.module.css";
+
 
 
 /* =====================================================
