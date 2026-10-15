@@ -11,7 +11,8 @@
 .modulesGrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; padding: 16px 0 100px; }
 .moduleCard { display: flex; flex-direction: column; gap: 10px; background: var(--primary-light); border-radius: var(--card-radius); padding: 30px 28px; transition: transform .4s var(--ease), background .4s var(--ease); }
 .moduleCard:hover { background: var(--primary); transform: translateY(-6px); }
-.moduleEmoji { font-size: 40px; }
+.moduleEmoji { font-size: 38px; line-height: 0; color: var(--accent, var(--primary-dark)); transition: color .4s var(--ease); }
+.moduleCard:hover .moduleEmoji { color: var(--black); }
 .moduleCard h2 { font-size: 22px; font-weight: 800; }
 .moduleCard p { color: var(--text-secondary); line-height: 1.55; }
 .moduleCard:hover p { color: var(--black); }
@@ -24,7 +25,8 @@
 .chapterNum { flex-shrink: 0; width: 40px; height: 40px; border-radius: 50%; background: var(--primary); display: grid; place-items: center; font-weight: 800; }
 .chapter h2 { font-size: clamp(22px, 3vw, 28px); font-weight: 800; }
 .chapter p { font-size: 18px; line-height: 1.7; color: var(--text-secondary); max-width: 62ch; margin-top: 12px; }
-.tip { margin-top: 20px; padding: 16px 20px; border-radius: 16px; background: #fff7cf; font-size: 16px; line-height: 1.6; }
+.tip { margin-top: 20px; padding: 16px 20px; border-radius: 16px; background: #fff7cf; font-size: 16px; line-height: 1.6; display: flex; align-items: flex-start; gap: 12px; }
+.tipIcon { flex-shrink: 0; margin-top: .25em; font-size: 20px; color: #b7791f; }
 
 .block { padding: 0 0 72px; }
 .block h2 { font-size: clamp(26px, 3.4vw, 36px); font-weight: 800; margin-bottom: 8px; }

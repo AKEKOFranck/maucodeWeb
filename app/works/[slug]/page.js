@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { COURSES, getCourse } from "@/lib/data/modules";
+import { Icon } from "@/components/Lesson/icons";
 import styles from "./page.module.css";
 
 export function generateStaticParams() {
@@ -13,13 +14,13 @@ export default async function CoursePage({ params }) {
   if (!course) notFound();
 
   return (
-    <main className={styles.page}>
+    <main className={styles.page} style={{ "--accent": course.accent }}>
       <section className={styles.hero}>
         <div className={styles.container}>
           <Link href="/works" className={styles.back}>← Toutes les formations</Link>
           <div>
             <span className={styles.badge} style={{ color: course.accent, background: `${course.accent}1A` }}>
-              {course.emoji} {course.software}
+              <Icon name={course.icon} /> {course.software}
             </span>
           </div>
           <h1 className={styles.heroTitle}>{course.title}</h1>
@@ -31,8 +32,7 @@ export default async function CoursePage({ params }) {
         <div className={styles.modulesGrid}>
           {course.modules.map((m, i) => (
             <Link key={m.slug} href={`/works/${slug}/${m.slug}`} className={styles.moduleCard}>
-              <span className={styles.moduleEmoji} aria-hidden="true">{m.emoji}</span>
-              <h2>Module {i + 1} : {m.title}</h2>
+              <span className={styles.moduleEmoji}><Icon name={m.icon} /></span>
               <p>{m.intro}</p>
               <span className={styles.moduleMeta}>
                 {m.chapters.length} chapitres, un quiz et un exercice

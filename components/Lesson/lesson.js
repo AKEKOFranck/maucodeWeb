@@ -2,6 +2,7 @@
 
 import { Fragment, useState } from "react";
 import s from "./lesson.module.css";
+import { Icon } from "./icons";
 
 /* ---------- Illustrations ---------- */
 export function Visual({ v }) {
@@ -14,11 +15,11 @@ export function Visual({ v }) {
           {v.items.map((it, i) => (
             <Fragment key={it.label}>
               <div className={s.sceneItem}>
-                <span className={s.emoji} aria-hidden="true">{it.emoji}</span>
+                <span className={s.emoji}><Icon name={it.icon} /></span>
                 <span>{it.label}</span>
               </div>
               {v.arrows !== false && i < v.items.length - 1 && (
-                <span className={s.arrow} aria-hidden="true">➜</span>
+                <span className={s.arrow}><Icon name="FaArrowRight" /></span>
               )}
             </Fragment>
           ))}
@@ -80,6 +81,20 @@ export function Visual({ v }) {
 /* ---------- Quiz ---------- */
 export function Quiz({ questions }) {
   const [picked, setPicked] = useState({});
+
+  function choose(i, k) {
+    const next = { ...picked, [i]: k };
+    setPicked(next);
+    if (Object.keys(next).length === questions.length) {
+      const sc = questions.filter((q, n) => next[n] === q.answer).length;
+      toast(
+        sc === questions.length
+          ? `Bravo ! ${sc}/${questions.length}, tu maîtrises ce module`
+          : `Quiz terminé : ${sc}/${questions.length}. Relis le cours et réessaie`,
+        { type: sc === questions.length ? "success" : "info" }
+      );
+    }
+  }
   const done = Object.keys(picked).length === questions.length;
   const score = questions.filter((q, i) => picked[i] === q.answer).length;
 
@@ -102,9 +117,11 @@ export function Quiz({ questions }) {
                     type="button"
                     className={cls}
                     disabled={answered}
-                    onClick={() => setPicked((p) => ({ ...p, [i]: k }))}
+                    onClick={() => choose(i, k)}
                   >
-                    {o}
+                    <span>{o}</span>
+                    {answered && k === q.answer && <Icon name="FaCircleCheck" />}
+                    {answered && k !== q.answer && k === chosen && <Icon name="FaCircleXmark" />}
                   </button>
                 );
               })}
@@ -121,7 +138,7 @@ export function Quiz({ questions }) {
       {done && (
         <div className={s.score} role="status">
           Ton score : {score} sur {questions.length}{" "}
-          {score === questions.length ? "🏆 Parfait !" : "💪 Relis le cours et réessaie."}
+          {score === questions.length ? (<><Icon name="FaTrophy" /> Parfait !</>) : "Relis le cours et réessaie."}
           <button type="button" className={s.ghost} onClick={() => setPicked({})}>
             Recommencer
           </button>
@@ -176,8 +193,10 @@ export function FeedbackForm({ course, module }) {
       const out = await res.json();
       if (!res.ok) throw new Error(out.error || "Erreur");
       setState("sent");
+      toast("Message envoyé, merci !", { type: "success" });
     } catch (err) {
       setError(err.message);
+      toast(err.message, { type: "error" });
       setState("idle");
     }
   }

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { COURSES, getCourse, getModule } from "@/lib/data/modules";
 import { Visual, Quiz, Exercise, FeedbackForm } from "@/components/Lesson/lesson";
+import { Icon } from "@/components/Lesson/icons";
 import styles from "../page.module.css";
 
 export function generateStaticParams() {
@@ -21,13 +22,13 @@ export default async function ModulePage({ params }) {
   const next = course.modules[idx + 1];
 
   return (
-    <main className={styles.page}>
+    <main className={styles.page} style={{ "--accent": course.accent }}>
       <section className={styles.hero}>
         <div className={styles.container}>
           <Link href={`/works/${slug}`} className={styles.back}>← {course.title}</Link>
           <div>
             <span className={styles.badge} style={{ color: course.accent, background: `${course.accent}1A` }}>
-              {course.emoji} {course.software}, module {idx + 1}
+              <Icon name={course.icon} /> {course.software}, module {idx + 1}
             </span>
           </div>
           <h1 className={styles.heroTitle}>{mod.title}</h1>
@@ -45,7 +46,7 @@ export default async function ModulePage({ params }) {
               </div>
               {ch.explain.map((p) => <p key={p}>{p}</p>)}
               <Visual v={ch.visual} />
-              {ch.tip && <div className={styles.tip}>💡 <strong>Astuce.</strong> {ch.tip}</div>}
+              {ch.tip && <div className={styles.tip}><Icon name="FaLightbulb" className={styles.tipIcon} /><span><strong>Astuce.</strong> {ch.tip}</span></div>}
             </article>
           ))}
         </div>
