@@ -2,6 +2,8 @@ import { Plus_Jakarta_Sans, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navigation from "@/components/Navigation/navigation";
 import Footer from "@/components/Footer/footer";
+import {NotificationsProvider} from "@/components/Notifications/notifications";
+
 
 const plusJakarta = Plus_Jakarta_Sans({
   variable: "--font-plus-jakarta",
@@ -77,9 +79,11 @@ export default function RootLayout({ children }) {
       className={`${plusJakarta.variable} ${geistMono.variable}`}
     >
       <body>
-        <Navigation />
-        {children}
-        <Footer />
+        <NotificationsProvider>
+          <Navigation />
+          {children}
+          <Footer />
+        </NotificationsProvider>
       </body>
     </html>
   );

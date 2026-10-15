@@ -1,0 +1,35 @@
+.loading { padding: 2rem 0; opacity: 0.7; }
+
+.chapter { margin: 2rem 0; }
+.chapterTitle { display: flex; align-items: center; gap: 0.6rem; font-size: 1.3rem; margin: 0 0 0.75rem; }
+.chapterNum {
+  display: grid; place-items: center; width: 2rem; height: 2rem; border-radius: 50%;
+  background: var(--accent, #2b6cdf); color: #fff; font-size: 0.95rem; flex-shrink: 0;
+}
+.explain { line-height: 1.7; margin: 0 0 0.75rem; }
+.tip {
+  margin: 0.75rem 0 0; padding: 0.75rem 1rem; border-left: 4px solid var(--accent, #2b6cdf);
+  background: rgba(127, 127, 127, 0.1); border-radius: 0 8px 8px 0;
+}
+
+.block { margin: 2.5rem 0; padding-top: 1.5rem; border-top: 1px solid rgba(127, 127, 127, 0.3); }
+.blockTitle { font-size: 1.4rem; margin: 0 0 0.5rem; }
+.hint { opacity: 0.8; margin: 0 0 1rem; }
+
+.bottom { margin: 2rem 0 3rem; text-align: center; }
+.validated { font-weight: 700; color: #2e9e5b; font-size: 1.1rem; margin: 0 0 1rem; }
+.actions { display: flex; flex-wrap: wrap; gap: 0.75rem; justify-content: center; }
+
+.btn, .btnGhost {
+  display: inline-block; padding: 0.7rem 1.2rem; border-radius: 10px; font-weight: 600;
+  text-decoration: none; border: 2px solid var(--accent, #2b6cdf);
+}
+.btn { background: var(--accent, #2b6cdf); color: #fff; }
+.btnGhost { color: inherit; }
+
+.lockedBox {
+  margin: 2.5rem auto; max-width: 560px; padding: 2rem; text-align: center;
+  border: 1px solid rgba(127, 127, 127, 0.4); border-radius: 14px;
+}
+.lockedBox h2 { margin: 0 0 0.75rem; }
+.lockedBox p { margin: 0 0 1.25rem; line-height: 1.6; }

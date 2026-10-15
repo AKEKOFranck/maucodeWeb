@@ -3,6 +3,10 @@
 import { Fragment, useState } from "react";
 import s from "./lesson.module.css";
 import { Icon } from "./icons";
+import { passed, minToPass, useProgress, stateOf } from "@/lib/progress";
+
+const SESSION_PRICE = "10 000 F"; // prix de la séance à réserver (à changer ici)
+import { useToast } from "@/components/Notifications/notifications";
 
 /* ---------- Illustrations ---------- */
 export function Visual({ v }) {
@@ -79,7 +83,8 @@ export function Visual({ v }) {
 }
 
 /* ---------- Quiz ---------- */
-export function Quiz({ questions }) {
+export function Quiz({ questions, onFinish }) {
+  const toast = useToast();
   const [picked, setPicked] = useState({});
 
   function choose(i, k) {
@@ -87,12 +92,14 @@ export function Quiz({ questions }) {
     setPicked(next);
     if (Object.keys(next).length === questions.length) {
       const sc = questions.filter((q, n) => next[n] === q.answer).length;
+      const ok = passed(sc, questions.length);
       toast(
-        sc === questions.length
-          ? `Bravo ! ${sc}/${questions.length}, tu maîtrises ce module`
-          : `Quiz terminé : ${sc}/${questions.length}. Relis le cours et réessaie`,
-        { type: sc === questions.length ? "success" : "info" }
+        ok
+          ? `Bravo ! ${sc}/${questions.length}, module validé`
+          : `Quiz terminé : ${sc}/${questions.length}. Il faut au moins ${minToPass(questions.length)} bonnes réponses, réessaie`,
+        { type: ok ? "success" : "info" }
       );
+      if (onFinish) onFinish(sc, questions.length, ok);
     }
   }
   const done = Object.keys(picked).length === questions.length;
@@ -138,7 +145,7 @@ export function Quiz({ questions }) {
       {done && (
         <div className={s.score} role="status">
           Ton score : {score} sur {questions.length}{" "}
-          {score === questions.length ? (<><Icon name="FaTrophy" /> Parfait !</>) : "Relis le cours et réessaie."}
+          {passed(score, questions.length) ? (<><Icon name="FaTrophy" /> {score === questions.length ? "Parfait !" : "Module validé !"}</>) : `Il faut au moins ${minToPass(questions.length)} bonnes réponses : relis le cours et réessaie.`}
           <button type="button" className={s.ghost} onClick={() => setPicked({})}>
             Recommencer
           </button>
@@ -175,7 +182,8 @@ export function Exercise({ exercise }) {
 }
 
 /* ---------- Avis / inscription ---------- */
-export function FeedbackForm({ course, module }) {
+export function FeedbackForm({ course, module, fixedKind, withPhone, messageLabel = "Ton message", submitLabel = "Envoyer" }) {
+  const toast = useToast();
   const [state, setState] = useState("idle");
   const [error, setError] = useState("");
 
@@ -215,21 +223,74 @@ export function FeedbackForm({ course, module }) {
         Ton e-mail
         <input name="email" type="email" required maxLength={120} />
       </label>
-      <label>
-        Je veux
-        <select name="kind" defaultValue="Commentaire">
-          <option>Commentaire</option>
-          <option>M'inscrire à la formation</option>
-        </select>
-      </label>
+      {fixedKind ? (
+        <input type="hidden" name="kind" value={fixedKind} />
+      ) : (
+        <label>
+          Je veux
+          <select name="kind" defaultValue="Commentaire">
+            <option>Commentaire</option>
+            <option>M'inscrire à la formation</option>
+          </select>
+        </label>
+      )}
+      {withPhone && (
+        <label>
+          Téléphone ou WhatsApp
+          <input name="phone" type="tel" maxLength={40} />
+        </label>
+      )}
       <label className={s.full}>
-        Ton message
+        {messageLabel}
         <textarea name="message" rows={4} required maxLength={1500} />
       </label>
       {error && <p className={s.error} role="alert">{error}</p>}
       <button type="submit" className={s.primary} disabled={state === "loading"}>
-        {state === "loading" ? "Envoi…" : "Envoyer"}
+        {state === "loading" ? "Envoi…" : submitLabel}
       </button>
     </form>
+  );
+}
+
+/* ---------- Fin de formation + réservation d'une séance ---------- */
+function Reserve({ course }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <>
+      <button type="button" className={s.primary} onClick={() => setOpen((o) => !o)} aria-expanded={open}>
+        {open ? "Fermer" : "Réserver une séance"}
+      </button>
+      {open && (
+        <div className={s.reserveForm}>
+          <FeedbackForm
+            course={course}
+            module="Réservation"
+            fixedKind={`Réservation d'une séance (${SESSION_PRICE})`}
+            withPhone
+            messageLabel="Quand es-tu disponible, et que veux-tu approfondir ?"
+            submitLabel="Envoyer ma demande"
+          />
+        </div>
+      )}
+    </>
+  );
+}
+
+export function CourseEnd({ course, courseTitle, moduleSlugs, spaced }) {
+  const { progress, ready } = useProgress();
+  if (!ready) return null;
+  if (!moduleSlugs.every((slug) => stateOf(progress, course, slug).done)) return null;
+  return (
+    <section className={`${s.end} ${spaced ? s.endSpaced : ""}`}>
+      <Icon name="FaTrophy" className={s.endIcon} />
+      <h3>Bravo, tu as terminé la formation {courseTitle} !</h3>
+      <p>
+        Tu connais maintenant les bases. Pour des formations plus poussées, tu peux réserver une
+        séance avec un formateur à <strong>{SESSION_PRICE}</strong>.
+      </p>
+      <div className={s.endActions}>
+        <Reserve course={courseTitle} />
+      </div>
+    </section>
   );
 }

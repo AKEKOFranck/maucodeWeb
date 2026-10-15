@@ -1,0 +1,34 @@
+.card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  border: 1px solid rgba(127, 127, 127, 0.3);
+  border-radius: 12px;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.15s, border-color 0.15s;
+}
+.card:hover { transform: translateY(-2px); border-color: currentColor; }
+
+.num {
+  display: grid;
+  place-items: center;
+  width: 2.2rem;
+  height: 2.2rem;
+  border-radius: 50%;
+  background: rgba(127, 127, 127, 0.2);
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.body { flex: 1; min-width: 0; }
+.title { margin: 0; font-size: 1.05rem; }
+.desc { margin: 0.25rem 0 0; opacity: 0.75; font-size: 0.9rem; }
+.status { font-size: 0.85rem; font-weight: 600; white-space: nowrap; }
+
+.done { border-color: #2e9e5b; }
+.done .num { background: #2e9e5b; color: #fff; }
+.done .status { color: #2e9e5b; }
+
+.locked { opacity: 0.55; cursor: not-allowed; }
+.locked:hover { transform: none; border-color: rgba(127, 127, 127, 0.3); }

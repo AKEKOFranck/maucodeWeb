@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { COURSES, getCourse, getModule } from "@/lib/data/modules";
-import { Visual, Quiz, Exercise, FeedbackForm } from "@/components/Lesson/lesson";
 import { Icon } from "@/components/Lesson/icons";
+import ModuleFlow from "./Moduleflow";
 import styles from "../page.module.css";
 
 export function generateStaticParams() {
@@ -18,8 +18,7 @@ export default async function ModulePage({ params }) {
   if (!course || !mod) notFound();
 
   const idx = course.modules.findIndex((m) => m.slug === moduleSlug);
-  const prev = course.modules[idx - 1];
-  const next = course.modules[idx + 1];
+  const pick = (m) => (m ? { slug: m.slug, title: m.title } : null);
 
   return (
     <main className={styles.page} style={{ "--accent": course.accent }}>
@@ -36,54 +35,15 @@ export default async function ModulePage({ params }) {
         </div>
       </section>
 
-      <section className={styles.container}>
-        <div className={styles.chapters}>
-          {mod.chapters.map((ch, i) => (
-            <article key={ch.title} className={styles.chapter}>
-              <div className={styles.chapterHead}>
-                <span className={styles.chapterNum}>{i + 1}</span>
-                <h2>{ch.title}</h2>
-              </div>
-              {ch.explain.map((p) => <p key={p}>{p}</p>)}
-              <Visual v={ch.visual} />
-              {ch.tip && <div className={styles.tip}><Icon name="FaLightbulb" className={styles.tipIcon} /><span><strong>Astuce.</strong> {ch.tip}</span></div>}
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className={`${styles.container} ${styles.block}`}>
-        <h2>Teste-toi</h2>
-        <p className={styles.blockLead}>Clique sur la bonne réponse. Tu vois tout de suite si c'est juste.</p>
-        <Quiz questions={mod.quiz} />
-      </section>
-
-      <section className={`${styles.container} ${styles.block}`}>
-        <h2>À toi de jouer</h2>
-        <p className={styles.blockLead}>Essaie d'abord seul. Le corrigé est là si tu es bloqué.</p>
-        <Exercise exercise={mod.exercise} />
-      </section>
-
-      <section className={styles.feedback}>
-        <div className={styles.container}>
-          <div className={styles.block} style={{ paddingBottom: 0 }}>
-            <h2>Ton avis ou ton inscription</h2>
-            <p className={styles.blockLead}>Un commentaire, une question, ou l'envie de suivre la formation en direct ? Écris-nous.</p>
-            <FeedbackForm course={course.software} module={mod.title} />
-          </div>
-        </div>
-      </section>
-
-      <div className={styles.container}>
-        <nav className={styles.nav} aria-label="Navigation entre modules">
-          {prev ? <Link className={styles.navLink} href={`/works/${slug}/${prev.slug}`}>← {prev.title}</Link> : <span />}
-          {next ? (
-            <Link className={`${styles.navLink} ${styles.navNext}`} href={`/works/${slug}/${next.slug}`}>{next.title} →</Link>
-          ) : (
-            <Link className={`${styles.navLink} ${styles.navNext}`} href="/works">Voir les autres formations</Link>
-          )}
-        </nav>
-      </div>
+      <ModuleFlow
+        courseSlug={slug}
+        courseTitle={course.software}
+        moduleSlugs={course.modules.map((m) => m.slug)}
+        index={idx}
+        module={mod}
+        prev={pick(course.modules[idx - 1])}
+        next={pick(course.modules[idx + 1])}
+      />
     </main>
   );
 }

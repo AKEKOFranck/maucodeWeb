@@ -2,6 +2,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { COURSES, getCourse } from "@/lib/data/modules";
 import { Icon } from "@/components/Lesson/icons";
+import { CourseEnd } from "@/components/Lesson/lesson";
+import ModuleCard from "./ModuleCard";
 import styles from "./page.module.css";
 
 export function generateStaticParams() {
@@ -12,6 +14,8 @@ export default async function CoursePage({ params }) {
   const { slug } = await params;
   const course = getCourse(slug);
   if (!course) notFound();
+
+  const moduleSlugs = course.modules.map((m) => m.slug);
 
   return (
     <main className={styles.page} style={{ "--accent": course.accent }}>
@@ -31,15 +35,10 @@ export default async function CoursePage({ params }) {
       <section className={styles.container}>
         <div className={styles.modulesGrid}>
           {course.modules.map((m, i) => (
-            <Link key={m.slug} href={`/works/${slug}/${m.slug}`} className={styles.moduleCard}>
-              <span className={styles.moduleEmoji}><Icon name={m.icon} /></span>
-              <p>{m.intro}</p>
-              <span className={styles.moduleMeta}>
-                {m.chapters.length} chapitres, un quiz et un exercice
-              </span>
-            </Link>
+            <ModuleCard key={m.slug} courseSlug={slug} moduleSlugs={moduleSlugs} index={i} module={m} />
           ))}
         </div>
+        <CourseEnd course={slug} courseTitle={course.software} moduleSlugs={moduleSlugs} spaced />
       </section>
     </main>
   );
