@@ -1,6 +1,8 @@
 import Link from "next/link";
 import Image from "next/image";
 import styles from "./page.module.css";
+import ContactForm from "@/components/ContactForm/contactform";
+
 
 const concept = [
   {
@@ -149,12 +151,10 @@ export default function Home() {
               projet de site web. Nous vous répondons rapidement.
             </p>
             <div className={styles.inviteActions}>
-              <Link href="/works" className={styles.btnDark}>
-                Je m&apos;inscris
-              </Link>
-              <Link href="/about" className={styles.btnOutline}>
-                Nous contacter
-              </Link>
+              <ContactForm
+                label="Écrire à Maucode"
+                defaultBesoin="Création de site web"
+              />
             </div>
           </div>
         </div>

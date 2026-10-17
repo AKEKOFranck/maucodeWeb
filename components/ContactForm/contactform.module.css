@@ -31,6 +31,23 @@
   box-shadow: 0 14px 34px rgba(5, 7, 10, 0.3);
 }
 
+.btnWhatsapp {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 30px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 1rem;
+  background: #25d366;
+  color: #05070a;
+  transition: transform 0.35s var(--ease), box-shadow 0.35s var(--ease);
+}
+.btnWhatsapp:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 34px rgba(37, 211, 102, 0.45);
+}
+
 /* ---------- Formulaire (dialog) ---------- */
 .dialog {
   margin: auto;

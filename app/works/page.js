@@ -7,6 +7,8 @@ import styles from "./page.module.css";
 
 import data from "@/lib/data/works.json";
 import { getCourse } from "@/lib/data/modules";
+import ContactForm from "@/components/ContactForm/contactform";
+
 
 const values = [
   {
@@ -205,9 +207,10 @@ export default function Works() {
               disponible. Nous fixons les séances avec toi.
             </p>
             <div className={styles.inviteActions}>
-              <Link href="/about" className={styles.btnDark}>
-                Nous contacter
-              </Link>
+             <ContactForm
+              label="Écrire à Maucode"
+              defaultBesoin="Création de site web"
+            />
             </div>
           </div>
         </div>

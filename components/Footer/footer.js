@@ -4,7 +4,11 @@ import {
   FiInstagram,
   FiMail,
   FiArrowUpRight,
+  
 } from "react-icons/fi";
+import { FaHeadset } from "react-icons/fa6";
+import { RiCustomerService2Line } from "react-icons/ri";
+
 
 
 import styles from "./footer.module.css";
@@ -70,6 +74,30 @@ const socialLinks = [
     icon: FiMail,
 
     external: false,
+  },
+
+  {
+    id: 3,
+
+    label: "WhatsApp – Formation",
+
+    href: "https://wa.me/2250507189082?text=Bonjour%20MauCodeWeb%2C%20je%20souhaite%20m%27inscrire%20%C3%A0%20une%20formation%20Office.",
+
+    icon: FaHeadset 
+,
+
+    external: true,
+  },
+  {
+    id: 4,
+
+    label: "WhatsApp – Site web",
+
+    href: "https://wa.me/2250507189082?text=Bonjour%20MauCodeWeb%2C%20je%20souhaite%20un%20site%20web%20pour%20mon%20activit%C3%A9.",
+
+    icon: RiCustomerService2Line,
+
+    external: true,
   },
 ];
 

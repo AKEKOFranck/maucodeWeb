@@ -3,7 +3,8 @@
 import { useRef, useState } from "react";
 import styles from "./contactform.module.css";
 
-const MAUCODE_EMAIL = "fa0055970@gmail.com";
+// Numéro WhatsApp Business : indicatif 225 + les 10 chiffres, sans "+" ni espaces
+const MAUCODE_WHATSAPP = "2250507189082";
 
 const BESOINS = [
   "Formation Office (Word, Excel, PowerPoint)",
@@ -12,8 +13,8 @@ const BESOINS = [
 ];
 
 /**
- * Bouton + petit formulaire qui ouvre un brouillon Gmail
- * adressé à Maucode.
+ * Bouton + petit formulaire qui ouvre WhatsApp
+ * avec un message pré-rempli adressé à Maucode.
  *
  * Props :
  * - label          : texte du bouton
@@ -28,7 +29,6 @@ export default function ContactForm({
   const dialogRef = useRef(null);
   const [form, setForm] = useState({
     nom: "",
-    email: "",
     besoin: defaultBesoin,
     message: "",
   });
@@ -42,20 +42,17 @@ export default function ContactForm({
   const envoyer = (e) => {
     e.preventDefault();
 
-    const sujet = `Maucode - ${form.besoin} - ${form.nom}`;
-    const corps = [
-      `Nom : ${form.nom}`,
-      `Email : ${form.email}`,
-      `Besoin : ${form.besoin}`,
+    // *texte* = gras dans WhatsApp
+    const texte = [
+      "Bonjour MauCodeWeb 👋",
       "",
-      form.message,
+      `*Nom :* ${form.nom}`,
+      `*Besoin :* ${form.besoin}`,
+      "",
+      `*Message :* ${form.message}`,
     ].join("\n");
 
-    const url =
-      "https://mail.google.com/mail/?view=cm&fs=1" +
-      `&to=${encodeURIComponent(MAUCODE_EMAIL)}` +
-      `&su=${encodeURIComponent(sujet)}` +
-      `&body=${encodeURIComponent(corps)}`;
+    const url = `https://wa.me/${MAUCODE_WHATSAPP}?text=${encodeURIComponent(texte)}`;
 
     window.open(url, "_blank", "noopener,noreferrer");
     fermer();
@@ -101,18 +98,6 @@ export default function ContactForm({
           </label>
 
           <label>
-            Votre email
-            <input
-              type="email"
-              name="email"
-              value={form.email}
-              onChange={changer}
-              required
-              autoComplete="email"
-            />
-          </label>
-
-          <label>
             Votre besoin
             <select name="besoin" value={form.besoin} onChange={changer}>
               {BESOINS.map((b) => (
@@ -135,8 +120,8 @@ export default function ContactForm({
             />
           </label>
 
-          <button type="submit" className={styles.btnPrimary}>
-            Envoyer via Gmail
+          <button type="submit" className={styles.btnWhatsapp}>
+            Envoyer sur WhatsApp
           </button>
         </form>
       </dialog>
