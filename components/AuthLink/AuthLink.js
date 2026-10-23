@@ -4,7 +4,7 @@ import { usePathname } from "next/navigation";
 import { useAuth } from "@/components/AuthProvider/AuthProvider";
 
 // Même identifiant que dans la fonction isAdmin() des règles Firestore
-const ADMIN_UID = "TON_UID_ICI";
+const ADMIN_UID = "HxyKb9Dwh1UFUpbcEdXFp4fvY1J2";
 
 export default function AuthLink({ className, activeClassName = "" }) {
   const { user, loading } = useAuth();
