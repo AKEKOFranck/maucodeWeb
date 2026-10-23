@@ -3,7 +3,8 @@ import "./globals.css";
 import Navigation from "@/components/Navigation/navigation";
 import Footer from "@/components/Footer/footer";
 import {NotificationsProvider} from "@/components/Notifications/notifications";
-
+import { AuthProvider } from "@/components/AuthProvider/AuthProvider";
+import { useAuth } from "@/components/AuthProvider/AuthProvider";
 
 const plusJakarta = Plus_Jakarta_Sans({
   variable: "--font-plus-jakarta",
@@ -79,11 +80,13 @@ export default function RootLayout({ children }) {
       className={`${plusJakarta.variable} ${geistMono.variable}`}
     >
       <body>
-        <NotificationsProvider>
-          <Navigation />
-          {children}
-          <Footer />
-        </NotificationsProvider>
+        <AuthProvider>
+          <NotificationsProvider>
+            <Navigation />
+            {children}
+            <Footer />
+          </NotificationsProvider>
+        </AuthProvider>
       </body>
     </html>
   );

@@ -1,0 +1,121 @@
+.page {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 140px 20px 80px;
+  background:
+    radial-gradient(circle at 15% 0%, var(--primary-light), transparent 55%),
+    radial-gradient(circle at 90% 100%, var(--secondary), transparent 45%),
+    var(--background);
+}
+
+.card {
+  width: 100%;
+  max-width: 440px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--card-radius);
+  padding: 44px 32px 36px;
+  text-align: center;
+  box-shadow: 0 30px 80px rgba(31, 163, 236, 0.18);
+}
+
+.logo {
+  margin: 0 auto 20px;
+  border-radius: 18px;
+  height: auto;
+}
+
+.title {
+  font-size: clamp(26px, 4vw, 32px);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+  margin-bottom: 10px;
+}
+
+.lead {
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 28px;
+}
+
+.google {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 15px 20px;
+  border-radius: 999px;
+  border: 2px solid var(--black);
+  background: var(--white);
+  color: var(--black);
+  font-size: 16px;
+  font-weight: 700;
+  transition: background 0.25s var(--ease), transform 0.25s var(--ease);
+}
+
+.google:hover:not(:disabled) {
+  background: var(--primary-light);
+  transform: translateY(-2px);
+}
+
+.google:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.primary {
+  display: block;
+  padding: 15px 20px;
+  border-radius: 999px;
+  background: var(--black);
+  color: var(--white);
+  font-weight: 700;
+  transition: background 0.25s var(--ease), color 0.25s var(--ease),
+    transform 0.25s var(--ease);
+}
+
+.primary:hover {
+  background: var(--primary);
+  color: var(--black);
+  transform: translateY(-2px);
+}
+
+.link {
+  margin-top: 16px;
+  background: none;
+  color: var(--text-light);
+  text-decoration: underline;
+  font-size: 15px;
+}
+
+.link:hover {
+  color: var(--text-primary);
+}
+
+.error {
+  margin-top: 16px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: #fdecea;
+  color: #b3261e;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.alt {
+  margin-top: 24px;
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.alt a {
+  color: var(--primary-dark);
+  font-weight: 700;
+}
+
+.alt a:hover {
+  text-decoration: underline;
+}

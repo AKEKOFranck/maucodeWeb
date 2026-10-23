@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import AuthLink from "@/components/AuthLink/AuthLink";
 import styles from "./navigation.module.css";
 
 const LINKS = [
@@ -45,6 +46,12 @@ export default function Navigation() {
               </Link>
             </li>
           ))}
+
+          {/* Connexion / Mon compte (et Admin pour toi uniquement) */}
+          <AuthLink
+            className={styles.pill}
+            activeClassName={styles.pillActive}
+          />
         </ul>
 
         <button

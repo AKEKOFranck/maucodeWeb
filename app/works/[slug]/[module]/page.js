@@ -44,6 +44,7 @@ export default async function ModulePage({ params }) {
         prev={pick(course.modules[idx - 1])}
         next={pick(course.modules[idx + 1])}
       />
+   
     </main>
   );
 }
