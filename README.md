@@ -1,6 +1,6 @@
 # File Tree: MaucodeWeb
 
-**Generated:** 10/15/2026, 2:06:07 PM
+**Generated:** 10/17/2026, 10:37:33 PM
 **Root Path:** `c:\Users\fm005\OneDrive\Desktop\MaucodeWeb`
 
 ```
@@ -18,7 +18,11 @@
     │   ├── 📁 works
     │   │   ├── 📁 [slug]
     │   │   │   ├── 📁 [module]
+    │   │   │   │   ├── 📄 Moduleflow.js
+    │   │   │   │   ├── 🎨 Moduleflow.module.css
     │   │   │   │   └── 📄 page.js
+    │   │   │   ├── 📄 ModuleCard.js
+    │   │   │   ├── 🎨 ModuleCard.module.css
     │   │   │   ├── 📄 page.js
     │   │   │   └── 🎨 page.module.css
     │   │   ├── 📄 page.js
@@ -47,9 +51,10 @@
     │       ├── 📄 notifications.js
     │       └── 🎨 notifications.module.css
     ├── 📁 lib
-    │   └── 📁 data
-    │       ├── 📄 modules.js
-    │       └── ⚙️ works.json
+    │   ├── 📁 data
+    │   │   ├── 📄 modules.js
+    │   │   └── ⚙️ works.json
+    │   └── 📄 progress.js
     ├── 📁 public
     │   ├── 📄 LogoMC.ico
     │   ├── 🖼️ LogoMC.jpg

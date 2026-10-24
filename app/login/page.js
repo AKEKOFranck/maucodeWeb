@@ -16,6 +16,17 @@ const MESSAGES = {
   "auth/network-request-failed": "Pas de connexion internet. Vérifie ton réseau.",
 };
 
+/*
+  Sécurité : on n'accepte que les adresses internes au site pour la redirection après connexion.
+  Cela évite qu'un lien piégé comme /login?next=//site-malveillant.com renvoie l'utilisateur ailleurs.
+*/
+function safeNext(value) {
+  if (typeof value !== "string") return "/works";
+  if (!/^\/(?![/\\])/.test(value)) return "/works"; // doit commencer par un seul "/"
+  if (/[\u0000-\u001f\u007f]/.test(value)) return "/works"; // pas de caractères de contrôle
+  return value;
+}
+
 function GoogleIcon() {
   return (
     <svg width="20" height="20" viewBox="0 0 48 48" aria-hidden="true">
@@ -38,7 +49,8 @@ export default function LoginPage() {
     setError("");
     try {
       await signInWithPopup(auth, new GoogleAuthProvider());
-      router.push("/works");
+      const next = new URLSearchParams(window.location.search).get("next");
+      router.push(safeNext(next));
     } catch (e) {
       console.error(e);
       setError(MESSAGES[e.code] || "Connexion impossible. Réessaie dans un instant.");
@@ -65,15 +77,19 @@ export default function LoginPage() {
           </>
         ) : (
           <>
-            <h1 className={s.title}>Connecte-toi</h1>
+            <h1 className={s.title}>Crée ton compte ou connecte-toi</h1>
             <p className={s.lead}>
-              Ta progression et tes scores sont gardés sur ton compte : tu les retrouves sur
-              ton téléphone comme sur ton ordinateur.
+              Ton compte garde ta progression et tes scores : tu les retrouves sur ton téléphone
+              comme sur ton ordinateur.
             </p>
             <button onClick={loginGoogle} disabled={busy} className={s.google}>
               <GoogleIcon />
               {busy ? "Connexion…" : "Continuer avec Google"}
             </button>
+            <p className={s.alt}>
+              Nous gardons ton adresse e-mail Google pour gérer ton compte, et ta progression pour
+              l'afficher. Rien n'est partagé avec d'autres.
+            </p>
             {error && <p className={s.error} role="alert">{error}</p>}
             <p className={s.alt}>
               Pas envie de te connecter ? <Link href="/works">Voir les formations</Link>

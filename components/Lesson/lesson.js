@@ -4,8 +4,7 @@ import { Fragment, useState } from "react";
 import s from "./lesson.module.css";
 import { Icon } from "./icons";
 import { passed, minToPass, useProgress, stateOf } from "@/lib/progress";
-
-const SESSION_PRICE = "10 000 F"; // prix de la séance à réserver (à changer ici)
+import { SESSION_PRICE } from "@/lib/config";
 import { useToast } from "@/components/Notifications/notifications";
 
 /* ---------- Illustrations ---------- */
@@ -182,6 +181,8 @@ export function Exercise({ exercise }) {
 }
 
 /* ---------- Avis / inscription ---------- */
+const SEND_TIMEOUT_MS = 15000;
+
 export function FeedbackForm({ course, module, fixedKind, withPhone, messageLabel = "Ton message", submitLabel = "Envoyer" }) {
   const toast = useToast();
   const [state, setState] = useState("idle");
@@ -189,23 +190,49 @@ export function FeedbackForm({ course, module, fixedKind, withPhone, messageLabe
 
   async function onSubmit(e) {
     e.preventDefault();
+    if (state === "loading") return; // évite les doubles envois
+
+    const f = new FormData(e.currentTarget);
     setState("loading");
     setError("");
-    const f = new FormData(e.currentTarget);
+
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), SEND_TIMEOUT_MS);
+
     try {
       const res = await fetch("/api/feedback", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ...Object.fromEntries(f), course, module }),
+        signal: controller.signal,
       });
-      const out = await res.json();
-      if (!res.ok) throw new Error(out.error || "Erreur");
+
+      // La réponse n'est pas toujours du JSON (erreur du serveur, requête trop grosse...)
+      let out = null;
+      try {
+        out = await res.json();
+      } catch {}
+
+      if (!res.ok) {
+        throw new Error(
+          typeof out?.error === "string" ? out.error : "L'envoi a échoué. Réessaie dans un instant."
+        );
+      }
+
       setState("sent");
       toast("Message envoyé, merci !", { type: "success" });
     } catch (err) {
-      setError(err.message);
-      toast(err.message, { type: "error" });
+      const message =
+        err.name === "AbortError"
+          ? "Le serveur met trop de temps à répondre. Réessaie dans un instant."
+          : err instanceof TypeError
+          ? "Pas de connexion internet. Vérifie ton réseau et réessaie."
+          : err.message;
+      setError(message);
+      toast(message, { type: "error" });
       setState("idle");
+    } finally {
+      clearTimeout(timer);
     }
   }
 
@@ -215,13 +242,24 @@ export function FeedbackForm({ course, module, fixedKind, withPhone, messageLabe
 
   return (
     <form className={s.form} onSubmit={onSubmit}>
+      {/* Piège anti-robot : invisible pour les humains, les robots le remplissent */}
+      <div
+        aria-hidden="true"
+        style={{ position: "absolute", left: "-9999px", width: 0, height: 0, overflow: "hidden" }}
+      >
+        <label>
+          Ne remplis pas ce champ
+          <input type="text" name="website" tabIndex={-1} autoComplete="off" defaultValue="" />
+        </label>
+      </div>
+
       <label>
         Ton prénom
-        <input name="name" required maxLength={80} />
+        <input name="name" required maxLength={80} autoComplete="given-name" />
       </label>
       <label>
         Ton e-mail
-        <input name="email" type="email" required maxLength={120} />
+        <input name="email" type="email" required maxLength={120} autoComplete="email" />
       </label>
       {fixedKind ? (
         <input type="hidden" name="kind" value={fixedKind} />
@@ -237,7 +275,7 @@ export function FeedbackForm({ course, module, fixedKind, withPhone, messageLabe
       {withPhone && (
         <label>
           Téléphone ou WhatsApp
-          <input name="phone" type="tel" maxLength={40} />
+          <input name="phone" type="tel" inputMode="tel" autoComplete="tel" maxLength={40} />
         </label>
       )}
       <label className={s.full}>
@@ -245,7 +283,7 @@ export function FeedbackForm({ course, module, fixedKind, withPhone, messageLabe
         <textarea name="message" rows={4} required maxLength={1500} />
       </label>
       {error && <p className={s.error} role="alert">{error}</p>}
-      <button type="submit" className={s.primary} disabled={state === "loading"}>
+      <button type="submit" className={s.primary} disabled={state === "loading"} aria-busy={state === "loading"}>
         {state === "loading" ? "Envoi…" : submitLabel}
       </button>
     </form>

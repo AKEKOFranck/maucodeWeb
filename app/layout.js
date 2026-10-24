@@ -5,6 +5,8 @@ import Footer from "@/components/Footer/footer";
 import {NotificationsProvider} from "@/components/Notifications/notifications";
 import { AuthProvider } from "@/components/AuthProvider/AuthProvider";
 import { useAuth } from "@/components/AuthProvider/AuthProvider";
+import SignupBanner from "@/components/SignupBanner/SignupBanner";
+
 
 const plusJakarta = Plus_Jakarta_Sans({
   variable: "--font-plus-jakarta",
@@ -83,6 +85,7 @@ export default function RootLayout({ children }) {
         <AuthProvider>
           <NotificationsProvider>
             <Navigation />
+            <SignupBanner />
             {children}
             <Footer />
           </NotificationsProvider>

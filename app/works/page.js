@@ -7,7 +7,8 @@ import styles from "./page.module.css";
 
 import data from "@/lib/data/works.json";
 import { getCourse } from "@/lib/data/modules";
-import ContactForm from "@/components/ContactForm/contactform";
+import { SESSION_PRICE } from "@/lib/config";
+import ContactForm, { BESOIN_SEANCE } from "@/components/ContactForm/contactform";
 
 
 const values = [
@@ -59,6 +60,7 @@ export default function Works() {
             <span>{data.program.audience}</span>
             <span>3 logiciels, 3 parcours</span>
             <span>Exercices et corrigés</span>
+            <span>Séance approfondie : {SESSION_PRICE}</span>
           </div>
         </div>
       </section>
@@ -197,20 +199,25 @@ export default function Works() {
         </div>
       </section>
 
-      {/* 4. Invitation */}
+      {/* 4. Aller plus loin : séance avec un formateur */}
       <section className={styles.invitations}>
         <div className={styles.container}>
           <div className={styles.inviteBox}>
-            <h2>Une question avant de commencer ?</h2>
+            <h2>Envie d&apos;aller plus loin ?</h2>
             <p>
-              Dis-nous quel logiciel tu veux apprendre et à quel moment tu es
-              disponible. Nous fixons les séances avec toi.
+              Les parcours en ligne te donnent les bases. Pour une formation
+              plus poussée, réserve une séance avec un formateur :{" "}
+              <strong>{SESSION_PRICE} la séance</strong>. Dis-nous quel
+              logiciel tu veux approfondir et à quel moment tu es disponible,
+              nous fixons la séance avec toi.
             </p>
             <div className={styles.inviteActions}>
-             <ContactForm
-              label="Écrire à Maucode"
-              defaultBesoin="Création de site web"
-            />
+              <ContactForm
+                label="Réserver une séance"
+                variant="primary"
+                defaultBesoin={BESOIN_SEANCE}
+              />
+              <ContactForm label="Poser une question" />
             </div>
           </div>
         </div>

@@ -1,0 +1,73 @@
+.banner {
+  position: fixed;
+  top: 96px; /* juste sous la barre de navigation : ajuste si besoin */
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 40;
+  width: min(92vw, 760px);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 16px 14px 22px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  box-shadow: 0 18px 50px rgba(31, 163, 236, 0.22);
+  animation: slideIn 0.5s var(--ease) both;
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translate(-50%, -12px); }
+  to { opacity: 1; transform: translate(-50%, 0); }
+}
+
+.text {
+  flex: 1;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--text-secondary);
+}
+
+.text strong { color: var(--text-primary); }
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.cta {
+  padding: 11px 20px;
+  border-radius: 999px;
+  background: var(--black);
+  color: var(--white);
+  font-weight: 700;
+  font-size: 14px;
+  white-space: nowrap;
+  transition: background 0.25s var(--ease), color 0.25s var(--ease);
+}
+
+.cta:hover { background: var(--primary); color: var(--black); }
+
+.close {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--primary-light);
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+
+.close:hover { background: var(--secondary); color: var(--text-primary); }
+
+@media (max-width: 640px) {
+  .banner {
+    top: 84px;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    padding: 16px 18px;
+  }
+  .actions { justify-content: space-between; }
+}

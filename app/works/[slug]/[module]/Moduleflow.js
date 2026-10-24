@@ -2,17 +2,39 @@
 
 import Link from "next/link";
 import { Visual, Quiz, Exercise } from "@/components/Lesson/lesson";
+import { useAuth } from "@/components/AuthProvider/AuthProvider";
 import { useProgress, stateOf, isUnlocked, minToPass } from "@/lib/progress";
 import pg from "../page.module.css";
 import s from "./Moduleflow.module.css";
 
 export default function ModuleFlow({ courseSlug, courseTitle, moduleSlugs, index, module: mod, prev, next }) {
+  const { user, loading: authLoading } = useAuth();
   const { progress, ready, record } = useProgress();
 
-  if (!ready) {
+  if (!ready || authLoading) {
     return (
       <section className={pg.container}>
         <p className={s.loading}>Chargement…</p>
+      </section>
+    );
+  }
+
+  /* Compte obligatoire pour suivre un module */
+  if (!user) {
+    const back = encodeURIComponent(`/works/${courseSlug}/${mod.slug}`);
+    return (
+      <section className={pg.container}>
+        <div className={s.lockedBox} role="status">
+          <h2>🔐 Crée ton compte pour suivre ce cours</h2>
+          <p>
+            C'est gratuit et rapide avec Google. Ton compte garde ta progression et tes scores :
+            tu les retrouves sur ton téléphone comme sur ton ordinateur.
+          </p>
+          <div className={s.actions}>
+            <Link href={`/login?next=${back}`} className={s.btn}>Créer mon compte</Link>
+            <Link href={`/works/${courseSlug}`} className={s.btnGhost}>Voir la formation</Link>
+          </div>
+        </div>
       </section>
     );
   }
