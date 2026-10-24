@@ -138,6 +138,24 @@
   background: var(--white);
 }
 
+/* ---------- Encadré tarifs (formations plus poussées) ---------- */
+.notice {
+  margin: 0;
+  padding: 14px 16px;
+  border-radius: 16px;
+  border-left: 4px solid var(--primary);
+  background: var(--primary-light);
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  font-weight: 500;
+  line-height: 1.55;
+}
+
+.notice strong {
+  color: var(--text-primary);
+  font-weight: 700;
+}
+
 @keyframes dialogIn {
   from {
     opacity: 0;

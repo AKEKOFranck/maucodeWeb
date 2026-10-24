@@ -29,7 +29,7 @@ export default function Navigation() {
     <header className={styles.wrapper}>
       <nav className={styles.nav} aria-label="Navigation principale">
         <Link href="/" className={styles.brand}>
-          Mau<span>caude</span>
+          Mau<span>code</span>
         </Link>
 
         <ul className={`${styles.list} ${open ? styles.listOpen : ""}`}>

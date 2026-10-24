@@ -1,13 +1,18 @@
 "use client";
 
 import { useRef, useState } from "react";
+import { SESSION_PRICE } from "@/lib/config";
 import styles from "./contactform.module.css";
 
 // Numéro WhatsApp Business : indicatif 225 + les 10 chiffres, sans "+" ni espaces
 const MAUCODE_WHATSAPP = "2250507189082";
 
+export const BESOIN_FORMATION = "Formation Office (Word, Excel, PowerPoint)";
+export const BESOIN_SEANCE = `Séance de formation poussée (${SESSION_PRICE})`;
+
 const BESOINS = [
-  "Formation Office (Word, Excel, PowerPoint)",
+  BESOIN_FORMATION,
+  BESOIN_SEANCE,
   "Création de site web",
   "Autre demande",
 ];
@@ -19,12 +24,12 @@ const BESOINS = [
  * Props :
  * - label          : texte du bouton
  * - variant        : "dark" (par défaut) ou "primary"
- * - defaultBesoin  : besoin présélectionné
+ * - defaultBesoin  : besoin présélectionné (BESOIN_FORMATION par défaut)
  */
 export default function ContactForm({
   label = "Écrire à Maucode",
   variant = "dark",
-  defaultBesoin = BESOINS[0],
+  defaultBesoin = BESOIN_FORMATION,
 }) {
   const dialogRef = useRef(null);
   const [form, setForm] = useState({
@@ -39,6 +44,10 @@ export default function ContactForm({
   const changer = (e) =>
     setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
 
+  // L'explication sur les tarifs s'affiche pour les deux besoins "formation"
+  const estFormation =
+    form.besoin === BESOIN_FORMATION || form.besoin === BESOIN_SEANCE;
+
   const envoyer = (e) => {
     e.preventDefault();
 
@@ -46,10 +55,10 @@ export default function ContactForm({
     const texte = [
       "Bonjour MauCodeWeb 👋",
       "",
-      `*Nom :* ${form.nom}`,
+      `*Nom :* ${form.nom.trim()}`,
       `*Besoin :* ${form.besoin}`,
       "",
-      `*Message :* ${form.message}`,
+      `*Message :* ${form.message.trim()}`,
     ].join("\n");
 
     const url = `https://wa.me/${MAUCODE_WHATSAPP}?text=${encodeURIComponent(texte)}`;
@@ -93,6 +102,7 @@ export default function ContactForm({
               value={form.nom}
               onChange={changer}
               required
+              maxLength={80}
               autoComplete="name"
             />
           </label>
@@ -108,6 +118,14 @@ export default function ContactForm({
             </select>
           </label>
 
+          {estFormation && (
+            <p className={styles.notice}>
+              Les parcours en ligne donnent les bases. Les{" "}
+              <strong>formations plus poussées</strong> se font en séance avec
+              un formateur : <strong>{SESSION_PRICE} la séance</strong>.
+            </p>
+          )}
+
           <label>
             Message
             <textarea
@@ -115,6 +133,7 @@ export default function ContactForm({
               rows={4}
               value={form.message}
               onChange={changer}
+              maxLength={1000}
               placeholder="Décrivez votre besoin"
               required
             />

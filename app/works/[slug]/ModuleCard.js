@@ -1,12 +1,15 @@
 "use client";
 
 import Link from "next/link";
+import { useAuth } from "@/components/AuthProvider/AuthProvider";
 import { useProgress, stateOf, isUnlocked } from "@/lib/progress";
 import s from "./ModuleCard.module.css";
 
 export default function ModuleCard({ courseSlug, moduleSlugs, index, module: m }) {
+  const { user, loading: authLoading } = useAuth();
   const { progress, ready } = useProgress();
 
+  const guest = ready && !authLoading && !user;
   const unlocked = ready && isUnlocked(progress, courseSlug, moduleSlugs, index);
   const res = stateOf(progress, courseSlug, m.slug);
 
@@ -18,15 +21,25 @@ export default function ModuleCard({ courseSlug, moduleSlugs, index, module: m }
         {m.intro && <p className={s.desc}>{m.intro}</p>}
       </div>
       <span className={s.status}>
-        {ready && res.done && `✓ Terminé (${res.score}/${res.total})`}
-        {ready && !res.done && unlocked && "Commencer"}
-        {ready && !unlocked && "🔒 Verrouillé"}
+        {guest && "🔐 Compte requis"}
+        {!guest && ready && res.done && `✓ Terminé (${res.score}/${res.total})`}
+        {!guest && ready && !res.done && unlocked && "Commencer"}
+        {!guest && ready && !unlocked && "🔒 Verrouillé"}
       </span>
     </>
   );
 
   /* Avant la lecture de la sauvegarde : carte neutre, pour éviter un clignotement */
-  if (!ready) return <div className={s.card}>{content}</div>;
+  if (!ready || authLoading) return <div className={s.card}>{content}</div>;
+
+  if (guest) {
+    const back = encodeURIComponent(`/works/${courseSlug}`);
+    return (
+      <Link href={`/login?next=${back}`} className={s.card}>
+        {content}
+      </Link>
+    );
+  }
 
   if (!unlocked) {
     return (
