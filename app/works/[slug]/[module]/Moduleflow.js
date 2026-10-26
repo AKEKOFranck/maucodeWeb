@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Visual, Quiz, Exercise } from "@/components/Lesson/lesson";
 import { useAuth } from "@/components/AuthProvider/AuthProvider";
 import { useProgress, stateOf, isUnlocked, minToPass } from "@/lib/progress";
+import { FREE_MODULES_PER_COURSE } from "@/lib/config";
 import pg from "../page.module.css";
 import s from "./Moduleflow.module.css";
 
@@ -19,8 +20,10 @@ export default function ModuleFlow({ courseSlug, courseTitle, moduleSlugs, index
     );
   }
 
-  /* Compte obligatoire pour suivre un module */
-  if (!user) {
+  const isFree = index < FREE_MODULES_PER_COURSE;
+
+  /* Compte obligatoire, sauf pour les modules gratuits */
+  if (!user && !isFree) {
     const back = encodeURIComponent(`/works/${courseSlug}/${mod.slug}`);
     return (
       <section className={pg.container}>
@@ -60,9 +63,21 @@ export default function ModuleFlow({ courseSlug, courseTitle, moduleSlugs, index
 
   const res = stateOf(progress, courseSlug, mod.slug);
   const total = mod.quiz.length;
+  const guest = !user;
+  const afterLogin = encodeURIComponent(
+    next ? `/works/${courseSlug}/${next.slug}` : `/works/${courseSlug}`
+  );
 
   return (
     <div className={pg.container}>
+      {/* Bandeau pour les visiteurs sans compte */}
+      {guest && (
+        <p className={s.tip}>
+          <strong>Module gratuit, sans compte.</strong> Fais-le jusqu'au bout. Pour garder ton résultat
+          et débloquer la suite, tu pourras créer ton compte gratuitement à la fin.
+        </p>
+      )}
+
       {/* 1. Le cours */}
       {mod.chapters.map((c, i) => (
         <section key={c.title} className={s.chapter}>
@@ -99,14 +114,26 @@ export default function ModuleFlow({ courseSlug, courseTitle, moduleSlugs, index
         {res.done ? (
           <>
             <p className={s.validated}>✓ Module validé ({res.score}/{res.total})</p>
-            <div className={s.actions}>
-              {next ? (
-                <Link href={`/works/${courseSlug}/${next.slug}`} className={s.btn}>Module suivant : {next.title} →</Link>
-              ) : (
-                <Link href={`/works/${courseSlug}`} className={s.btn}>Terminer la formation →</Link>
-              )}
-              <Link href={`/works/${courseSlug}`} className={s.btnGhost}>Retour à la formation</Link>
-            </div>
+            {guest ? (
+              <>
+                <p className={s.hint}>
+                  Bravo ! Crée ton compte gratuit pour sauvegarder ce résultat et débloquer la suite.
+                </p>
+                <div className={s.actions}>
+                  <Link href={`/login?next=${afterLogin}`} className={s.btn}>Créer mon compte et continuer</Link>
+                  <Link href={`/works/${courseSlug}`} className={s.btnGhost}>Retour à la formation</Link>
+                </div>
+              </>
+            ) : (
+              <div className={s.actions}>
+                {next ? (
+                  <Link href={`/works/${courseSlug}/${next.slug}`} className={s.btn}>Module suivant : {next.title} →</Link>
+                ) : (
+                  <Link href={`/works/${courseSlug}`} className={s.btn}>Terminer la formation →</Link>
+                )}
+                <Link href={`/works/${courseSlug}`} className={s.btnGhost}>Retour à la formation</Link>
+              </div>
+            )}
           </>
         ) : (
           <p className={s.hint}>Réussis le quiz pour valider ce module.</p>

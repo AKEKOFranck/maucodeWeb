@@ -11,6 +11,19 @@ export function generateStaticParams() {
   );
 }
 
+export async function generateMetadata({ params }) {
+  const { slug, module: moduleSlug } = await params;
+  const course = getCourse(slug);
+  const mod = getModule(slug, moduleSlug);
+  if (!course || !mod) return {};
+
+  return {
+    title: `${mod.title} : ${course.software} pour débutants`,
+    description: mod.intro,
+    alternates: { canonical: `/works/${slug}/${moduleSlug}` },
+  };
+}
+
 export default async function ModulePage({ params }) {
   const { slug, module: moduleSlug } = await params;
   const course = getCourse(slug);
@@ -44,7 +57,6 @@ export default async function ModulePage({ params }) {
         prev={pick(course.modules[idx - 1])}
         next={pick(course.modules[idx + 1])}
       />
-   
     </main>
   );
 }

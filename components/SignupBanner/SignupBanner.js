@@ -9,6 +9,9 @@ const KEY = "maucode:signup-banner:dismissed-at";
 const SNOOZE_DAYS = 30; // durée pendant laquelle le message reste caché après fermeture
 const HIDDEN_ON = ["/login", "/admin"];
 
+// Pages de modules (/works/word/decouvrir-word) : elles ont déjà leur propre message
+const isModulePage = (p) => /^\/works\/[^/]+\/[^/]+/.test(p);
+
 function recentlyDismissed() {
   try {
     const t = Number(localStorage.getItem(KEY));
@@ -20,12 +23,13 @@ function recentlyDismissed() {
 
 export default function SignupBanner() {
   const { user, loading } = useAuth();
-  const pathname = usePathname();
+  const pathname = usePathname() || "/";
   const [dismissed, setDismissed] = useState(false);
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    const hiddenHere = HIDDEN_ON.some((p) => pathname.startsWith(p));
+    const hiddenHere =
+      HIDDEN_ON.some((p) => pathname.startsWith(p)) || isModulePage(pathname);
     if (loading || user || dismissed || hiddenHere || recentlyDismissed()) {
       setVisible(false);
       return;
@@ -44,15 +48,20 @@ export default function SignupBanner() {
 
   if (!visible) return null;
 
+  // Après la connexion, on revient sur les cours (jamais sur une page sans rapport)
+  const next = pathname.startsWith("/works") ? pathname : "/works";
+
   return (
     <aside className={s.banner} aria-label="Invitation à créer un compte">
       <p className={s.text}>
-        <strong>Crée ton compte gratuit</strong> pour suivre ta progression dans les cours.
-        C'est rapide avec Google, et ça nous aide à savoir quels cours améliorer. De nouvelles
-        formations arrivent bientôt !
+        <strong>Le 1er module de chaque cours est gratuit, sans compte.</strong>{" "}
+        Crée ton compte gratuit avec Google pour sauvegarder ta progression et
+        débloquer la suite des cours.
       </p>
       <div className={s.actions}>
-        <Link href="/login" className={s.cta}>Créer mon compte</Link>
+        <Link href={`/login?next=${encodeURIComponent(next)}`} className={s.cta}>
+          Créer mon compte
+        </Link>
         <button type="button" className={s.close} onClick={dismiss} aria-label="Fermer ce message">
           ✕
         </button>

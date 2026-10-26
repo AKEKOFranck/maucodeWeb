@@ -7,7 +7,7 @@ import styles from "./page.module.css";
 
 import data from "@/lib/data/works.json";
 import { getCourse } from "@/lib/data/modules";
-import { SESSION_PRICE } from "@/lib/config";
+import { SESSION_PRICE, FREE_MODULES_PER_COURSE } from "@/lib/config";
 import ContactForm, { BESOIN_SEANCE } from "@/components/ContactForm/contactform";
 
 
@@ -58,7 +58,8 @@ export default function Works() {
           </p>
           <div className={styles.heroTags} style={{ "--i": 3 }}>
             <span>{data.program.audience}</span>
-            <span>3 logiciels, 3 parcours</span>
+           <span>3 logiciels, 3 parcours</span>
+            <span>1er module gratuit, sans compte</span>
             <span>Exercices et corrigés</span>
             <span>Séance approfondie : {SESSION_PRICE}</span>
           </div>
@@ -152,46 +153,34 @@ export default function Works() {
                     </button>
                   </div>
 
-                  {isOpen && (
-                    <div className={styles.modules}>
-                      {course.modules.map((module, index) => {
-                        const slug = detail?.modules[index]?.slug;
-                        return (
-                          <div key={module.title} className={styles.moduleRow}>
-                            <span className={styles.moduleIndex}>
-                              {index + 1}
-                            </span>
-                            <div>
-                              <h4 className={styles.moduleTitle}>
-                                {module.title}
-                              </h4>
-                              <p className={styles.moduleIntro}>
-                                {module.intro}
-                              </p>
-                              <div className={styles.lessonList}>
-                                {module.lessons.map((lesson) => (
-                                  <span
-                                    key={lesson}
-                                    className={styles.lessonPill}
-                                  >
-                                    {lesson}
-                                  </span>
-                                ))}
-                              </div>
-                              {slug && (
-                                <Link
-                                  href={`/works/${course.id}/${slug}`}
-                                  className={styles.moduleLink}
-                                >
-                                  Ouvrir ce module
-                                </Link>
-                              )}
-                            </div>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  )}
+                {isOpen && (
+  <div className={styles.modules}>
+    {(detail?.modules ?? []).map((module, index) => (
+      <div key={module.slug} className={styles.moduleRow}>
+        <span className={styles.moduleIndex}>{index + 1}</span>
+        <div>
+          <h4 className={styles.moduleTitle}>{module.title}</h4>
+          <p className={styles.moduleIntro}>{module.intro}</p>
+          <div className={styles.lessonList}>
+            {module.chapters.map((chapter) => (
+              <span key={chapter.title} className={styles.lessonPill}>
+                {chapter.title}
+              </span>
+            ))}
+          </div>
+          <Link
+            href={`/works/${course.id}/${module.slug}`}
+            className={styles.moduleLink}
+          >
+            {index < FREE_MODULES_PER_COURSE
+              ? "Essayer gratuitement, sans compte"
+              : "Ouvrir ce module"}
+          </Link>
+        </div>
+      </div>
+    ))}
+  </div>
+)}
                 </article>
               );
             })}

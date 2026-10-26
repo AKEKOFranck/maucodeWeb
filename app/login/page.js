@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -43,6 +43,12 @@ export default function LoginPage() {
   const { user, loading, logout } = useAuth();
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
+  const [nextUrl, setNextUrl] = useState("/works");
+
+  useEffect(() => {
+    const next = new URLSearchParams(window.location.search).get("next");
+    setNextUrl(safeNext(next));
+  }, []);
 
   async function loginGoogle() {
     setBusy(true);
@@ -72,7 +78,9 @@ export default function LoginPage() {
           <>
             <h1 className={s.title}>Bonjour {firstName || ""} 👋</h1>
             <p className={s.lead}>Tu es connecté. Ta progression est enregistrée sur ton compte.</p>
-            <Link href="/works" className={s.primary}>Continuer ma formation</Link>
+            <Link href={nextUrl} className={s.primary}>
+              {nextUrl === "/works" ? "Continuer ma formation" : "Continuer"}
+            </Link>
             <button onClick={logout} className={s.link}>Se déconnecter</button>
           </>
         ) : (
@@ -92,7 +100,7 @@ export default function LoginPage() {
             </p>
             {error && <p className={s.error} role="alert">{error}</p>}
             <p className={s.alt}>
-              Pas envie de te connecter ? <Link href="/works">Voir les formations</Link>
+              Pas envie de te connecter ? <Link href="/works">Essaie le 1er module gratuit</Link>
             </p>
           </>
         )}
