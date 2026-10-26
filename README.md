@@ -1,79 +1,95 @@
-# File Tree: MaucodeWeb
+# File Tree: maucodeweb
 
-**Generated:** 10/17/2026, 10:37:33 PM
-**Root Path:** `c:\Users\fm005\OneDrive\Desktop\MaucodeWeb`
+**Generated:** 10/26/2026, 2:26:27 AM
+**Root Path:** `c:\Users\fm005\OneDrive\Desktop\MaucodeWeb\maucodeweb`
 
 ```
-└── 📁 maucodeweb
-    ├── 📁 app
-    │   ├── 📁 about
-    │   │   ├── 📄 page.js
-    │   │   └── 🎨 page.module.css
-    │   ├── 📁 api
-    │   │   └── 📁 feedback
-    │   │       └── 📄 route.js
-    │   ├── 📁 webPage
-    │   │   ├── 📄 page.js
-    │   │   └── 🎨 page.module.css
-    │   ├── 📁 works
-    │   │   ├── 📁 [slug]
-    │   │   │   ├── 📁 [module]
-    │   │   │   │   ├── 📄 Moduleflow.js
-    │   │   │   │   ├── 🎨 Moduleflow.module.css
-    │   │   │   │   └── 📄 page.js
-    │   │   │   ├── 📄 ModuleCard.js
-    │   │   │   ├── 🎨 ModuleCard.module.css
-    │   │   │   ├── 📄 page.js
-    │   │   │   └── 🎨 page.module.css
-    │   │   ├── 📄 page.js
-    │   │   └── 🎨 page.module.css
-    │   ├── 🎨 globals.css
-    │   ├── 📄 layout.js
-    │   ├── 📄 not-found.js
-    │   ├── 🎨 not-found.module.css
-    │   ├── 📄 page.js
-    │   └── 🎨 page.module.css
-    ├── 📁 components
-    │   ├── 📁 ContactForm
-    │   │   ├── 📄 contactform.js
-    │   │   └── 🎨 contactform.module.css
-    │   ├── 📁 Footer
-    │   │   ├── 📄 footer.js
-    │   │   └── 🎨 footer.module.css
-    │   ├── 📁 Lesson
-    │   │   ├── 📄 icons.js
-    │   │   ├── 📄 lesson.js
-    │   │   └── 🎨 lesson.module.css
-    │   ├── 📁 Navigation
-    │   │   ├── 📄 navigation.js
-    │   │   └── 🎨 navigation.module.css
-    │   └── 📁 Notifications
-    │       ├── 📄 notifications.js
-    │       └── 🎨 notifications.module.css
-    ├── 📁 lib
-    │   ├── 📁 data
-    │   │   ├── 📄 modules.js
-    │   │   └── ⚙️ works.json
-    │   └── 📄 progress.js
-    ├── 📁 public
-    │   ├── 📄 LogoMC.ico
-    │   ├── 🖼️ LogoMC.jpg
-    │   ├── 🖼️ LogoMC.png
-    │   ├── 🖼️ LogoMC.svg
-    │   ├── 🖼️ fondAbout (1).png
-    │   ├── 🖼️ fondAbout (2).png
-    │   ├── 🖼️ fondMain (2).png
-    │   ├── 🖼️ fondMain (3).png
-    │   └── 🖼️ main.jpg
-    ├── ⚙️ .gitignore
-    ├── 📝 AGENTS.md
-    ├── 📝 CLAUDE.md
-    ├── 📝 README.md
-    ├── 📄 eslint.config.mjs
-    ├── ⚙️ jsconfig.json
-    ├── 📄 next.config.mjs
-    ├── ⚙️ package-lock.json
-    └── ⚙️ package.json
+├── 📁 app
+│   ├── 📁 about
+│   │   ├── 📄 page.js
+│   │   └── 🎨 page.module.css
+│   ├── 📁 admin
+│   │   ├── 📄 layout.js
+│   │   ├── 📄 page.js
+│   │   └── 🎨 page.module.css
+│   ├── 📁 api
+│   │   └── 📁 feedback
+│   │       └── 📄 route.js
+│   ├── 📁 login
+│   │   ├── 📄 layout.js
+│   │   ├── 📄 page.js
+│   │   └── 🎨 page.module.css
+│   ├── 📁 webPage
+│   │   ├── 📄 page.js
+│   │   └── 🎨 page.module.css
+│   ├── 📁 works
+│   │   ├── 📁 [slug]
+│   │   │   ├── 📁 [module]
+│   │   │   │   ├── 📄 Moduleflow.js
+│   │   │   │   ├── 🎨 Moduleflow.module.css
+│   │   │   │   └── 📄 page.js
+│   │   │   ├── 📄 ModuleCard.js
+│   │   │   ├── 🎨 ModuleCard.module.css
+│   │   │   ├── 📄 page.js
+│   │   │   └── 🎨 page.module.css
+│   │   ├── 📄 page.js
+│   │   └── 🎨 page.module.css
+│   ├── 🎨 globals.css
+│   ├── 📄 layout.js
+│   ├── 📄 not-found.js
+│   ├── 🎨 not-found.module.css
+│   ├── 📄 page.js
+│   └── 🎨 page.module.css
+├── 📁 components
+│   ├── 📁 AuthLink
+│   │   └── 📄 AuthLink.js
+│   ├── 📁 AuthProvider
+│   │   └── 📄 AuthProvider.js
+│   ├── 📁 ContactForm
+│   │   ├── 📄 contactform.js
+│   │   └── 🎨 contactform.module.css
+│   ├── 📁 Footer
+│   │   ├── 📄 footer.js
+│   │   └── 🎨 footer.module.css
+│   ├── 📁 Lesson
+│   │   ├── 📄 icons.js
+│   │   ├── 📄 lesson.js
+│   │   └── 🎨 lesson.module.css
+│   ├── 📁 Navigation
+│   │   ├── 📄 navigation.js
+│   │   └── 🎨 navigation.module.css
+│   ├── 📁 Notifications
+│   │   ├── 📄 notifications.js
+│   │   └── 🎨 notifications.module.css
+│   └── 📁 SignupBanner
+│       ├── 📄 SignupBanner.js
+│       └── 🎨 SignupBanner.module.css
+├── 📁 lib
+│   ├── 📁 data
+│   │   ├── 📄 modules.js
+│   │   └── ⚙️ works.json
+│   ├── 📄 config.js
+│   ├── 📄 firebase.js
+│   └── 📄 progress.js
+├── 📁 public
+│   ├── 📄 LogoMC.ico
+│   ├── 🖼️ LogoMC.jpg
+│   ├── 🖼️ LogoMC.png
+│   ├── 🖼️ LogoMC.svg
+│   ├── 🖼️ fondAbout (1).png
+│   ├── 🖼️ fondAbout (2).png
+│   ├── 🖼️ fondMain (2).png
+│   ├── 🖼️ fondMain (3).png
+│   └── 🖼️ main.jpg
+├── ⚙️ .gitignore
+├── 📝 AGENTS.md
+├── 📝 CLAUDE.md
+├── 📝 README.md
+├── 📄 eslint.config.mjs
+├── ⚙️ jsconfig.json
+├── 📄 next.config.mjs
+├── ⚙️ package-lock.json
+└── ⚙️ package.json
 ```
 
 ---

@@ -10,6 +10,18 @@ export function generateStaticParams() {
   return Object.keys(COURSES).map((slug) => ({ slug }));
 }
 
+export async function generateMetadata({ params }) {
+  const { slug } = await params;
+  const course = getCourse(slug);
+  if (!course) return {};
+
+  return {
+    title: `Apprendre ${course.software} : cours en ligne pour débutants`,
+    description: `${course.intro} Leçons illustrées, quiz et exercices corrigés avec Maucode.`,
+    alternates: { canonical: `/works/${slug}` },
+  };
+}
+
 export default async function CoursePage({ params }) {
   const { slug } = await params;
   const course = getCourse(slug);
@@ -38,6 +50,7 @@ export default async function CoursePage({ params }) {
             <ModuleCard key={m.slug} courseSlug={slug} moduleSlugs={moduleSlugs} index={i} module={m} />
           ))}
         </div>
+
         <CourseEnd course={slug} courseTitle={course.software} moduleSlugs={moduleSlugs} spaced />
       </section>
     </main>
