@@ -5,19 +5,14 @@ import Link from "next/link";
 import Image from "next/image";
 import styles from "./page.module.css";
 
-import ContactForm from "@/components/ContactForm/contactform";
-import {
-  whatsappLink,
-  WHATSAPP_FORMATION_MESSAGE,
-  WHATSAPP_SITE_MESSAGE,
-} from "@/lib/config";
-
+import ContactForm, { BESOIN_SITE } from "@/components/ContactForm/contactform";
+import { whatsappLink, WHATSAPP_SITE_MESSAGE } from "@/lib/config";
 /* =====================================================
    LES RÉALISATIONS
    Pour ajouter un site : copie un bloc dans la liste.
-   kind : "client" (projet client) ou "concept" (concept fictif)
-   image : mets "/realisations/nom.png" (fichier dans /public/realisations)
-           pour afficher une vraie capture d'écran, sinon laisse null.
+   kind  : "client" (projet client) ou "concept" (concept fictif)
+   image : "/realisations/nom.png" (fichier dans /public/realisations)
+           pour afficher une vraie capture d'écran, sinon null.
 ===================================================== */
 const SITES = [
   {
@@ -27,8 +22,8 @@ const SITES = [
     text: "Boutique en ligne avec panier et commande simple.",
     url: "https://roba-shop.vercel.app/",
     emoji: "🛍️",
-    from: "#3b5bff",
-    to: "#7a5cff",
+    from: "#1fa3ec",
+    to: "#6d7dff",
     image: null,
   },
   {
@@ -321,15 +316,14 @@ export default function Home() {
         <span className={styles.orb2} aria-hidden="true" />
 
         <div className={styles.heroContent} style={{ "--base": base }}>
-         
-          <h1 className={`${styles.heroTitle} ${styles.rise}`} style={{ "--i": 1 }}>
+          <h1 className={`${styles.heroTitle} ${styles.rise}`} style={{ "--i": 0 }}>
             Maîtrisez Office. <span>Lancez votre site.</span>
           </h1>
-          <p className={`${styles.heroText} ${styles.rise}`} style={{ "--i": 2 }}>
+          <p className={`${styles.heroText} ${styles.rise}`} style={{ "--i": 1 }}>
             La plateforme qui forme aux bases d&apos;Office et crée les sites web des
             entrepreneurs.
           </p>
-          <div className={`${styles.heroActions} ${styles.rise}`} style={{ "--i": 3 }}>
+          <div className={`${styles.heroActions} ${styles.rise}`} style={{ "--i": 2 }}>
             <Link href="/works" className={styles.btnPrimary}>
               Commencer une formation
             </Link>
@@ -340,7 +334,7 @@ export default function Home() {
           <a
             href="#realisations"
             className={`${styles.scrollHint} ${styles.rise}`}
-            style={{ "--i": 5 }}
+            style={{ "--i": 4 }}
           >
             Voir nos réalisations ↓
           </a>
@@ -565,7 +559,7 @@ export default function Home() {
                 <li>Mise en ligne et accompagnement</li>
               </ul>
               <Link href="/webPage" className={styles.serviceLink}>
-                Demander un site →
+                Découvrir la création de site →
               </Link>
             </Reveal>
           </div>
@@ -578,27 +572,25 @@ export default function Home() {
           <Reveal className={styles.ctaBox}>
             <h2>Votre site peut être le prochain de cette liste.</h2>
             <p>
-              Inscrivez-vous à une formation Office ou parlez-nous de votre projet de
-              site web. Nous vous répondons rapidement.
+              Dites-nous ce que vous voulez créer. Nous vous répondons sur WhatsApp.
             </p>
             <div className={styles.ctaActions}>
-              <ContactForm label="Écrire à Maucode" variant="primary" />
+              <ContactForm
+                label="Demander un site"
+                variant="primary"
+                defaultBesoin={BESOIN_SITE}
+              />
               <a
                 href={whatsappLink(WHATSAPP_SITE_MESSAGE)}
                 target="_blank"
                 rel="noopener noreferrer"
                 className={styles.btnGlass}
               >
-                Un site : WhatsApp
+                Écrire sur WhatsApp
               </a>
-              <a
-                href={whatsappLink(WHATSAPP_FORMATION_MESSAGE)}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={styles.btnGlass}
-              >
-                Une formation : WhatsApp
-              </a>
+              <Link href="/works" className={styles.btnGlass}>
+                Voir les formations
+              </Link>
             </div>
           </Reveal>
         </div>

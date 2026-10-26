@@ -1,19 +1,17 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { SESSION_PRICE } from "@/lib/config";
+import { SESSION_PRICE, WHATSAPP_NUMBER } from "@/lib/config";
 import styles from "./contactform.module.css";
-
-// Numéro WhatsApp Business : indicatif 225 + les 10 chiffres, sans "+" ni espaces
-const MAUCODE_WHATSAPP = "2250507189082";
 
 export const BESOIN_FORMATION = "Formation Office (Word, Excel, PowerPoint)";
 export const BESOIN_SEANCE = `Séance de formation poussée (${SESSION_PRICE})`;
+export const BESOIN_SITE = "Création de site web";
 
 const BESOINS = [
   BESOIN_FORMATION,
   BESOIN_SEANCE,
-  "Création de site web",
+  BESOIN_SITE,
   "Autre demande",
 ];
 
@@ -53,7 +51,7 @@ export default function ContactForm({
 
     // *texte* = gras dans WhatsApp
     const texte = [
-      "Bonjour MauCodeWeb 👋",
+      "Bonjour Maucode 👋",
       "",
       `*Nom :* ${form.nom.trim()}`,
       `*Besoin :* ${form.besoin}`,
@@ -61,7 +59,7 @@ export default function ContactForm({
       `*Message :* ${form.message.trim()}`,
     ].join("\n");
 
-    const url = `https://wa.me/${MAUCODE_WHATSAPP}?text=${encodeURIComponent(texte)}`;
+    const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(texte)}`;
 
     window.open(url, "_blank", "noopener,noreferrer");
     fermer();
