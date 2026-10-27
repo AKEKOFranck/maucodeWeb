@@ -4,6 +4,7 @@ import Link from "next/link";
 import { collection, getCountFromServer, getDocs } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { useAuth } from "@/components/AuthProvider/AuthProvider";
+import AnnouncementsAdmin from "@/components/Announcements/AnnouncementsAdmin";
 import { COURSES } from "@/lib/data/modules";
 import s from "./page.module.css";
 
@@ -108,7 +109,7 @@ export default function AdminPage() {
         <header className={s.header}>
           <span className={s.kicker}>Administration</span>
           <h1 className={s.title}>Tableau de bord</h1>
-          <p className={s.lead}>Suivi des apprenants et des quiz validés.</p>
+          <p className={s.lead}>Suivi des apprenants, des quiz validés et des annonces.</p>
         </header>
 
         <div className={s.kpis}>
@@ -125,6 +126,8 @@ export default function AdminPage() {
             <span className={s.kpiLabel}>module(s) validé(s)</span>
           </div>
         </div>
+
+        <AnnouncementsAdmin />
 
         {Object.entries(COURSES).map(([courseSlug, course]) => {
           const data = stats.byCourse[courseSlug];

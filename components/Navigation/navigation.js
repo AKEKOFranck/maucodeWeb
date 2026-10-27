@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import AnnouncementsBell from "@/components/Announcements/AnnouncementsBell";
 import AuthLink from "@/components/AuthLink/AuthLink";
 import styles from "./navigation.module.css";
 
@@ -46,6 +47,9 @@ export default function Navigation() {
               </Link>
             </li>
           ))}
+
+          {/* Annonces (cloche) : visible seulement s'il y en a */}
+          <AnnouncementsBell />
 
           {/* Connexion / Mon compte (et Admin pour toi uniquement) */}
           <AuthLink
