@@ -1,6 +1,6 @@
 # File Tree: maucodeweb
 
-**Generated:** 10/26/2026, 2:26:27 AM
+**Generated:** 10/27/2026, 6:39:20 AM
 **Root Path:** `c:\Users\fm005\OneDrive\Desktop\MaucodeWeb\maucodeweb`
 
 ```
@@ -39,8 +39,16 @@
 │   ├── 📄 not-found.js
 │   ├── 🎨 not-found.module.css
 │   ├── 📄 page.js
-│   └── 🎨 page.module.css
+│   ├── 🎨 page.module.css
+│   ├── 📄 robot.js
+│   └── 📄 sitemap.js
 ├── 📁 components
+│   ├── 📁 Announcements
+│   │   ├── 📄 AnnouncementsAdmin.js
+│   │   ├── 🎨 AnnouncementsAdmin.module.css
+│   │   ├── 📄 AnnouncementsBell.js
+│   │   ├── 🎨 AnnouncementsBell.module.css
+│   │   └── 📄 useAnnouncements.js
 │   ├── 📁 AuthLink
 │   │   └── 📄 AuthLink.js
 │   ├── 📁 AuthProvider
@@ -66,8 +74,11 @@
 │       └── 🎨 SignupBanner.module.css
 ├── 📁 lib
 │   ├── 📁 data
+│   │   ├── 📄 extra.js
+│   │   ├── 📄 merge.js
 │   │   ├── 📄 modules.js
 │   │   └── ⚙️ works.json
+│   ├── 📄 announcements.js
 │   ├── 📄 config.js
 │   ├── 📄 firebase.js
 │   └── 📄 progress.js

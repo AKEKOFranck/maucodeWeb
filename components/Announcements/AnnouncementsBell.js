@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import Link from "next/link";
-import { fetchAnnouncements, getSeen, markSeen } from "@/lib/announcements";
 import s from "./AnnouncementsBell.module.css";
 
 const fmtDate = (ms) =>
@@ -11,26 +10,12 @@ const fmtDate = (ms) =>
     ? new Date(ms).toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" })
     : "";
 
-export default function AnnouncementsBell() {
-  const [items, setItems] = useState(null);
-  const [seen, setSeen] = useState(0);
+export default function AnnouncementsBell({ items, seen, unread, onOpen }) {
   const [baseline, setBaseline] = useState(0); // ce qui était lu avant l'ouverture du panneau
   const [open, setOpen] = useState(false);
   const boxRef = useRef(null);
   const panelRef = useRef(null);
   const btnRef = useRef(null);
-
-  useEffect(() => {
-    let cancelled = false;
-    fetchAnnouncements().then((list) => {
-      if (cancelled) return;
-      setSeen(getSeen());
-      setItems(list);
-    });
-    return () => {
-      cancelled = true;
-    };
-  }, []);
 
   useEffect(() => {
     if (!open) return;
@@ -55,16 +40,12 @@ export default function AnnouncementsBell() {
   // Aucune annonce : pas de cloche
   if (!items || items.length === 0) return null;
 
-  const unread = items.filter((a) => a.createdAt > seen).length;
-
   function toggle() {
     const next = !open;
     setOpen(next);
     if (next) {
       setBaseline(seen);
-      const newest = items[0].createdAt;
-      markSeen(newest);
-      setSeen(newest);
+      onOpen(); // marque tout comme lu : les deux badges disparaissent
     }
   }
 

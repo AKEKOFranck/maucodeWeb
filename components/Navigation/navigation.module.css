@@ -79,6 +79,7 @@
 
 /* Bouton burger : caché sur desktop */
 .burger {
+  position: relative;
   display: none;
   margin-left: auto;
   width: 38px;
@@ -102,12 +103,46 @@
   transition: transform 0.25s ease;
 }
 
-.burger[aria-expanded="true"] span:first-child {
+.burger[aria-expanded="true"] span:first-of-type {
   transform: translateY(3.5px) rotate(45deg);
 }
 
-.burger[aria-expanded="true"] span:last-child {
+.burger[aria-expanded="true"] span:last-of-type {
   transform: translateY(-3.5px) rotate(-45deg);
+}
+
+/* Pastille de notification sur le burger (nombre d'annonces non lues) */
+.burgerBadge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #000;
+  border-radius: 999px;
+  background: #ff3b30;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1;
+  pointer-events: none;
+  animation: badgePop 0.3s ease;
+}
+
+@keyframes badgePop {
+  from {
+    transform: scale(0.4);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 @media (max-width: 640px) {
@@ -151,5 +186,9 @@
   .burger span,
   .list {
     transition: none;
+  }
+
+  .burgerBadge {
+    animation: none;
   }
 }
