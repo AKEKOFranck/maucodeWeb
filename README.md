@@ -1,6 +1,6 @@
 # File Tree: maucodeweb
 
-**Generated:** 10/27/2026, 6:39:20 AM
+**Generated:** 11/7/2026, 6:04:46 AM
 **Root Path:** `c:\Users\fm005\OneDrive\Desktop\MaucodeWeb\maucodeweb`
 
 ```
@@ -13,12 +13,22 @@
 │   │   ├── 📄 page.js
 │   │   └── 🎨 page.module.css
 │   ├── 📁 api
+│   │   ├── 📁 attestation
+│   │   │   └── 📄 route.js
 │   │   └── 📁 feedback
 │   │       └── 📄 route.js
+│   ├── 📁 attestation
+│   │   └── 📁 [slug]
+│   │       ├── 📄 page.js
+│   │       └── 🎨 page.module.css
 │   ├── 📁 login
 │   │   ├── 📄 layout.js
 │   │   ├── 📄 page.js
 │   │   └── 🎨 page.module.css
+│   ├── 📁 verification
+│   │   └── 📁 [token]
+│   │       ├── 📄 page.js
+│   │       └── 🎨 page.module.css
 │   ├── 📁 webPage
 │   │   ├── 📄 page.js
 │   │   └── 🎨 page.module.css
@@ -49,6 +59,12 @@
 │   │   ├── 📄 AnnouncementsBell.js
 │   │   ├── 🎨 AnnouncementsBell.module.css
 │   │   └── 📄 useAnnouncements.js
+│   ├── 📁 Attestation
+│   │   ├── 📄 Attestation.js
+│   │   └── 🎨 Attestation.module.css
+│   ├── 📁 AttestationPrompt
+│   │   ├── 📄 AttestationPrompt.js
+│   │   └── 🎨 AttestationPrompt.module.css
 │   ├── 📁 AuthLink
 │   │   └── 📄 AuthLink.js
 │   ├── 📁 AuthProvider
@@ -79,8 +95,12 @@
 │   │   ├── 📄 modules.js
 │   │   └── ⚙️ works.json
 │   ├── 📄 announcements.js
+│   ├── 📄 attestation.js
+│   ├── 📄 attestationServer.js
 │   ├── 📄 config.js
+│   ├── 📄 courseCatalog.js
 │   ├── 📄 firebase.js
+│   ├── 📄 firebaseAdmin.js
 │   └── 📄 progress.js
 ├── 📁 public
 │   ├── 📄 LogoMC.ico

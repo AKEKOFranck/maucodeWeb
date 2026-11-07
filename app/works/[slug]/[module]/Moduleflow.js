@@ -1,16 +1,26 @@
 "use client";
 
+import { useEffect } from "react";
 import Link from "next/link";
 import { Visual, Quiz, Exercise } from "@/components/Lesson/lesson";
 import { useAuth } from "@/components/AuthProvider/AuthProvider";
 import { useProgress, stateOf, isUnlocked, minToPass } from "@/lib/progress";
 import { FREE_MODULES_PER_COURSE } from "@/lib/config";
+import AttestationPrompt from "@/components/AttestationPrompt/AttestationPrompt";
+import { saveCourseInfo } from "@/lib/attestation";
 import pg from "../page.module.css";
 import s from "./Moduleflow.module.css";
 
 export default function ModuleFlow({ courseSlug, courseTitle, moduleSlugs, index, module: mod, prev, next }) {
   const { user, loading: authLoading } = useAuth();
   const { progress, ready, record } = useProgress();
+
+  /* Mémorise le titre et la liste des modules : la page d'attestation s'en sert */
+  const modulesKey = moduleSlugs.join(",");
+  useEffect(() => {
+    saveCourseInfo(courseSlug, courseTitle, moduleSlugs);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [courseSlug, courseTitle, modulesKey]);
 
   if (!ready || authLoading) {
     return (
@@ -67,6 +77,9 @@ export default function ModuleFlow({ courseSlug, courseTitle, moduleSlugs, index
   const afterLogin = encodeURIComponent(
     next ? `/works/${courseSlug}/${next.slug}` : `/works/${courseSlug}`
   );
+
+  /* Formation terminée = tous les modules du cours sont validés */
+  const courseDone = moduleSlugs.every((m) => stateOf(progress, courseSlug, m).done);
 
   return (
     <div className={pg.container}>
@@ -125,14 +138,21 @@ export default function ModuleFlow({ courseSlug, courseTitle, moduleSlugs, index
                 </div>
               </>
             ) : (
-              <div className={s.actions}>
-                {next ? (
-                  <Link href={`/works/${courseSlug}/${next.slug}`} className={s.btn}>Module suivant : {next.title} →</Link>
-                ) : (
-                  <Link href={`/works/${courseSlug}`} className={s.btn}>Terminer la formation →</Link>
+              <>
+                <div className={s.actions}>
+                  {next ? (
+                    <Link href={`/works/${courseSlug}/${next.slug}`} className={s.btn}>Module suivant : {next.title} →</Link>
+                  ) : (
+                    <Link href={`/works/${courseSlug}`} className={s.btn}>Terminer la formation →</Link>
+                  )}
+                  <Link href={`/works/${courseSlug}`} className={s.btnGhost}>Retour à la formation</Link>
+                </div>
+
+                {/* 5. Fin de formation : proposition d'attestation de réussite */}
+                {!next && courseDone && (
+                  <AttestationPrompt slug={courseSlug} courseTitle={courseTitle} />
                 )}
-                <Link href={`/works/${courseSlug}`} className={s.btnGhost}>Retour à la formation</Link>
-              </div>
+              </>
             )}
           </>
         ) : (
