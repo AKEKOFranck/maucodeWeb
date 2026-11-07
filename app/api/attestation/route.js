@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { Timestamp } from "firebase-admin/firestore";
-import { adminAuth, adminDb } from "@/lib/firebaseAdmin";
+import { adminDb } from "@/lib/firebaseAdmin";
 import { getCourse } from "@/lib/courseCatalog";
 import { isValidSlug, toolLabel, cleanName, maskName } from "@/lib/attestation";
 import { newToken, newReference } from "@/lib/attestationServer";
@@ -11,13 +11,33 @@ export const dynamic = "force-dynamic";
 const json = (body, status = 200) =>
   NextResponse.json(body, { status, headers: { "Cache-Control": "no-store" } });
 
-/* Identité : on vérifie le jeton Firebase de l'utilisateur, jamais un uid envoyé par le client */
+/* Identité : le jeton Firebase de l'utilisateur est vérifié par l'API officielle de Firebase
+   (Identity Toolkit), jamais un uid envoyé par le client. */
 async function getUid(request) {
   const m = (request.headers.get("authorization") || "").match(/^Bearer (.+)$/);
   if (!m) return null;
+
+  const apiKey = process.env.NEXT_PUBLIC_FIREBASE_API_KEY;
+  if (!apiKey) return null;
+
   try {
-    const decoded = await adminAuth().verifyIdToken(m[1]);
-    return decoded.uid;
+    const res = await fetch(
+      `https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=${encodeURIComponent(apiKey)}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Referer: process.env.NEXT_PUBLIC_SITE_URL || "https://maucode-web.vercel.app",
+        },
+        body: JSON.stringify({ idToken: m[1] }),
+        cache: "no-store",
+      }
+    );
+    if (!res.ok) return null;
+    const data = await res.json();
+    const user = data?.users?.[0];
+    if (!user || user.disabled) return null;
+    return user.localId; // uid Firebase
   } catch {
     return null;
   }
