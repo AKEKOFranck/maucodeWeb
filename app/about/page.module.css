@@ -1,8 +1,12 @@
+/* =====================================================
+   À PROPOS : thème console, calme (l'audace est dans le Hub)
+===================================================== */
+
 .main {
   width: 100%;
-  height: 100%;
   display: flex;
   flex-direction: column;
+  color: var(--text);
 }
 
 .container {
@@ -15,213 +19,225 @@
 /* ---------- 1. Présentation ---------- */
 .presentation {
   position: relative;
-  min-height: 80vh;
-  min-height: 80svh;
+  min-height: 70vh;
+  min-height: 70svh;
   display: flex;
   align-items: flex-end;
   overflow: hidden;
-  background: var(--black);
-  color: var(--white);
+  isolation: isolate;
+  background: var(--bg);
 }
 
 .heroImage {
   object-fit: cover;
+  z-index: -2;
   animation: heroZoom 14s var(--ease) both;
 }
 
 .heroShade {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
+  z-index: -1;
+  background:
+    linear-gradient(
       to top,
-      rgba(5, 7, 10, 0.92) 5%,
-      rgba(5, 7, 10, 0.45) 55%,
-      rgba(5, 7, 10, 0.25) 100%
+      var(--bg) 4%,
+      rgba(7, 10, 18, 0.62) 50%,
+      rgba(7, 10, 18, 0.4) 100%
     ),
-    linear-gradient(100deg, rgba(76, 195, 255, 0.22), transparent 55%);
+    linear-gradient(100deg, rgba(0, 128, 255, 0.26), transparent 55%);
 }
 
 .heroContent {
-  position: relative;
-  z-index: 1;
   width: 100%;
   max-width: var(--container-width);
   margin: 0 auto;
-  padding: 120px 24px 80px;
+  padding: 7.5rem 24px 4.5rem;
 }
 
 .heroTitle,
 .heroText {
-  animation: rise 1s var(--ease) both;
-  animation-delay: calc(var(--i) * 0.16s + 0.2s);
-}
-
-.heroTitle {
-  font-size: clamp(2.6rem, 7vw, 5.6rem);
-  line-height: 1.02;
-  font-weight: 800;
-  letter-spacing: -0.035em;
-  max-width: 16ch;
+  animation: rise 0.9s var(--ease) both;
 }
 
 .heroText {
-  margin-top: 28px;
+  animation-delay: 0.14s;
+}
+
+.heroTitle {
+  font-size: clamp(2.4rem, 7vw, 5rem);
+  line-height: 1.04;
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  max-width: 18ch;
+  color: #fff;
+}
+
+.heroText {
+  margin-top: 24px;
   max-width: 52ch;
   font-size: clamp(1.05rem, 1.6vw, 1.25rem);
   line-height: 1.6;
-  color: var(--text-on-dark);
+  color: var(--text-muted);
 }
 
 @keyframes heroZoom {
-  from {
-    transform: scale(1.12);
-  }
-  to {
-    transform: scale(1);
-  }
+  from { transform: scale(1.1); }
+  to { transform: scale(1); }
 }
 
 @keyframes rise {
-  from {
-    opacity: 0;
-    transform: translateY(36px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 /* ---------- 2. Fonctionnement ---------- */
 .fonctionnement {
-  background: var(--black);
-  color: var(--white);
-  padding: 120px 0;
+  padding: 100px 0;
 }
 
 .fonctionnementGrid {
   display: grid;
   grid-template-columns: 1fr 1.2fr;
-  gap: 72px;
+  gap: 64px;
   align-items: start;
 }
 
 .fonctionnementTitle {
   position: sticky;
-  top: 96px;
-  font-size: clamp(2rem, 4.4vw, 3.6rem);
+  top: 7rem;
+  font-size: clamp(1.9rem, 4.2vw, 3.2rem);
   line-height: 1.1;
   letter-spacing: -0.03em;
   font-weight: 800;
+  color: #fff;
 }
 
 .infoList {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 16px;
+  list-style: none;
 }
 
+/* Cartes décoratives : verre dépoli, aucun effet de survol */
 .infoCard {
-  background: var(--black-soft);
-  border-radius: var(--card-radius);
-  padding: 40px 36px;
-  transition: background 0.5s var(--ease), color 0.5s var(--ease),
-    transform 0.5s var(--ease);
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 32px 30px;
+  border-radius: var(--card-radius, 24px);
+}
+
+.infoIcon {
+  flex-shrink: 0;
+  width: 52px;
+  height: 52px;
+  display: grid;
+  place-items: center;
+  border-radius: 16px;
+  font-size: 24px;
+  background: var(--primary);
+  color: var(--black);
 }
 
 .infoCard h3 {
-  font-size: 1.5rem;
-  margin-bottom: 14px;
+  font-size: 1.3rem;
+  color: #fff;
+  margin-bottom: 10px;
 }
 
 .infoCard p {
   line-height: 1.7;
-  color: var(--text-on-dark);
-  transition: color 0.5s var(--ease);
-}
-
-.infoCard:hover {
-  background: var(--primary);
-  color: var(--black);
-  transform: translateX(8px);
-}
-.infoCard:hover p {
-  color: var(--black);
+  color: var(--text-muted);
 }
 
 /* ---------- 3. Invitation ---------- */
 .invitation {
-  background: var(--primary-light);
-  padding: 120px 0;
+  padding: 20px 0 110px;
 }
 
 .inviteBox {
-  background: var(--primary);
-  border-radius: 48px;
-  padding: clamp(40px, 7vw, 96px);
-  position: relative;
-  overflow: hidden;
-}
-
-.inviteBox::after {
-  content: "";
-  position: absolute;
-  right: -120px;
-  bottom: -160px;
-  width: 460px;
-  height: 460px;
-  border-radius: 50%;
-  background: var(--black);
-  animation: float 9s ease-in-out infinite alternate;
+  padding: clamp(36px, 7vw, 88px);
+  border: 1px solid var(--line);
+  border-radius: 40px;
+  background: radial-gradient(
+    circle at 85% 0%,
+    rgba(0, 128, 255, 0.36) 0%,
+    var(--bg-elevated) 55%,
+    var(--bg) 100%
+  );
+  box-shadow: 0 28px 70px rgba(0, 0, 0, 0.4);
 }
 
 .inviteBox h2 {
-  position: relative;
-  z-index: 1;
-  font-size: clamp(2.2rem, 5.2vw, 4.4rem);
-  line-height: 1.04;
+  max-width: 14ch;
+  font-size: clamp(2.1rem, 5vw, 3.8rem);
+  line-height: 1.05;
   letter-spacing: -0.035em;
   font-weight: 800;
-  max-width: 14ch;
+  color: #fff;
 }
 
 .inviteBox p {
-  position: relative;
-  z-index: 1;
-  margin-top: 24px;
+  margin-top: 22px;
   max-width: 50ch;
-  font-size: 1.15rem;
+  font-size: 1.1rem;
   line-height: 1.65;
+  color: var(--text-muted);
 }
 
-@keyframes float {
-  from {
-    transform: translate(0, 0) scale(1);
-  }
-  to {
-    transform: translate(-40px, -30px) scale(1.08);
+.inviteActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  margin-top: 36px;
+}
+
+.btnGlass {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 14px 28px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  font-weight: 700;
+  font-size: 1rem;
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  transition: background 0.3s var(--ease);
+}
+
+.btnGlass:hover {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+/* ---------- Apparition au scroll (seulement si le mouvement est autorisé) ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .fonctionnementTitle,
+    .infoCard,
+    .inviteBox {
+      animation: reveal linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 40%;
+    }
+
+    @keyframes reveal {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
   }
 }
 
-/* ---------- Apparition au scroll ---------- */
-@supports (animation-timeline: view()) {
-  .fonctionnementTitle,
-  .infoCard,
-  .inviteBox {
-    animation: reveal linear both;
-    animation-timeline: view();
-    animation-range: entry 0% entry 40%;
-  }
-
-  @keyframes reveal {
-    from {
-      opacity: 0;
-      transform: translateY(60px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+@media (prefers-reduced-motion: reduce) {
+  .heroImage,
+  .heroTitle,
+  .heroText {
+    animation: none;
   }
 }
 
@@ -229,16 +245,29 @@
 @media (max-width: 960px) {
   .fonctionnementGrid {
     grid-template-columns: 1fr;
-    gap: 40px;
+    gap: 36px;
   }
   .fonctionnementTitle {
     position: static;
   }
-  .fonctionnement,
+  .fonctionnement {
+    padding: 70px 0;
+  }
   .invitation {
-    padding: 80px 0;
+    padding: 10px 0 80px;
+  }
+}
+
+@media (max-width: 600px) {
+  .heroContent {
+    padding-top: 6.5rem;
+    padding-bottom: 3rem;
   }
   .infoCard {
-    padding: 32px 26px;
+    padding: 26px 22px;
+    gap: 16px;
+  }
+  .inviteActions > * {
+    flex: 1 1 100%;
   }
 }

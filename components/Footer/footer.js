@@ -11,23 +11,14 @@ import { RiCustomerService2Line } from "react-icons/ri";
 import {
   INSTAGRAM_URL,
   CONTACT_EMAIL,
+  ORIGINAL_PLATFORM_URL,
   WHATSAPP_FORMATION_MESSAGE,
   WHATSAPP_SITE_MESSAGE,
+  NAV_LINKS,
   whatsappLink,
 } from "@/lib/config";
 
 import styles from "./footer.module.css";
-
-/* =====================================================
-   NAVIGATION DU FOOTER
-===================================================== */
-
-const footerNavigation = [
-  { id: 1, label: "Accueil", href: "/" },
-  { id: 2, label: "Création Web", href: "/webPage" },
-  { id: 3, label: "Formations", href: "/works" },
-  { id: 4, label: "À propos", href: "/about" },
-];
 
 /* =====================================================
    RÉSEAUX SOCIAUX
@@ -95,7 +86,7 @@ export default function Footer() {
               className={styles.footerLogoLink}
               aria-label="MauCodeWeb - Accueil"
             >
-              <div className={styles.logoMark}>
+              <div className={styles.logoMark} aria-hidden="true">
                 <span></span>
                 <span></span>
                 <span></span>
@@ -134,7 +125,7 @@ export default function Footer() {
                     title={social.label}
                     className={styles.socialLink}
                   >
-                    <Icon />
+                    <Icon aria-hidden="true" />
                   </a>
                 );
               })}
@@ -142,24 +133,24 @@ export default function Footer() {
           </div>
 
           {/* EXPLORER */}
-          <div className={styles.footerColumn}>
+          <nav className={styles.footerColumn} aria-label="Pied de page">
             <h3>Explorer MauCodeWeb</h3>
 
             <span className={styles.blueLine}></span>
 
             <div className={styles.footerNavigation}>
-              {footerNavigation.map((item) => (
+              {NAV_LINKS.map((item) => (
                 <Link
-                  key={item.id}
+                  key={item.href}
                   href={item.href}
                   className={styles.footerNavLink}
                 >
                   <span>{item.label}</span>
-                  <FiArrowUpRight />
+                  <FiArrowUpRight aria-hidden="true" />
                 </Link>
               ))}
             </div>
-          </div>
+          </nav>
 
         </div>
 
@@ -170,12 +161,12 @@ export default function Footer() {
           </span>
 
           <a
-            href="https://maucode2.vercel.app/"
+            href={ORIGINAL_PLATFORM_URL}
             target="_blank"
             rel="noopener noreferrer"
           >
             <span>Découvrir MauCode</span>
-            <FiArrowUpRight />
+            <FiArrowUpRight aria-hidden="true" />
           </a>
         </div>
 

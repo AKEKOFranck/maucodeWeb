@@ -7,11 +7,19 @@ import {
   FiFileText,
   FiCreditCard,
   FiLayout,
-  FiExternalLink,
 } from "react-icons/fi";
 
-import ContactForm from "@/components/ContactForm/contactform";
+import ContactForm, { BESOIN_SITE } from "@/components/ContactForm/contactform";
+import RealisationsRail from "./RealisationsRail";
 import styles from "./page.module.css";
+
+/* Référencement : titre et description propres à cette page */
+export const metadata = {
+  title: "Création de site web à Abidjan",
+  description:
+    "Création de sites vitrines et de boutiques en ligne à Abidjan : clairs, rapides, faciles à gérer, avec mise en ligne et accompagnement.",
+  alternates: { canonical: "/webPage" },
+};
 
 /* =====================================================
    DONNÉES
@@ -23,10 +31,11 @@ const hero = {
     "Nous concevons des sites vitrines et des boutiques en ligne clairs, rapides, et pensés pour rester faciles à gérer au quotidien. Uniquement ce dont votre activité a vraiment besoin.",
 };
 
+/* tint : couleur de la carte, en "R, G, B" */
 const offers = [
   {
     id: "vitrine",
-    theme: "light",
+    tint: "0, 128, 255",
     icon: FiGlobe,
     title: "Site vitrine",
     subtitle: "Présenter votre activité et être contacté facilement",
@@ -43,7 +52,7 @@ const offers = [
   },
   {
     id: "ecommerce",
-    theme: "dark",
+    tint: "124, 58, 237",
     icon: FiShoppingBag,
     title: "Boutique e-commerce",
     subtitle: "Présenter vos produits et centraliser les commandes",
@@ -91,6 +100,7 @@ const steps = [
   },
 ];
 
+/* from/to : couleurs de la tuile et de la lueur de fond. emoji : visuel de la tuile. */
 const realisations = [
   {
     id: 1,
@@ -99,6 +109,9 @@ const realisations = [
     category: "Vitrine + commande",
     description:
       "Un food truck à Abidjan qui présente son menu et reçoit ses commandes directement, sans complexité côté client.",
+    emoji: "🚚",
+    from: "#ca8a04",
+    to: "#f2c94c",
   },
   {
     id: 2,
@@ -107,6 +120,9 @@ const realisations = [
     category: "Site vitrine",
     description:
       "Une association qui présente sa mission, ses actions et son impact, avec un contact direct.",
+    emoji: "🤝",
+    from: "#d9731e",
+    to: "#f0a24b",
   },
   {
     id: 3,
@@ -115,6 +131,9 @@ const realisations = [
     category: "Boutique en ligne",
     description:
       "Une parfumerie basée à Abidjan qui présente son catalogue de fragrances et centralise les demandes clients.",
+    emoji: "🛍️",
+    from: "#1fa3ec",
+    to: "#6d7dff",
   },
   {
     id: 4,
@@ -123,6 +142,9 @@ const realisations = [
     category: "Boutique en ligne",
     description:
       "Une boutique de cosmétiques qui met en avant sa gamme de produits et ses points de contact.",
+    emoji: "💄",
+    from: "#e0559b",
+    to: "#f08bb8",
   },
 ];
 
@@ -133,7 +155,6 @@ const realisations = [
 function HeroSection() {
   return (
     <section className={styles.hero}>
-      
       <div className={styles.heroInner}>
         <h1 className={styles.heroTitle} style={{ "--i": 0 }}>
           {hero.title}
@@ -145,8 +166,11 @@ function HeroSection() {
           <ContactForm
             label="Demander mon site"
             variant="primary"
-            defaultBesoin="Création de site web"
+            defaultBesoin={BESOIN_SITE}
           />
+          <a href="#realisations" className={styles.btnGlass}>
+            Voir les réalisations
+          </a>
         </div>
       </div>
     </section>
@@ -171,13 +195,10 @@ function OffersSection() {
             return (
               <article
                 key={offer.id}
-                className={`${styles.offerCard} ${
-                  offer.theme === "dark"
-                    ? styles.offerDark
-                    : styles.offerLight
-                }`}
+                className={styles.offerCard}
+                style={{ "--tint": offer.tint }}
               >
-                <div className={styles.offerIcon}>
+                <div className={styles.offerIcon} aria-hidden="true">
                   <Icon />
                 </div>
 
@@ -194,7 +215,7 @@ function OffersSection() {
                 <ul className={styles.list}>
                   {offer.included.map((item) => (
                     <li key={item}>
-                      <FiCheck className={styles.iconYes} />
+                      <FiCheck className={styles.iconYes} aria-hidden="true" />
                       <span>{item}</span>
                     </li>
                   ))}
@@ -204,7 +225,7 @@ function OffersSection() {
                 <ul className={`${styles.list} ${styles.listMuted}`}>
                   {offer.notIncluded.map((item) => (
                     <li key={item}>
-                      <FiX className={styles.iconNo} />
+                      <FiX className={styles.iconNo} aria-hidden="true" />
                       <span>{item}</span>
                     </li>
                   ))}
@@ -230,20 +251,27 @@ function ProcessSection() {
           </p>
         </div>
 
-        <ul className={styles.stepsGrid}>
-          {steps.map((step) => {
+        {/* Liste numérotée : ici l'ordre compte vraiment (entretien, contrat, acompte, conception) */}
+        <ol className={styles.stepsGrid}>
+          {steps.map((step, i) => {
             const Icon = step.icon;
             return (
               <li key={step.title} className={styles.stepCard}>
-                <span className={styles.stepIcon}>
-                  <Icon />
-                </span>
+                <div className={styles.stepTop}>
+                  <span className={styles.stepIcon} aria-hidden="true">
+                    <Icon />
+                  </span>
+                  <span className={styles.stepNum}>
+                    <span className="sr-only">Étape </span>
+                    {i + 1}
+                  </span>
+                </div>
                 <h3>{step.title}</h3>
                 <p>{step.description}</p>
               </li>
             );
           })}
-        </ul>
+        </ol>
       </div>
     </section>
   );
@@ -251,7 +279,7 @@ function ProcessSection() {
 
 function RealisationsSection() {
   return (
-    <section className={styles.realisations}>
+    <section id="realisations" className={styles.realisations}>
       <div className={styles.container}>
         <div className={styles.sectionHead}>
           <h2 className={styles.sectionTitle}>Nos réalisations</h2>
@@ -260,27 +288,7 @@ function RealisationsSection() {
           </p>
         </div>
 
-        <div className={styles.realisationsGrid}>
-          {realisations.map((site) => (
-            <a
-              key={site.id}
-              href={site.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={styles.realisationCard}
-            >
-              <span className={styles.realisationCategory}>
-                {site.category}
-              </span>
-              <h3>{site.name}</h3>
-              <p>{site.description}</p>
-              <span className={styles.realisationLink}>
-                Voir le site
-                <FiExternalLink />
-              </span>
-            </a>
-          ))}
-        </div>
+        <RealisationsRail items={realisations} />
       </div>
     </section>
   );
@@ -294,13 +302,14 @@ function ContactCta() {
           <h2>Discutons de votre projet</h2>
           <p>
             Un premier échange suffit pour cerner votre besoin. Remplissez le
-            petit formulaire : votre demande part par Gmail vers l&apos;équipe
+            petit formulaire : votre demande part sur WhatsApp vers l&apos;équipe
             Maucode.
           </p>
           <div className={styles.ctaActions}>
             <ContactForm
               label="Écrire à Maucode"
-              defaultBesoin="Création de site web"
+              variant="primary"
+              defaultBesoin={BESOIN_SITE}
             />
           </div>
         </div>

@@ -1,30 +1,44 @@
+/* =====================================================
+   DOCUMENT D'ATTESTATION (A4 paysage, imprimable)
+   Le site est sombre, mais ce document est une feuille de papier :
+   toutes les couleurs sont écrites ici en dur (pas de variables du thème),
+   sinon le texte clair du thème deviendrait invisible sur le papier blanc.
+===================================================== */
 .sheet {
+  --paper: #ffffff;
+  --ink: #05070a;
+  --ink-body: #1c2433;
+  --ink-soft: #4a5568;
+  --ink-faint: #5b6675;
+  --rule: #d5dbe3;
+  --brand: #1fa3ec;
+
   width: 297mm;
   height: 210mm;
   max-width: 100%;
   margin: 0 auto;
-  background: var(--white);
-  color: var(--text-primary);
-  box-shadow: 0 12px 40px rgba(5, 7, 10, 0.18);
   padding: 9mm;
   box-sizing: border-box;
+  background: var(--paper);
+  color: var(--ink-body);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
   font-family: var(--font-plus-jakarta), Arial, Helvetica, sans-serif;
   -webkit-print-color-adjust: exact;
   print-color-adjust: exact;
 }
 
 .frame {
+  position: relative;
   height: 100%;
-  border: 2px solid var(--black);
-  outline: 1.5px solid var(--primary);
-  outline-offset: -7px;
-  padding: 9mm 16mm 8mm;
-  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   align-items: center;
+  box-sizing: border-box;
+  padding: 9mm 16mm 8mm;
+  border: 2px solid var(--ink);
+  outline: 1.5px solid var(--brand);
+  outline-offset: -7px;
   text-align: center;
-  position: relative;
 }
 
 .frame::before {
@@ -34,7 +48,7 @@
   left: 0;
   right: 0;
   height: 6px;
-  background: var(--primary);
+  background: var(--brand);
 }
 
 .header {
@@ -44,8 +58,8 @@
 }
 
 .logo {
-  object-fit: contain;
   height: auto;
+  object-fit: contain;
 }
 
 .brand {
@@ -53,13 +67,13 @@
   font-size: 18px;
   letter-spacing: 0.32em;
   font-weight: 800;
-  color: var(--black);
+  color: var(--ink);
 }
 
 .tagline {
   margin: 2px 0 0;
   font-size: 10px;
-  color: var(--text-secondary);
+  color: var(--ink-soft);
 }
 
 .title {
@@ -68,58 +82,59 @@
   font-weight: 800;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--black);
+  color: var(--ink);
 }
 
 .rule {
   width: 110px;
   height: 4px;
-  border-radius: 4px;
-  background: var(--primary);
   margin-bottom: 12px;
+  border-radius: 4px;
+  background: var(--brand);
 }
 
 .lead {
   margin: 0;
   font-size: 14px;
-  color: var(--text-secondary);
+  color: var(--ink-soft);
 }
 
 .name {
+  max-width: 90%;
   margin: 6px 0 10px;
+  padding: 0 28px 5px;
+  border-bottom: 2px solid var(--brand);
   font-size: 31px;
   font-weight: 800;
-  color: var(--black);
-  border-bottom: 2px solid var(--primary);
-  padding: 0 28px 5px;
-  max-width: 90%;
+  color: var(--ink);
   overflow-wrap: anywhere;
 }
 
 .body {
-  margin: 0;
   max-width: 175mm;
+  margin: 0;
   font-size: 14px;
   line-height: 1.65;
-  color: var(--text-primary);
+  color: var(--ink-body);
 }
 
 .meta {
-  margin-top: auto;
-  width: 100%;
   display: grid;
   grid-template-columns: 1fr 1fr 1.2fr;
+  align-items: end;
   gap: 14px;
+  width: 100%;
+  margin-top: auto;
   font-size: 12.5px;
   font-weight: 600;
-  align-items: end;
+  color: var(--ink-body);
 }
 
 .meta > div {
   display: flex;
   flex-direction: column;
-  gap: 3px;
   align-items: center;
+  gap: 3px;
 }
 
 .label {
@@ -127,14 +142,14 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.14em;
-  color: var(--text-light);
+  color: var(--ink-faint);
 }
 
 .signLine {
   display: block;
   width: 130px;
   height: 34px;
-  border-bottom: 1.5px solid var(--black);
+  border-bottom: 1.5px solid var(--ink);
 }
 
 .verify {
@@ -145,9 +160,9 @@
   width: 24mm;
   height: 24mm;
   padding: 1.5mm;
-  background: #fff;
-  border: 1px solid var(--border);
   box-sizing: border-box;
+  background: #fff;
+  border: 1px solid var(--rule);
 }
 
 .qr {
@@ -159,17 +174,17 @@
 .ref {
   font-family: "Courier New", monospace;
   font-weight: 700;
-  color: var(--black);
+  color: var(--ink);
 }
 
 .legal {
+  max-width: 225mm;
   margin: 10px 0 0;
+  padding-top: 6px;
+  border-top: 1px solid var(--rule);
   font-size: 9px;
   line-height: 1.45;
-  color: var(--text-secondary);
-  max-width: 225mm;
-  border-top: 1px solid var(--border);
-  padding-top: 6px;
+  color: var(--ink-soft);
 }
 
 @media (max-width: 1100px) {

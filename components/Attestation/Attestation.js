@@ -28,6 +28,9 @@ export default function Attestation({ name, tool, reference, date, verifyUrl }) 
       <style>{`
         @page { size: A4 landscape; margin: 0; }
         @media print {
+          /* Le site est sombre : à l'impression, fond blanc et pas de lueur d'ambiance */
+          html, body { background: #fff !important; }
+          body::before { display: none !important; }
           body * { visibility: hidden !important; }
           [data-attestation], [data-attestation] * { visibility: visible !important; }
           [data-attestation] {

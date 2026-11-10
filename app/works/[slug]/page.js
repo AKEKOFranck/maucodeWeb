@@ -4,6 +4,7 @@ import { COURSES, getCourse } from "@/lib/data/modules";
 import { Icon } from "@/components/Lesson/icons";
 import { CourseEnd } from "@/components/Lesson/lesson";
 import ModuleCard from "./ModuleCard";
+import CourseProgress from "./CourseProgress";
 import styles from "./page.module.css";
 
 export function generateStaticParams() {
@@ -30,26 +31,32 @@ export default async function CoursePage({ params }) {
   const moduleSlugs = course.modules.map((m) => m.slug);
 
   return (
-    <main className={styles.page} style={{ "--accent": course.accent }}>
+    <main className={styles.page} style={{ "--course": course.accent }}>
       <section className={styles.hero}>
         <div className={styles.container}>
-          <Link href="/works" className={styles.back}>← Toutes les formations</Link>
+          <Link href="/works" className={styles.back}>
+            ← Toutes les formations
+          </Link>
           <div>
-            <span className={styles.badge} style={{ color: course.accent, background: `${course.accent}1A` }}>
+            <span className={styles.badge}>
               <Icon name={course.icon} /> {course.software}
             </span>
           </div>
           <h1 className={styles.heroTitle}>{course.title}</h1>
           <p className={styles.heroLead}>{course.intro}</p>
+          <CourseProgress courseSlug={slug} moduleSlugs={moduleSlugs} />
         </div>
       </section>
 
       <section className={styles.container}>
-        <div className={styles.modulesGrid}>
+        <h2 className={styles.levelsTitle}>Les modules du cours</h2>
+        <ol className={styles.levels}>
           {course.modules.map((m, i) => (
-            <ModuleCard key={m.slug} courseSlug={slug} moduleSlugs={moduleSlugs} index={i} module={m} />
+            <li key={m.slug}>
+              <ModuleCard courseSlug={slug} moduleSlugs={moduleSlugs} index={i} module={m} />
+            </li>
           ))}
-        </div>
+        </ol>
 
         <CourseEnd course={slug} courseTitle={course.software} moduleSlugs={moduleSlugs} spaced />
       </section>

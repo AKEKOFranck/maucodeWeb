@@ -1,0 +1,284 @@
+/* =====================================================
+   RANGÉE DE RÉALISATIONS (Studio)
+   Même logique que le Hub : la tuile active grossit et le fond change de couleur.
+===================================================== */
+
+.stage {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: 1.2rem 1.5rem 1.8rem;
+  border: 1px solid var(--line);
+  border-radius: 32px;
+  background: rgba(13, 18, 32, 0.6);
+}
+
+.ambient {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.glow {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.7s var(--ease);
+  background:
+    radial-gradient(
+      60% 70% at 70% 30%,
+      color-mix(in srgb, var(--from) 50%, transparent),
+      transparent 70%
+    ),
+    radial-gradient(
+      50% 60% at 15% 85%,
+      color-mix(in srgb, var(--to) 32%, transparent),
+      transparent 70%
+    );
+}
+
+.glowOn {
+  opacity: 1;
+}
+
+/* ---------- Rangée ---------- */
+.rail {
+  display: flex;
+  gap: 1.2rem;
+  padding: 2rem 0.9rem 2.4rem;
+  margin: 0 -0.9rem;
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  scrollbar-width: none;
+}
+
+.rail::-webkit-scrollbar {
+  display: none;
+}
+
+.tile {
+  position: relative;
+  flex: 0 0 clamp(200px, 22vw, 250px);
+  aspect-ratio: 4 / 5;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 1.2rem;
+  border-radius: 22px;
+  background: linear-gradient(155deg, var(--from), var(--to));
+  color: #fff;
+  overflow: hidden;
+  scroll-snap-align: center;
+  opacity: 0.7;
+  transform: scale(0.96);
+  transition:
+    transform 0.25s var(--ease),
+    opacity 0.25s var(--ease),
+    box-shadow 0.25s var(--ease);
+}
+
+/* Reflet en haut + ombre en bas pour garder le texte lisible */
+.tile::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(120% 70% at 0% 0%, rgba(255, 255, 255, 0.28), transparent 55%),
+    linear-gradient(180deg, transparent 38%, rgba(0, 0, 0, 0.62) 100%);
+  pointer-events: none;
+}
+
+.tile > * {
+  position: relative;
+}
+
+.tileActive {
+  opacity: 1;
+  z-index: 2;
+  transform: scale(1.08);
+  box-shadow:
+    0 0 0 3px var(--accent-bright),
+    0 18px 40px rgba(0, 0, 0, 0.5),
+    0 0 46px color-mix(in srgb, var(--from) 55%, transparent);
+}
+
+.tile:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: 4px;
+}
+
+.browserBar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 0.55rem 0.8rem;
+  background: rgba(255, 255, 255, 0.2);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+
+.browserBar i {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.browserBar span {
+  margin-left: 0.4rem;
+  padding: 0.15rem 0.7rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.92);
+  color: #05070a;
+  font-size: 0.7rem;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tileEmoji {
+  margin: auto;
+  font-size: 4.2rem;
+  line-height: 1;
+  filter: drop-shadow(0 8px 14px rgba(0, 0, 0, 0.3));
+}
+
+.tileName {
+  font-size: 1.2rem;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+.tileMeta {
+  margin-top: 0.25rem;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.hint {
+  display: none;
+  margin: -1rem 0 0.8rem;
+  font-size: 0.85rem;
+  color: var(--text-faint);
+}
+
+@media (hover: hover) and (min-width: 861px) {
+  .hint {
+    display: block;
+  }
+}
+
+/* ---------- Panneau de détail ---------- */
+.panel {
+  max-width: 46rem;
+  padding: 1.6rem 1.8rem;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.panelBody {
+  animation: panelIn 0.3s var(--ease) both;
+}
+
+@keyframes panelIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.3rem 0.85rem;
+  border-radius: 999px;
+  background: var(--primary);
+  color: var(--black);
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+.panelBody h3 {
+  margin-top: 0.9rem;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  color: #fff;
+}
+
+.panelBody p {
+  max-width: 52ch;
+  margin-top: 0.6rem;
+  line-height: 1.65;
+  color: var(--text-muted);
+}
+
+.panelActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.8rem;
+  margin-top: 1.4rem;
+}
+
+.btnPrimary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 16px 30px;
+  border-radius: 999px;
+  background: var(--primary);
+  color: var(--black);
+  font-weight: 700;
+  font-size: 1rem;
+  transition:
+    transform 0.3s var(--ease),
+    box-shadow 0.3s var(--ease);
+}
+
+.btnPrimary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 34px rgba(76, 195, 255, 0.45);
+}
+
+/* ---------- Mobile ---------- */
+@media (max-width: 860px) {
+  .stage {
+    padding: 0.8rem 1rem 1.4rem;
+    border-radius: 26px;
+  }
+
+  .tile {
+    flex-basis: min(62vw, 240px);
+  }
+
+  .panel {
+    padding: 1.3rem 1.2rem;
+  }
+}
+
+@media (max-width: 520px) {
+  .panelActions > * {
+    flex: 1 1 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tile,
+  .tileActive {
+    transform: none;
+  }
+}

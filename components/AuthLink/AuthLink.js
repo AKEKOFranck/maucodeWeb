@@ -3,17 +3,16 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useAuth } from "@/components/AuthProvider/AuthProvider";
 
-// Même identifiant que dans la fonction isAdmin() des règles Firestore
-const ADMIN_UID = "HxyKb9Dwh1UFUpbcEdXFp4fvY1J2";
-
+/* Le lien « Admin » n'est qu'un confort d'affichage : l'accès réel est
+   contrôlé par les règles Firestore (custom claim "admin"). */
 export default function AuthLink({ className, activeClassName = "" }) {
-  const { user, loading } = useAuth();
+  const { user, isAdmin, loading } = useAuth();
   const pathname = usePathname();
 
   if (loading) return null;
 
   const items = [];
-  if (user?.uid === ADMIN_UID) items.push({ href: "/admin", label: "Admin" });
+  if (user && isAdmin) items.push({ href: "/admin", label: "Admin" });
   items.push({ href: "/login", label: user ? "Mon compte" : "Connexion" });
 
   return items.map(({ href, label }) => {

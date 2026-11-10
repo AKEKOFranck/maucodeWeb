@@ -1,34 +1,124 @@
+/* Carte d'un module : une ligne avec numéro, titre, état.
+   La couleur du cours vient de --course / --course-soft (définies dans ../page.module.css). */
 .card {
   display: flex;
   align-items: center;
   gap: 1rem;
-  padding: 1rem 1.25rem;
-  border: 1px solid rgba(127, 127, 127, 0.3);
-  border-radius: 12px;
-  text-decoration: none;
-  color: inherit;
-  transition: transform 0.15s, border-color 0.15s;
+  min-height: 76px;
+  padding: 1.1rem 1.3rem;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: var(--surface);
+  color: var(--text);
+  transition:
+    transform 0.22s var(--ease),
+    box-shadow 0.22s var(--ease),
+    border-color 0.22s var(--ease);
 }
-.card:hover { transform: translateY(-2px); border-color: currentColor; }
+
+/* Seules les cartes cliquables réagissent : même logique que les tuiles du Hub */
+a.card:hover,
+a.card:focus-visible {
+  transform: scale(1.02);
+  border-color: transparent;
+  box-shadow:
+    0 0 0 3px var(--accent-bright),
+    0 18px 44px var(--accent-glow);
+  outline: none;
+}
 
 .num {
   display: grid;
   place-items: center;
-  width: 2.2rem;
-  height: 2.2rem;
-  border-radius: 50%;
-  background: rgba(127, 127, 127, 0.2);
-  font-weight: 700;
   flex-shrink: 0;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background: var(--course-soft, var(--accent-bright));
+  color: var(--black);
+  font-weight: 800;
 }
-.body { flex: 1; min-width: 0; }
-.title { margin: 0; font-size: 1.05rem; }
-.desc { margin: 0.25rem 0 0; opacity: 0.75; font-size: 0.9rem; }
-.status { font-size: 0.85rem; font-weight: 600; white-space: nowrap; }
 
-.done { border-color: #2e9e5b; }
-.done .num { background: #2e9e5b; color: #fff; }
-.done .status { color: #2e9e5b; }
+.body {
+  flex: 1;
+  min-width: 0;
+}
 
-.locked { opacity: 0.55; cursor: not-allowed; }
-.locked:hover { transform: none; border-color: rgba(127, 127, 127, 0.3); }
+.title {
+  font-size: 1.1rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: #fff;
+}
+
+.desc {
+  margin-top: 0.25rem;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: var(--text-muted);
+}
+
+.lockHint {
+  margin-top: 0.4rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-faint);
+}
+
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-shrink: 0;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--accent-bright);
+  white-space: nowrap;
+}
+
+.done {
+  border-color: rgba(47, 210, 122, 0.55);
+}
+
+.done .num {
+  background: var(--success);
+}
+
+.done .status {
+  color: var(--success);
+}
+
+.locked {
+  border-style: dashed;
+  cursor: not-allowed;
+}
+
+.locked .title {
+  color: var(--text-muted);
+}
+
+.locked .num {
+  background: var(--surface-strong);
+  color: var(--text-muted);
+}
+
+.locked .status {
+  color: var(--text-faint);
+}
+
+@media (max-width: 560px) {
+  .card {
+    flex-wrap: wrap;
+  }
+
+  .status {
+    margin-left: 3.5rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  a.card:hover,
+  a.card:focus-visible {
+    transform: none;
+  }
+}

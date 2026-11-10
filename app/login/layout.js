@@ -1,8 +1,9 @@
 export const metadata = {
-  title: "Admin | MauCode",
+  title: "Connexion",
+  alternates: { canonical: "/login" },
   robots: { index: false, follow: false },
 };
 
-export default function Layout({ children }) {
+export default function LoginLayout({ children }) {
   return children;
 }

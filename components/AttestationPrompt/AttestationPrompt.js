@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { FiAward } from "react-icons/fi";
 import { getChoice, setChoice, isValidSlug, toolLabel } from "@/lib/attestation";
 import styles from "./AttestationPrompt.module.css";
 
@@ -16,6 +17,7 @@ export default function AttestationPrompt({ slug, courseTitle }) {
   const [choice, setChoiceState] = useState(undefined); // undefined = pas encore lu
   const [open, setOpen] = useState(false);
   const [understood, setUnderstood] = useState(false);
+  const dialogRef = useRef(null);
 
   useEffect(() => {
     if (!valid) return;
@@ -24,13 +26,45 @@ export default function AttestationPrompt({ slug, courseTitle }) {
     setOpen(saved === null);
   }, [slug, valid]);
 
+  /* Fenêtre ouverte : focus dedans, Tab reste dedans, Échap ferme, la page derrière ne défile pas */
   useEffect(() => {
     if (!open) return;
+
+    const previouslyFocused = document.activeElement;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    dialogRef.current?.focus();
+
     const onKey = (e) => {
-      if (e.key === "Escape") setOpen(false);
+      if (e.key === "Escape") {
+        setOpen(false);
+        return;
+      }
+      if (e.key !== "Tab") return;
+
+      const nodes = dialogRef.current?.querySelectorAll(
+        "button:not([disabled]), input:not([disabled]), a[href]"
+      );
+      if (!nodes || nodes.length === 0) return;
+      const first = nodes[0];
+      const lastNode = nodes[nodes.length - 1];
+      const current = document.activeElement;
+
+      if (e.shiftKey && (current === first || current === dialogRef.current)) {
+        e.preventDefault();
+        lastNode.focus();
+      } else if (!e.shiftKey && current === lastNode) {
+        e.preventDefault();
+        first.focus();
+      }
     };
+
     window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      document.body.style.overflow = previousOverflow;
+      if (previouslyFocused instanceof HTMLElement) previouslyFocused.focus();
+    };
   }, [open]);
 
   if (!valid || choice === undefined) return null;
@@ -41,11 +75,24 @@ export default function AttestationPrompt({ slug, courseTitle }) {
     setOpen(false);
   };
 
+  const reopen = () => {
+    setUnderstood(false);
+    setOpen(true);
+  };
+
   const href = `/attestation/${encodeURIComponent(slug)}`;
 
   return (
     <>
       {/* Rappel discret une fois la fenêtre fermée */}
+      {!open && choice === null && (
+        <div className={styles.inline}>
+          <span>Tu peux demander ton attestation de réussite {tool}.</span>
+          <button type="button" className={styles.linkBtn} onClick={reopen}>
+            Choisir
+          </button>
+        </div>
+      )}
       {!open && choice === "yes" && (
         <div className={styles.inline}>
           <span>Tu as demandé ton attestation de réussite {tool}.</span>
@@ -57,14 +104,7 @@ export default function AttestationPrompt({ slug, courseTitle }) {
       {!open && choice === "no" && (
         <div className={styles.inline}>
           <span>Tu n&apos;as pas souhaité d&apos;attestation pour {tool}.</span>
-          <button
-            type="button"
-            className={styles.textBtn}
-            onClick={() => {
-              setUnderstood(false);
-              setOpen(true);
-            }}
-          >
+          <button type="button" className={styles.textBtn} onClick={reopen}>
             J&apos;ai changé d&apos;avis
           </button>
         </div>
@@ -73,14 +113,17 @@ export default function AttestationPrompt({ slug, courseTitle }) {
       {open && (
         <div className={styles.overlay} onClick={() => setOpen(false)}>
           <div
+            ref={dialogRef}
+            tabIndex={-1}
             className={styles.dialog}
             role="dialog"
             aria-modal="true"
             aria-labelledby="att-title"
             onClick={(e) => e.stopPropagation()}
           >
+            <FiAward className={styles.icon} aria-hidden="true" />
             <h2 id="att-title" className={styles.title}>
-              Félicitations, tu as terminé la formation {tool} ! 🎉
+              Félicitations, tu as terminé la formation {tool} !
             </h2>
 
             <p className={styles.text}>

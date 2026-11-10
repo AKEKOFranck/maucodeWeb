@@ -3,10 +3,55 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import {
+  FiBookOpen,
+  FiMonitor,
+  FiGrid,
+  FiAward,
+  FiMessageCircle,
+  FiLayers,
+  FiTarget,
+  FiCode,
+} from "react-icons/fi";
 import styles from "./page.module.css";
 
-import ContactForm, { BESOIN_SITE } from "@/components/ContactForm/contactform";
+import ContactForm, {
+  BESOIN_SITE,
+  BESOIN_FORMATION,
+} from "@/components/ContactForm/contactform";
+import { useAuth } from "@/components/AuthProvider/AuthProvider";
 import { whatsappLink, WHATSAPP_SITE_MESSAGE } from "@/lib/config";
+
+/* =====================================================
+   L'IMAGE DU BAS DE LA PAGE
+   Pour changer l'image : mets ton fichier dans /public
+   puis change "src" (par exemple "/ma-photo.jpg").
+   Pour ne rien afficher : mets src: null.
+   title / text : texte par-dessus l'image (laisse "" pour aucun texte).
+   Conseil : évite les espaces dans les noms de fichiers
+   (ex. "fond-main-3.png" plutôt que "fondMain (3).png").
+===================================================== */
+const BOTTOM_IMAGE = {
+  src: "/fondMain (3).png",
+  alt: "Ambiance Maucode : formation et création de sites web",
+  title: "",
+  text: "",
+};
+
+/* =====================================================
+   LES IMAGES DES TUILES DU HUB
+   Mets tes fichiers directement dans /public, puis change
+   les noms ci-dessous. Mets null pour garder le simple dégradé.
+   Format conseillé : portrait 4:5 (environ 600 x 750 px).
+===================================================== */
+const TILE_IMAGES = {
+  academie: "/tuile-academie.png",
+  studio: "/tuile-studio.png",
+  bibliotheque: "/tuile-bibliotheque.png",
+  compte: "/tuile-compte.png",
+  support: "/tuile-support.png",
+};
+
 /* =====================================================
    LES RÉALISATIONS
    Pour ajouter un site : copie un bloc dans la liste.
@@ -140,18 +185,120 @@ const COUNT_CONCEPTS = SITES.filter((s) => s.kind === "concept").length;
 
 const PILLARS = [
   {
+    icon: FiLayers,
     title: "Des bases solides",
     text: "Word, Excel, PowerPoint : on apprend ce qui sert vraiment au bureau, pas à pas.",
   },
   {
+    icon: FiTarget,
     title: "Du concret",
     text: "Chaque notion s'applique tout de suite à un cas réel de travail.",
   },
   {
+    icon: FiCode,
     title: "Du digital sur mesure",
     text: "Nous concevons aussi des sites web propres, rapides et faits pour votre activité.",
   },
 ];
+
+/* =====================================================
+   LES TUILES DU HUB
+   Chaque tuile = une grande section du site.
+   Pour en ajouter une : copie un bloc dans la liste.
+   - image    : image de la tuile (voir TILE_IMAGES plus haut)
+   - href     : lien de la tuile (interne, ancre #... ou externe)
+   - external : true pour ouvrir dans un nouvel onglet
+   - from/to  : couleurs de la tuile ET de la lueur de fond
+   - secondary: { type: "contact" | "link", ... } (bouton en plus, optionnel)
+===================================================== */
+function buildTiles(user) {
+  return [
+    {
+      id: "academie",
+      name: "Académie Office",
+      meta: "Word, Excel, PowerPoint",
+      icon: FiBookOpen,
+      image: TILE_IMAGES.academie,
+      from: "#1fa3ec",
+      to: "#6d7dff",
+      text: "Word, Excel et PowerPoint, pas à pas. Le premier module de chaque cours est gratuit, sans compte.",
+      href: "/works",
+      cta: "Commencer une formation",
+    },
+    {
+      id: "studio",
+      name: "Studio web",
+      meta: "Création de site",
+      icon: FiMonitor,
+      image: TILE_IMAGES.studio,
+      from: "#7c3aed",
+      to: "#3b82f6",
+      text: "Un site vitrine propre, rapide et pensé pour le mobile, mis en ligne avec accompagnement.",
+      href: "/webPage",
+      cta: "Découvrir le studio",
+      secondary: {
+        type: "contact",
+        label: "Demander un site",
+        besoin: BESOIN_SITE,
+      },
+    },
+    {
+      id: "bibliotheque",
+      name: "Bibliothèque",
+      meta: `${SITES.length} sites réalisés`,
+      icon: FiGrid,
+      image: TILE_IMAGES.bibliotheque,
+      from: "#0f766e",
+      to: "#2fb5a8",
+      text: "Des projets livrés à de vrais clients et des concepts créés pour montrer ce dont nous sommes capables.",
+      href: "#realisations",
+      cta: "Voir les réalisations",
+    },
+    user
+      ? {
+          id: "compte",
+          name: "Ma progression",
+          meta: "Mes cours et attestations",
+          icon: FiAward,
+          image: TILE_IMAGES.compte,
+          from: "#d9731e",
+          to: "#f0a24b",
+          text: "Retrouve tes cours là où tu les as laissés, et tes attestations une fois les cours terminés.",
+          href: "/works",
+          cta: "Reprendre ma formation",
+        }
+      : {
+          id: "compte",
+          name: "Mes trophées",
+          meta: "Compte gratuit",
+          icon: FiAward,
+          image: TILE_IMAGES.compte,
+          from: "#d9731e",
+          to: "#f0a24b",
+          text: "Crée ton compte gratuit avec Google pour sauvegarder ta progression et décrocher tes attestations.",
+          href: "/login?next=%2Fworks",
+          cta: "Créer mon compte",
+        },
+    {
+      id: "support",
+      name: "Support",
+      meta: "Réponse sur WhatsApp",
+      icon: FiMessageCircle,
+      image: TILE_IMAGES.support,
+      from: "#128c4a",
+      to: "#25d366",
+      text: "Dites-nous ce que vous voulez apprendre ou créer. Nous vous répondons sur WhatsApp.",
+      href: whatsappLink(WHATSAPP_SITE_MESSAGE),
+      external: true,
+      cta: "Écrire sur WhatsApp",
+      secondary: {
+        type: "contact",
+        label: "Ouvrir le formulaire",
+        besoin: BESOIN_FORMATION,
+      },
+    },
+  ];
+}
 
 /* =====================================================
    PETITS COMPOSANTS D'ANIMATION
@@ -243,15 +390,25 @@ function CountUp({ to }) {
 let splashPlayed = false;
 
 /* =====================================================
-   PAGE D'ACCUEIL
+   PAGE D'ACCUEIL : LE HUB
 ===================================================== */
 export default function Home() {
+  const { user } = useAuth();
+
   const [showSplash, setShowSplash] = useState(!splashPlayed);
   // Les textes du hero attendent la fin de l'écran d'ouverture
   const [base] = useState(showSplash ? "2s" : "0.1s");
 
   const [kind, setKind] = useState("all");
   const [category, setCategory] = useState("Toutes");
+
+  // Tuile sélectionnée dans le Hub
+  const [active, setActive] = useState(0);
+  const tileRefs = useRef([]);
+  const tapRef = useRef(null);
+
+  const tiles = buildTiles(user);
+  const tile = tiles[active] || tiles[0];
 
   useEffect(() => {
     if (!showSplash) return;
@@ -275,6 +432,42 @@ export default function Home() {
       (kind === "all" || s.kind === kind) &&
       (category === "Toutes" || s.category === category)
   );
+
+  /* Flèches ← → : on passe d'une tuile à l'autre (le focus sélectionne la tuile) */
+  const onRailKeyDown = (e) => {
+    const last = tiles.length - 1;
+    const current = tileRefs.current.indexOf(document.activeElement);
+    const from = current === -1 ? active : current;
+
+    let next = null;
+    if (e.key === "ArrowRight") next = Math.min(from + 1, last);
+    else if (e.key === "ArrowLeft") next = Math.max(from - 1, 0);
+    else if (e.key === "Home") next = 0;
+    else if (e.key === "End") next = last;
+    if (next === null) return;
+
+    e.preventDefault();
+    tileRefs.current[next]?.focus();
+  };
+
+  /* Sur écran tactile : 1er appui = sélectionner la tuile, 2e appui = l'ouvrir */
+  const onTilePointerDown = (e, i) => {
+    tapRef.current = { touch: e.pointerType === "touch", wasActive: i === active };
+  };
+
+  const onTileClick = (e, i) => {
+    const tap = tapRef.current;
+    tapRef.current = null;
+    if (tap && tap.touch && !tap.wasActive) {
+      e.preventDefault();
+      setActive(i);
+    }
+  };
+
+  const PrimaryTag = tile.external ? "a" : Link;
+  const primaryExtra = tile.external
+    ? { target: "_blank", rel: "noopener noreferrer" }
+    : {};
 
   return (
     <main className={styles.main}>
@@ -301,50 +494,127 @@ export default function Home() {
         </div>
       )}
 
-      {/* ---------- 1. Hero ---------- */}
+      {/* ---------- 1. Le Hub ---------- */}
       <section className={styles.hero}>
         <Image
           src="/main.jpg"
-          alt="Illustration Maucode"
+          alt=""
+          aria-hidden="true"
           fill
           priority
           sizes="100vw"
           className={styles.heroImage}
         />
         <div className={styles.heroShade} />
-        <span className={styles.orb1} aria-hidden="true" />
-        <span className={styles.orb2} aria-hidden="true" />
+
+        {/* Lueur de fond : change de couleur selon la tuile sélectionnée */}
+        <div className={styles.ambient} aria-hidden="true">
+          {tiles.map((t, i) => (
+            <span
+              key={t.id}
+              className={`${styles.glow} ${i === active ? styles.glowOn : ""}`}
+              style={{ "--from": t.from, "--to": t.to }}
+            />
+          ))}
+        </div>
 
         <div className={styles.heroContent} style={{ "--base": base }}>
-          <h1 className={`${styles.heroTitle} ${styles.rise}`} style={{ "--i": 0 }}>
-            Maîtrisez Office. <span>Lancez votre site.</span>
-          </h1>
-          <p className={`${styles.heroText} ${styles.rise}`} style={{ "--i": 1 }}>
-            La plateforme qui forme aux bases d&apos;Office et crée les sites web des
-            entrepreneurs.
-          </p>
-          <div className={`${styles.heroActions} ${styles.rise}`} style={{ "--i": 2 }}>
-            <Link href="/works" className={styles.btnPrimary}>
-              Commencer une formation
-            </Link>
-            <Link href="/webPage" className={styles.btnGlass}>
-              Créer un site
-            </Link>
+          <div className={`${styles.heroHead} ${styles.rise}`} style={{ "--i": 0 }}>
+            <h1 className={styles.heroTitle}>Maîtrisez Office. Lancez votre site.</h1>
+            <p className={styles.heroText}>
+              La plateforme qui forme aux bases d&apos;Office et crée les sites web des
+              entrepreneurs.
+            </p>
           </div>
-          <a
-            href="#realisations"
-            className={`${styles.scrollHint} ${styles.rise}`}
-            style={{ "--i": 4 }}
+
+          {/* Rangée de tuiles */}
+          <div
+            className={`${styles.rail} ${styles.rise}`}
+            style={{ "--i": 1 }}
+            role="group"
+            aria-label="Choisir une section"
+            onKeyDown={onRailKeyDown}
           >
-            Voir nos réalisations ↓
-          </a>
+            {tiles.map((t, i) => {
+              const Tag = t.external ? "a" : Link;
+              const extra = t.external
+                ? { target: "_blank", rel: "noopener noreferrer" }
+                : {};
+              const Icon = t.icon;
+
+              return (
+                <Tag
+                  key={t.id}
+                  ref={(el) => {
+                    tileRefs.current[i] = el;
+                  }}
+                  href={t.href}
+                  className={`${styles.tile} ${i === active ? styles.tileActive : ""}`}
+                  style={{ "--from": t.from, "--to": t.to }}
+                  aria-label={`${t.name} : ${t.meta}`}
+                  onMouseEnter={() => setActive(i)}
+                  onFocus={() => setActive(i)}
+                  onPointerDown={(e) => onTilePointerDown(e, i)}
+                  onClick={(e) => onTileClick(e, i)}
+                  {...extra}
+                >
+                  {t.image && (
+                    <Image
+                      src={t.image}
+                      alt=""
+                      aria-hidden="true"
+                      fill
+                      sizes="(max-width: 860px) 58vw, 214px"
+                      className={styles.tileImage}
+                    />
+                  )}
+                  <span className={styles.tileIcon} aria-hidden="true">
+                    <Icon />
+                  </span>
+                  <span className={styles.tileName}>{t.name}</span>
+                  <span className={styles.tileMeta}>{t.meta}</span>
+                </Tag>
+              );
+            })}
+          </div>
+
+          <p className={styles.hint} aria-hidden="true">
+            Utilisez les flèches ← → du clavier pour naviguer
+          </p>
+
+          {/* Panneau de détail de la tuile sélectionnée */}
+          <div
+            className={`glass ${styles.panel} ${styles.rise}`}
+            style={{ "--i": 2 }}
+            role="region"
+            aria-live="polite"
+            aria-label="Détails de la sélection"
+          >
+            <div className={styles.panelBody} key={tile.id}>
+              <h2>{tile.name}</h2>
+              <p>{tile.text}</p>
+              <div className={styles.panelActions}>
+                <PrimaryTag href={tile.href} className={styles.btnPrimary} {...primaryExtra}>
+                  {tile.cta}
+                </PrimaryTag>
+
+                {tile.secondary?.type === "contact" && (
+                  <ContactForm
+                    label={tile.secondary.label}
+                    variant="dark"
+                    defaultBesoin={tile.secondary.besoin}
+                  />
+                )}
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
       {/* ---------- 2. Chiffres ---------- */}
       <section className={styles.stats} aria-label="Maucode en chiffres">
         <div className={styles.container}>
-          <ul className={styles.statList}>
+          <ul className={`glass ${styles.statList}`}>
             <li>
               <strong>
                 <CountUp to={SITES.length} />
@@ -388,13 +658,18 @@ export default function Home() {
           </Reveal>
 
           <div className={styles.pillars}>
-            {PILLARS.map((p, i) => (
-              <Reveal key={p.title} delay={i * 110} className={styles.pillar}>
-                <span className={styles.pillarNum}>{i + 1}</span>
-                <h3>{p.title}</h3>
-                <p>{p.text}</p>
-              </Reveal>
-            ))}
+            {PILLARS.map((p, i) => {
+              const Icon = p.icon;
+              return (
+                <Reveal key={p.title} delay={i * 110} className={`glass ${styles.pillar}`}>
+                  <span className={styles.pillarIcon} aria-hidden="true">
+                    <Icon />
+                  </span>
+                  <h3>{p.title}</h3>
+                  <p>{p.text}</p>
+                </Reveal>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -403,7 +678,6 @@ export default function Home() {
       <section id="realisations" className={styles.showcase}>
         <div className={styles.container}>
           <Reveal>
-            <p className={styles.kicker}>Vitrine</p>
             <h2 className={styles.sectionTitle}>Des sites web qui donnent envie de cliquer</h2>
             <p className={styles.sectionLead}>
               Voici nos réalisations : des projets livrés à de vrais clients et des
@@ -532,7 +806,7 @@ export default function Home() {
           </Reveal>
 
           <div className={styles.serviceGrid}>
-            <Reveal className={styles.serviceCard}>
+            <Reveal className={`glass ${styles.serviceCard}`}>
               <h3>Formation Office</h3>
               <p>
                 Une formation claire pour travailler plus vite et sans stress sur les
@@ -549,7 +823,7 @@ export default function Home() {
               </Link>
             </Reveal>
 
-            <Reveal delay={120} className={styles.serviceCard}>
+            <Reveal delay={120} className={`glass ${styles.serviceCard}`}>
               <h3>Création de site web</h3>
               <p>Un site qui présente votre activité et donne envie de vous contacter.</p>
               <ul>
@@ -595,6 +869,29 @@ export default function Home() {
           </Reveal>
         </div>
       </section>
+
+      {/* ---------- 7. Image du bas de page (voir BOTTOM_IMAGE en haut du fichier) ---------- */}
+      {BOTTOM_IMAGE.src && (
+        <section className={styles.bottomImage} aria-label="Illustration">
+          <div className={styles.container}>
+            <Reveal className={styles.bottomFrame}>
+              <Image
+                src={BOTTOM_IMAGE.src}
+                alt={BOTTOM_IMAGE.alt}
+                fill
+                sizes="(max-width: 1200px) 100vw, 1200px"
+                className={styles.bottomPhoto}
+              />
+              {(BOTTOM_IMAGE.title || BOTTOM_IMAGE.text) && (
+                <div className={styles.bottomCaption}>
+                  {BOTTOM_IMAGE.title && <h2>{BOTTOM_IMAGE.title}</h2>}
+                  {BOTTOM_IMAGE.text && <p>{BOTTOM_IMAGE.text}</p>}
+                </div>
+              )}
+            </Reveal>
+          </div>
+        </section>
+      )}
     </main>
   );
 }

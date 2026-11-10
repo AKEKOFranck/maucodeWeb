@@ -1,6 +1,11 @@
+/* =====================================================
+   BARRE DU HAUT : style console
+   Verre dépoli, onglets en pilules, onglet actif lumineux
+===================================================== */
+
 .wrapper {
   position: fixed;
-  top: 16px;
+  top: 14px;
   left: 0;
   right: 0;
   z-index: 50;
@@ -17,30 +22,73 @@
   align-items: center;
   gap: 24px;
   width: 100%;
-  max-width: 760px;
-  padding: 10px 12px 10px 20px;
-  background: #000;
-  border-radius: 24px;
-  box-shadow: 0 10px 40px rgba(0, 40, 90, 0.25);
+  max-width: 920px;
+  padding: 8px 10px 8px 14px;
+  background: rgba(10, 14, 26, 0.58);
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  -webkit-backdrop-filter: blur(24px) saturate(150%);
+  backdrop-filter: blur(24px) saturate(150%);
+  box-shadow:
+    0 12px 40px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
 }
+
+/* ---------- Logo ---------- */
 
 .brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
   color: #fff;
-  font-weight: 600;
-  font-size: 15px;
+  font-weight: 700;
+  font-size: 16px;
   letter-spacing: -0.01em;
-  text-decoration: none;
   white-space: nowrap;
+  border-radius: 12px;
 }
 
-.brand span {
-  color: #0080ff;
+.mark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  background: linear-gradient(145deg, var(--accent-bright), var(--accent));
+  box-shadow: 0 6px 18px var(--accent-glow);
 }
+
+.mark i {
+  display: block;
+  width: 3px;
+  border-radius: 999px;
+  background: #fff;
+}
+
+.mark i:nth-child(1) {
+  height: 9px;
+}
+
+.mark i:nth-child(2) {
+  height: 16px;
+}
+
+.mark i:nth-child(3) {
+  height: 12px;
+}
+
+.brandText span {
+  color: var(--accent-bright);
+}
+
+/* ---------- Onglets ---------- */
 
 .list {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 4px;
   margin: 0 0 0 auto;
   padding: 0;
   list-style: none;
@@ -48,45 +96,61 @@
 
 .pill {
   display: block;
-  padding: 7px 16px;
-  border-radius: 999px;
-  background: #1c1c1e;
-  color: #a1a1a6;
-  font-size: 13px;
+  padding: 9px 18px;
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 14px;
   font-weight: 500;
-  text-decoration: none;
   white-space: nowrap;
-  transition: background 0.2s ease, color 0.2s ease;
+  transition:
+    background 0.2s var(--ease),
+    color 0.2s var(--ease),
+    transform 0.2s var(--ease),
+    box-shadow 0.2s var(--ease);
 }
 
 .pill:hover {
-  background: #2c2c2e;
+  background: rgba(255, 255, 255, 0.1);
   color: #fff;
 }
 
-.pill:focus-visible,
-.brand:focus-visible,
-.burger:focus-visible {
-  outline: 2px solid #0080ff;
-  outline-offset: 2px;
+/* Focus clavier / manette : l'onglet s'agrandit et s'entoure d'un anneau bleu */
+.pill:focus-visible {
+  outline: none;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.12);
+  transform: scale(1.06);
+  box-shadow:
+    0 0 0 2px var(--accent-bright),
+    0 8px 24px var(--accent-glow);
 }
 
+/* Onglet de la page en cours (comme « Games » sur la PS5) */
 .pillActive,
 .pillActive:hover {
-  background: #fff;
-  color: #000;
+  background: rgba(255, 255, 255, 0.18);
+  color: #fff;
+  font-weight: 700;
 }
 
-/* Bouton burger : caché sur desktop */
+.brand:focus-visible,
+.burger:focus-visible {
+  outline: 2px solid var(--accent-bright);
+  outline-offset: 3px;
+}
+
+/* ---------- Burger (mobile) ---------- */
+
 .burger {
   position: relative;
   display: none;
   margin-left: auto;
-  width: 38px;
-  height: 38px;
+  width: 40px;
+  height: 40px;
   border: 0;
   border-radius: 50%;
-  background: #1c1c1e;
+  background: rgba(255, 255, 255, 0.1);
   cursor: pointer;
   flex-direction: column;
   align-items: center;
@@ -100,7 +164,7 @@
   height: 2px;
   border-radius: 2px;
   background: #fff;
-  transition: transform 0.25s ease;
+  transition: transform 0.25s var(--ease);
 }
 
 .burger[aria-expanded="true"] span:first-of-type {
@@ -111,7 +175,7 @@
   transform: translateY(-3.5px) rotate(-45deg);
 }
 
-/* Pastille de notification sur le burger (nombre d'annonces non lues) */
+/* Pastille d'annonces non lues */
 .burgerBadge {
   position: absolute;
   top: -4px;
@@ -123,15 +187,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 2px solid #000;
+  border: 2px solid var(--bg);
   border-radius: 999px;
-  background: #ff3b30;
+  background: var(--danger);
   color: #fff;
   font-size: 10px;
   font-weight: 700;
   line-height: 1;
   pointer-events: none;
-  animation: badgePop 0.3s ease;
+  animation: badgePop 0.3s var(--ease);
 }
 
 @keyframes badgePop {
@@ -145,11 +209,19 @@
   }
 }
 
+/* ---------- Mobile ---------- */
+
 @media (max-width: 640px) {
+  .wrapper {
+    top: 10px;
+    padding: 0 12px;
+  }
+
   .burger {
     display: flex;
   }
 
+  /* Menu déroulant : fond quasi plein (un flou imbriqué ne rend pas bien) */
   .list {
     position: absolute;
     top: calc(100% + 8px);
@@ -160,13 +232,17 @@
     gap: 6px;
     margin: 0;
     padding: 12px;
-    background: #000;
-    border-radius: 24px;
-    box-shadow: 0 10px 40px rgba(0, 40, 90, 0.25);
+    background: rgba(10, 14, 26, 0.97);
+    border: 1px solid var(--line);
+    border-radius: 22px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
     opacity: 0;
     transform: translateY(-6px);
     visibility: hidden;
-    transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+    transition:
+      opacity 0.2s var(--ease),
+      transform 0.2s var(--ease),
+      visibility 0.2s;
   }
 
   .listOpen {
@@ -175,9 +251,13 @@
     visibility: visible;
   }
 
+  /* Cibles tactiles larges */
   .pill {
-    padding: 12px 16px;
-    font-size: 15px;
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    padding: 12px 18px;
+    font-size: 16px;
   }
 }
 
@@ -186,6 +266,10 @@
   .burger span,
   .list {
     transition: none;
+  }
+
+  .pill:focus-visible {
+    transform: none;
   }
 
   .burgerBadge {

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { COURSES, getCourse, getModule } from "@/lib/data/modules";
+import { publicModule } from "@/lib/quizServer";
 import { Icon } from "@/components/Lesson/icons";
 import ModuleFlow from "./Moduleflow";
 import styles from "../page.module.css";
@@ -34,12 +35,14 @@ export default async function ModulePage({ params }) {
   const pick = (m) => (m ? { slug: m.slug, title: m.title } : null);
 
   return (
-    <main className={styles.page} style={{ "--accent": course.accent }}>
+    <main className={styles.page} style={{ "--course": course.accent }}>
       <section className={styles.hero}>
         <div className={styles.container}>
-          <Link href={`/works/${slug}`} className={styles.back}>← {course.title}</Link>
+          <Link href={`/works/${slug}`} className={styles.back}>
+            ← {course.title}
+          </Link>
           <div>
-            <span className={styles.badge} style={{ color: course.accent, background: `${course.accent}1A` }}>
+            <span className={styles.badge}>
               <Icon name={course.icon} /> {course.software}, module {idx + 1}
             </span>
           </div>
@@ -53,7 +56,7 @@ export default async function ModulePage({ params }) {
         courseTitle={course.software}
         moduleSlugs={course.modules.map((m) => m.slug)}
         index={idx}
-        module={mod}
+        module={publicModule(mod)}
         prev={pick(course.modules[idx - 1])}
         next={pick(course.modules[idx + 1])}
       />

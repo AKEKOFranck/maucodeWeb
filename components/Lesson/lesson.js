@@ -3,8 +3,9 @@
 import { Fragment, useState } from "react";
 import s from "./lesson.module.css";
 import { Icon } from "./icons";
-import { passed, minToPass, useProgress, stateOf } from "@/lib/progress";
+import { minToPass, useProgress, stateOf } from "@/lib/progress";
 import { SESSION_PRICE } from "@/lib/config";
+import { getAppCheckHeaders } from "@/lib/appCheck";
 import { useToast } from "@/components/Notifications/notifications";
 
 /* ---------- Illustrations ---------- */
@@ -81,71 +82,109 @@ export function Visual({ v }) {
   return null;
 }
 
-/* ---------- Quiz ---------- */
-export function Quiz({ questions, onFinish }) {
+/* ---------- Quiz ----------
+   Les bonnes réponses ne sont PAS dans le navigateur : on envoie les réponses au serveur,
+   qui renvoie le score et la correction. */
+export function Quiz({ questions, onSubmit }) {
   const toast = useToast();
   const [picked, setPicked] = useState({});
+  const [result, setResult] = useState(null);
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState("");
+
+  const total = questions.length;
+  const allPicked = Object.keys(picked).length === total;
 
   function choose(i, k) {
-    const next = { ...picked, [i]: k };
-    setPicked(next);
-    if (Object.keys(next).length === questions.length) {
-      const sc = questions.filter((q, n) => next[n] === q.answer).length;
-      const ok = passed(sc, questions.length);
+    if (result || busy) return;
+    setPicked((p) => ({ ...p, [i]: k }));
+  }
+
+  async function submit() {
+    if (!allPicked || busy) return;
+    setBusy(true);
+    setError("");
+    try {
+      const out = await onSubmit(questions.map((_, i) => picked[i]));
+      setResult(out);
       toast(
-        ok
-          ? `Bravo ! ${sc}/${questions.length}, module validé`
-          : `Quiz terminé : ${sc}/${questions.length}. Il faut au moins ${minToPass(questions.length)} bonnes réponses, réessaie`,
-        { type: ok ? "success" : "info" }
+        out.passed
+          ? `Bravo ! ${out.score}/${out.total}, module validé`
+          : `Quiz terminé : ${out.score}/${out.total}. Il faut au moins ${minToPass(out.total)} bonnes réponses, réessaie`,
+        { type: out.passed ? "success" : "info" }
       );
-      if (onFinish) onFinish(sc, questions.length, ok);
+    } catch (e) {
+      setError(e.message || "La correction a échoué. Réessaie dans un instant.");
+    } finally {
+      setBusy(false);
     }
   }
-  const done = Object.keys(picked).length === questions.length;
-  const score = questions.filter((q, i) => picked[i] === q.answer).length;
+
+  function retry() {
+    setPicked({});
+    setResult(null);
+    setError("");
+  }
 
   return (
     <div className={s.quiz}>
       {questions.map((q, i) => {
         const chosen = picked[i];
-        const answered = chosen !== undefined;
+        const r = result?.results?.[i];
         return (
           <div key={q.q} className={s.question}>
             <p className={s.qText}>{i + 1}. {q.q}</p>
             <div className={s.options}>
               {q.options.map((o, k) => {
                 let cls = s.option;
-                if (answered && k === q.answer) cls += ` ${s.right}`;
-                else if (answered && k === chosen) cls += ` ${s.wrong}`;
+                const isRight = r && r.answer !== undefined && k === r.answer;
+                const isWrong = r && k === chosen && !r.correct;
+                if (isRight) cls += ` ${s.right}`;
+                else if (isWrong) cls += ` ${s.wrong}`;
+                else if (!r && k === chosen) cls += ` ${s.selected}`;
                 return (
                   <button
                     key={o}
                     type="button"
                     className={cls}
-                    disabled={answered}
+                    disabled={Boolean(result) || busy}
+                    aria-pressed={k === chosen}
                     onClick={() => choose(i, k)}
                   >
                     <span>{o}</span>
-                    {answered && k === q.answer && <Icon name="FaCircleCheck" />}
-                    {answered && k !== q.answer && k === chosen && <Icon name="FaCircleXmark" />}
+                    {isRight && <Icon name="FaCircleCheck" />}
+                    {isWrong && <Icon name="FaCircleXmark" />}
                   </button>
                 );
               })}
             </div>
-            {answered && (
+            {r && (
               <p className={s.why} role="status">
-                {chosen === q.answer ? "Bravo ! " : "Pas tout à fait. "}
-                {q.why}
+                {r.correct ? "Bravo ! " : "Pas tout à fait. "}
+                {r.why}
               </p>
             )}
           </div>
         );
       })}
-      {done && (
+
+      {error && <p className={s.error} role="alert">{error}</p>}
+
+      {!result && (
+        <button type="button" className={s.primary} onClick={submit} disabled={!allPicked || busy} aria-busy={busy}>
+          {busy ? "Correction…" : "Corriger mon quiz"}
+        </button>
+      )}
+
+      {result && (
         <div className={s.score} role="status">
-          Ton score : {score} sur {questions.length}{" "}
-          {passed(score, questions.length) ? (<><Icon name="FaTrophy" /> {score === questions.length ? "Parfait !" : "Module validé !"}</>) : `Il faut au moins ${minToPass(questions.length)} bonnes réponses : relis le cours et réessaie.`}
-          <button type="button" className={s.ghost} onClick={() => setPicked({})}>
+          Ton score : {result.score} sur {result.total}{" "}
+          {result.passed ? (
+            <><Icon name="FaTrophy" /> {result.score === result.total ? "Parfait !" : "Module validé !"}</>
+          ) : (
+            `Il faut au moins ${minToPass(result.total)} bonnes réponses : relis le cours et réessaie.`
+          )}
+          <button type="button" className={s.ghost} onClick={retry}>
             Recommencer
           </button>
         </div>
@@ -202,7 +241,7 @@ export function FeedbackForm({ course, module, fixedKind, withPhone, messageLabe
     try {
       const res = await fetch("/api/feedback", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", ...(await getAppCheckHeaders()) },
         body: JSON.stringify({ ...Object.fromEntries(f), course, module }),
         signal: controller.signal,
       });

@@ -2,8 +2,8 @@
 
 import { createContext, useCallback, useContext, useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { getNewModules } from "@/lib/data/modules";
 import s from "./notifications.module.css";
+// Plus d'import de "@/lib/data/modules" ici : la liste arrive en props depuis le layout (serveur).
 
 /* ---------- Petit utilitaire : localStorage sans danger ---------- */
 const read = (k) => {
@@ -13,6 +13,10 @@ const write = (k, v) => {
   try { localStorage.setItem(k, JSON.stringify(v)); } catch {}
 };
 const keyOf = (m) => `${m.course}/${m.slug}`;
+
+/* ---------- Liste des nouveaux modules (fournie par le serveur) ---------- */
+const NewModulesContext = createContext([]);
+const useNewModules = () => useContext(NewModulesContext);
 
 /* ---------- 1. Messages à l'écran (toasts) ---------- */
 const ToastContext = createContext(() => {});
@@ -53,9 +57,10 @@ function ToastProvider({ children }) {
 /* ---------- 2. Alerte « nouveaux modules » (une fois par visiteur) ---------- */
 function NewModulesWatcher() {
   const toast = useToast();
+  const newModules = useNewModules();
   useEffect(() => {
     const seen = read("maucode:seenNew");
-    const unseen = getNewModules().filter((m) => !seen.includes(keyOf(m)));
+    const unseen = newModules.filter((m) => !seen.includes(keyOf(m)));
     if (!unseen.length) return;
     toast(
       unseen.length === 1
@@ -64,27 +69,30 @@ function NewModulesWatcher() {
       { type: "info", href: "/works", label: "Voir", duration: 9000 }
     );
     write("maucode:seenNew", [...seen, ...unseen.map(keyOf)]);
-  }, [toast]);
+  }, [toast, newModules]);
   return null;
 }
 
-export function NotificationsProvider({ children }) {
+export function NotificationsProvider({ children, newModules = [] }) {
   return (
-    <ToastProvider>
-      {children}
-      <NewModulesWatcher />
-    </ToastProvider>
+    <NewModulesContext.Provider value={newModules}>
+      <ToastProvider>
+        {children}
+        <NewModulesWatcher />
+      </ToastProvider>
+    </NewModulesContext.Provider>
   );
 }
 
 /* ---------- 3. Bandeau « Nouveau ! » sur la page des formations ---------- */
 export function NewModulesBanner() {
+  const newModules = useNewModules();
   const [items, setItems] = useState([]);
 
   useEffect(() => {
     const dismissed = read("maucode:bannerDismissed");
-    setItems(getNewModules().filter((m) => !dismissed.includes(keyOf(m))));
-  }, []);
+    setItems(newModules.filter((m) => !dismissed.includes(keyOf(m))));
+  }, [newModules]);
 
   if (!items.length) return null;
 

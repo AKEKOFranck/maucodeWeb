@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { useParams, notFound } from "next/navigation";
+import { FiAward, FiLock } from "react-icons/fi";
 import Attestation from "@/components/Attestation/Attestation";
 import { useAuth } from "@/components/AuthProvider/AuthProvider";
 import { isValidSlug, toolLabel, cleanName, maskName, verifyUrlFor } from "@/lib/attestation";
@@ -105,7 +106,9 @@ export default function AttestationPage() {
   if (authLoading || (user && status === "loading")) {
     return (
       <main className={s.wrap}>
-        <p className={s.msg}>Chargement…</p>
+        <p className={s.msg} role="status">
+          Chargement…
+        </p>
       </main>
     );
   }
@@ -114,8 +117,9 @@ export default function AttestationPage() {
     const back = encodeURIComponent(`/attestation/${slug}`);
     return (
       <main className={s.wrap}>
-        <div className={s.box}>
-          <h1>🔐 Connecte-toi</h1>
+        <div className={`glass ${s.box}`}>
+          <FiLock className={s.boxIcon} aria-hidden="true" />
+          <h1>Connecte-toi</h1>
           <p>Connecte-toi avec ton compte pour accéder à ton attestation de réussite.</p>
           <Link href={`/login?next=${back}`} className={s.btn}>
             Me connecter
@@ -128,7 +132,7 @@ export default function AttestationPage() {
   if (status === "error" || !data) {
     return (
       <main className={s.wrap}>
-        <div className={s.box}>
+        <div className={`glass ${s.box}`}>
           <h1>Un problème est survenu</h1>
           <p>Impossible de charger ton attestation pour le moment. Réessaie plus tard.</p>
           <Link href={`/works/${slug}`} className={s.btn}>
@@ -146,7 +150,7 @@ export default function AttestationPage() {
   if (!att && !data.eligible) {
     return (
       <main className={s.wrap}>
-        <div className={s.box}>
+        <div className={`glass ${s.box}`}>
           <h1>Pas encore disponible</h1>
           <p>
             L&apos;attestation est disponible quand tous les modules de la formation {tool} sont validés
@@ -166,7 +170,9 @@ export default function AttestationPage() {
     return (
       <main className={s.wrap}>
         <div className={s.controls}>
-          <h1 className={s.title}>Génère ton attestation {tool} 🎉</h1>
+          <h1 className={s.title}>
+            <FiAward aria-hidden="true" /> Génère ton attestation {tool}
+          </h1>
 
           <label htmlFor="nom" className={s.label}>
             Ton prénom et ton nom, tels qu&apos;ils doivent apparaître
@@ -215,7 +221,9 @@ export default function AttestationPage() {
   return (
     <main className={s.wrap}>
       <div className={s.controls}>
-        <h1 className={s.title}>Ton attestation de réussite {tool} 🎉</h1>
+        <h1 className={s.title}>
+          <FiAward aria-hidden="true" /> Ton attestation de réussite {tool}
+        </h1>
 
         <div className={s.row}>
           <button type="button" className={s.btn} onClick={() => window.print()}>

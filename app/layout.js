@@ -6,12 +6,17 @@ import Footer from "@/components/Footer/footer";
 import { NotificationsProvider } from "@/components/Notifications/notifications";
 import { AuthProvider } from "@/components/AuthProvider/AuthProvider";
 import SignupBanner from "@/components/SignupBanner/SignupBanner";
+import { getNewModules } from "@/lib/data/modules";
 import {
   SITE_URL,
   SITE_NAME,
   WHATSAPP_NUMBER,
   INSTAGRAM_URL,
 } from "@/lib/config";
+
+// Recalcule la liste des "nouveaux modules" toutes les heures
+// (sinon la fenêtre de 14 jours resterait figée à la date du build).
+export const revalidate = 3600;
 
 const plusJakarta = Plus_Jakarta_Sans({
   variable: "--font-plus-jakarta",
@@ -31,6 +36,14 @@ const DESCRIPTION =
 // Image affichée quand on partage le lien (WhatsApp, Facebook...).
 // Remplace par "/og-image.png" (1200x630) quand tu l'auras créée.
 const SHARE_IMAGE = "/main.jpg";
+
+// Thème sombre : colore la barre du navigateur sur mobile
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: "#070a12",
+  colorScheme: "dark",
+};
 
 export const metadata = {
   metadataBase: new URL(SITE_URL),
@@ -59,9 +72,8 @@ export const metadata = {
   authors: [{ name: "MauCodeWeb" }],
   creator: "MauCodeWeb",
 
-  alternates: {
-    canonical: "/",
-  },
+  // Pas de canonical ici : chaque page définit le sien
+  // (l'accueil dans app/page.js, les autres dans leur propre metadata).
 
   icons: {
     icon: "/LogoMC.ico",
@@ -128,6 +140,9 @@ const jsonLd = {
 };
 
 export default function RootLayout({ children }) {
+  // Calculé côté serveur : seule cette petite liste part vers le navigateur
+  const newModules = getNewModules();
+
   return (
     <html
       lang="fr"
@@ -138,11 +153,16 @@ export default function RootLayout({ children }) {
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
+        <a href="#contenu" className="skip-link">
+          Aller au contenu
+        </a>
         <AuthProvider>
-          <NotificationsProvider>
+          <NotificationsProvider newModules={newModules}>
             <Navigation />
             <SignupBanner />
-            {children}
+            <div id="contenu" tabIndex={-1}>
+              {children}
+            </div>
             <Footer />
           </NotificationsProvider>
         </AuthProvider>

@@ -1,9 +1,13 @@
+/* =====================================================
+   STUDIO (création de site web) : thème console
+===================================================== */
+
 .page {
   width: 100%;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background: var(--background);
+  color: var(--text);
 }
 
 .container {
@@ -15,47 +19,77 @@
 
 .sectionHead {
   max-width: 640px;
-  margin-bottom: 56px;
+  margin-bottom: 48px;
 }
 
 .sectionTitle {
-  font-size: clamp(2rem, 4.4vw, 3.4rem);
+  font-size: clamp(2rem, 4.4vw, 3.2rem);
   line-height: 1.1;
   letter-spacing: -0.03em;
   font-weight: 800;
+  color: #fff;
 }
 
 .sectionText {
   margin-top: 16px;
   font-size: 1.1rem;
   line-height: 1.65;
-  color: var(--text-secondary);
+  color: var(--text-muted);
+}
+
+/* ---------- Boutons ---------- */
+.btnGlass {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 30px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  font-weight: 700;
+  font-size: 1rem;
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  transition:
+    background 0.3s var(--ease),
+    transform 0.3s var(--ease);
+}
+
+.btnGlass:hover {
+  background: rgba(255, 255, 255, 0.18);
+  transform: translateY(-3px);
 }
 
 /* ---------- Hero ---------- */
 .hero {
   position: relative;
-  background: var(--black);
-  color: var(--white);
-  padding: 160px 0 120px;
+  padding: 150px 0 110px;
   overflow: hidden;
+  isolation: isolate;
 }
 
-.hero::after {
+/* Lueur bleue derrière le titre */
+.hero::before {
   content: "";
   position: absolute;
-  right: -160px;
-  top: -140px;
-  width: 520px;
-  height: 520px;
-  border-radius: 50%;
-  background: var(--primary);
-  animation: float 10s ease-in-out infinite alternate;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(
+      50% 70% at 85% 10%,
+      rgba(0, 128, 255, 0.4),
+      transparent 70%
+    ),
+    radial-gradient(
+      40% 50% at 5% 100%,
+      rgba(124, 58, 237, 0.22),
+      transparent 70%
+    );
 }
 
 .heroInner {
   position: relative;
-  z-index: 1;
   width: 100%;
   max-width: var(--container-width);
   margin: 0 auto;
@@ -65,16 +99,17 @@
 .heroTitle,
 .heroText,
 .heroActions {
-  animation: rise 1s var(--ease) both;
-  animation-delay: calc(var(--i) * 0.15s + 0.1s);
+  animation: rise 0.9s var(--ease) both;
+  animation-delay: calc(var(--i) * 0.14s + 0.1s);
 }
 
 .heroTitle {
   max-width: 15ch;
-  font-size: clamp(2.8rem, 7.5vw, 6rem);
-  line-height: 1;
+  font-size: clamp(2.6rem, 7vw, 5.4rem);
+  line-height: 1.02;
   font-weight: 800;
   letter-spacing: -0.04em;
+  color: #fff;
 }
 
 .heroText {
@@ -82,17 +117,20 @@
   max-width: 56ch;
   font-size: clamp(1.05rem, 1.6vw, 1.25rem);
   line-height: 1.65;
-  color: var(--text-on-dark);
+  color: var(--text-muted);
 }
 
 .heroActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
   margin-top: 40px;
 }
 
 @keyframes rise {
   from {
     opacity: 0;
-    transform: translateY(36px);
+    transform: translateY(30px);
   }
   to {
     opacity: 1;
@@ -100,19 +138,9 @@
   }
 }
 
-@keyframes float {
-  from {
-    transform: translate(0, 0) scale(1);
-  }
-  to {
-    transform: translate(-50px, 40px) scale(1.1);
-  }
-}
-
 /* ---------- Formules ---------- */
 .offers {
-  background: var(--primary-light);
-  padding: 120px 0;
+  padding: 90px 0 100px;
 }
 
 .offersGrid {
@@ -123,35 +151,17 @@
 }
 
 .offerCard {
-  --fg: var(--black);
-  --muted: var(--text-secondary);
-  --box: rgba(255, 255, 255, 0.45);
-  --accent: var(--black);
-
   display: flex;
   flex-direction: column;
-  padding: 48px 44px;
-  border-radius: 36px;
-  color: var(--fg);
-  transition: transform 0.5s var(--ease), box-shadow 0.5s var(--ease);
-}
-
-.offerCard:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 30px 60px rgba(5, 7, 10, 0.16);
-}
-
-.offerLight {
-  background: var(--primary);
-  --muted: #0b2b3c;
-}
-
-.offerDark {
-  background: var(--black);
-  --fg: var(--white);
-  --muted: var(--text-on-dark);
-  --box: var(--black-soft);
-  --accent: var(--primary);
+  padding: 44px 40px;
+  border-radius: 32px;
+  border: 1px solid rgba(var(--tint), 0.45);
+  background: linear-gradient(
+    160deg,
+    rgba(var(--tint), 0.24) 0%,
+    rgba(13, 18, 32, 0.88) 58%
+  );
+  color: var(--text);
 }
 
 .offerIcon {
@@ -161,55 +171,52 @@
   place-items: center;
   border-radius: 18px;
   font-size: 26px;
-  background: var(--accent);
-  color: var(--primary);
-}
-
-.offerLight .offerIcon {
-  color: var(--white);
-}
-
-.offerDark .offerIcon {
-  color: var(--black);
+  background: rgba(var(--tint), 0.4);
+  color: #fff;
 }
 
 .offerTitle {
   margin-top: 24px;
-  font-size: clamp(1.7rem, 3vw, 2.2rem);
+  font-size: clamp(1.6rem, 3vw, 2.1rem);
   letter-spacing: -0.02em;
+  color: #fff;
 }
 
 .offerSubtitle {
   margin-top: 6px;
   font-weight: 700;
+  color: var(--text);
 }
 
 .offerDescription {
   margin-top: 18px;
   line-height: 1.7;
-  color: var(--muted);
+  color: var(--text-muted);
 }
 
 .reservationBox {
   margin: 28px 0 8px;
   padding: 22px 24px;
-  border-radius: 22px;
-  background: var(--box);
+  border-radius: 20px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.05);
 }
 
 .reservationBox h4 {
   font-size: 1rem;
+  color: #fff;
 }
 
 .reservationBox p {
   margin-top: 8px;
   line-height: 1.65;
-  color: var(--muted);
+  color: var(--text-muted);
 }
 
 .listLabel {
   margin-top: 28px;
   font-size: 1rem;
+  color: #fff;
 }
 
 .list {
@@ -234,45 +241,48 @@
 }
 
 .iconYes {
-  color: var(--accent);
+  color: var(--success);
 }
 
 .listMuted li {
-  color: var(--muted);
+  color: var(--text-muted);
   font-weight: 400;
 }
 
 .iconNo {
-  opacity: 0.6;
+  color: var(--text-faint);
 }
 
 /* ---------- Processus ---------- */
 .process {
-  background: var(--black);
-  color: var(--white);
-  padding: 120px 0;
-}
-
-.process .sectionText {
-  color: var(--text-on-dark);
+  padding: 90px 0 100px;
+  background: linear-gradient(
+    180deg,
+    transparent,
+    rgba(13, 18, 32, 0.7) 20%,
+    rgba(13, 18, 32, 0.7) 80%,
+    transparent
+  );
 }
 
 .stepsGrid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 20px;
+  list-style: none;
 }
 
 .stepCard {
-  background: var(--black-soft);
-  border-radius: var(--card-radius);
-  padding: 32px 28px 40px;
-  transition: background 0.5s var(--ease), color 0.5s var(--ease),
-    transform 0.5s var(--ease);
+  padding: 28px 26px 34px;
+  border-radius: var(--radius-card);
+  border: 1px solid var(--line);
+  background: var(--surface);
 }
 
-.stepCard:nth-child(even) {
-  margin-top: 32px;
+.stepTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .stepIcon {
@@ -284,176 +294,75 @@
   font-size: 24px;
   background: var(--primary);
   color: var(--black);
-  transition: background 0.5s var(--ease), color 0.5s var(--ease);
+}
+
+.stepNum {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  color: var(--text-muted);
+  font-weight: 800;
+  font-size: 0.95rem;
 }
 
 .stepCard h3 {
-  margin-top: 24px;
+  margin-top: 22px;
   font-size: 1.3rem;
+  color: #fff;
 }
 
 .stepCard p {
   margin-top: 10px;
   line-height: 1.65;
-  color: var(--text-on-dark);
-  transition: color 0.5s var(--ease);
-}
-
-.stepCard:hover {
-  background: var(--primary);
-  color: var(--black);
-  transform: translateY(-6px);
-}
-
-.stepCard:hover p {
-  color: var(--black);
-}
-
-.stepCard:hover .stepIcon {
-  background: var(--black);
-  color: var(--primary);
+  color: var(--text-muted);
 }
 
 /* ---------- Réalisations ---------- */
 .realisations {
-  padding: 120px 0 60px;
-}
-
-.realisationsGrid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
-}
-
-.realisationCard {
-  display: flex;
-  flex-direction: column;
-  padding: 36px 34px;
-  border-radius: var(--card-radius);
-  background: var(--primary-light);
-  transition: background 0.5s var(--ease), color 0.5s var(--ease),
-    transform 0.5s var(--ease);
-}
-
-.realisationCategory {
-  width: fit-content;
-  padding: 6px 14px;
-  border-radius: 999px;
-  background: var(--primary);
-  color: var(--black);
-  font-size: 0.85rem;
-  font-weight: 700;
-}
-
-.realisationCard h3 {
-  margin-top: 20px;
-  font-size: 1.6rem;
-  letter-spacing: -0.02em;
-}
-
-.realisationCard p {
-  margin-top: 10px;
-  line-height: 1.65;
-  color: var(--text-secondary);
-  transition: color 0.5s var(--ease);
-}
-
-.realisationLink {
-  margin-top: 28px;
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  font-weight: 700;
-  transition: gap 0.4s var(--ease);
-}
-
-.realisationCard:hover {
-  background: var(--black);
-  color: var(--white);
-  transform: translateY(-6px);
-}
-
-.realisationCard:hover p {
-  color: var(--text-on-dark);
-}
-
-.realisationCard:hover .realisationLink {
-  gap: 16px;
-  color: var(--primary);
+  padding: 90px 0 60px;
+  scroll-margin-top: 2rem;
 }
 
 /* ---------- CTA ---------- */
 .cta {
-  padding: 60px 0 120px;
+  padding: 40px 0 110px;
 }
 
 .ctaBox {
-  position: relative;
-  overflow: hidden;
-  background: var(--primary);
-  border-radius: 48px;
-  padding: clamp(40px, 7vw, 96px);
-}
-
-.ctaBox::after {
-  content: "";
-  position: absolute;
-  right: -120px;
-  bottom: -160px;
-  width: 460px;
-  height: 460px;
-  border-radius: 50%;
-  background: var(--black);
-  animation: float 9s ease-in-out infinite alternate;
+  padding: clamp(40px, 7vw, 88px);
+  border: 1px solid var(--line);
+  border-radius: 40px;
+  background: radial-gradient(
+    circle at 85% 0%,
+    rgba(0, 128, 255, 0.38) 0%,
+    var(--bg-elevated) 55%,
+    var(--bg) 100%
+  );
+  box-shadow: 0 28px 70px rgba(0, 0, 0, 0.4);
 }
 
 .ctaBox h2 {
-  position: relative;
-  z-index: 1;
   max-width: 14ch;
-  font-size: clamp(2.2rem, 5.2vw, 4.4rem);
+  font-size: clamp(2.2rem, 5vw, 4rem);
   line-height: 1.04;
   letter-spacing: -0.035em;
   font-weight: 800;
+  color: #fff;
 }
 
 .ctaBox p {
-  position: relative;
-  z-index: 1;
   margin-top: 24px;
   max-width: 50ch;
   font-size: 1.15rem;
   line-height: 1.65;
+  color: var(--text-muted);
 }
 
 .ctaActions {
-  position: relative;
-  z-index: 1;
   margin-top: 40px;
-}
-
-/* ---------- Apparition au scroll ---------- */
-@supports (animation-timeline: view()) {
-  .sectionHead,
-  .offerCard,
-  .stepCard,
-  .realisationCard,
-  .ctaBox {
-    animation: reveal linear both;
-    animation-timeline: view();
-    animation-range: entry 0% entry 40%;
-  }
-
-  @keyframes reveal {
-    from {
-      opacity: 0;
-      transform: translateY(60px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
 }
 
 /* ---------- Responsive ---------- */
@@ -461,35 +370,27 @@
   .stepsGrid {
     grid-template-columns: 1fr 1fr;
   }
-  .stepCard:nth-child(even) {
-    margin-top: 0;
-  }
 }
 
 @media (max-width: 900px) {
-  .offersGrid,
-  .realisationsGrid {
+  .offersGrid {
     grid-template-columns: 1fr;
   }
   .hero {
-    padding: 120px 0 80px;
+    padding: 120px 0 70px;
   }
   .offers,
   .process {
-    padding: 80px 0;
+    padding: 70px 0;
   }
   .realisations {
-    padding: 80px 0 40px;
+    padding: 70px 0 40px;
   }
   .cta {
-    padding: 40px 0 80px;
+    padding: 30px 0 80px;
   }
   .offerCard {
-    padding: 36px 28px;
-  }
-  .hero::after {
-    width: 320px;
-    height: 320px;
+    padding: 34px 26px;
   }
 }
 
@@ -497,7 +398,7 @@
   .stepsGrid {
     grid-template-columns: 1fr;
   }
-  .realisationCard {
-    padding: 30px 24px;
+  .heroActions > * {
+    flex: 1 1 100%;
   }
 }

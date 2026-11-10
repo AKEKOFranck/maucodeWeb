@@ -1,27 +1,56 @@
-:root {
-  --background: #ffffff;
-  --foreground: #05070a;
+/* =====================================================
+   MAUCODE OS : DESIGN SYSTEM
+   Thème sombre « console » : fond profond, verre dépoli,
+   un seul accent bleu, focus très visible.
+===================================================== */
 
+:root {
+  color-scheme: dark;
+
+  /* ---------- Surfaces ---------- */
+  --bg: #070a12;
+  --bg-elevated: #0d1220;
+  --surface: rgba(255, 255, 255, 0.06);
+  --surface-strong: rgba(255, 255, 255, 0.1);
+  --surface-solid: #111729;
+  --line: rgba(255, 255, 255, 0.12);
+
+  /* ---------- Accents ---------- */
+  --accent: #0080ff;
+  --accent-bright: #4cc3ff;
+  --accent-glow: rgba(0, 128, 255, 0.45);
+  --cta: #ff8a1f; /* actions fortes : WhatsApp, "Lancer mon projet" */
+  --danger: #ff3b30;
+  --success: #2fd27a;
+
+  /* ---------- Texte ---------- */
+  --text: #f4f7fb;
+  --text-muted: #aab4c4;
+  --text-faint: #7c879a;
+
+  /* ---------- Formes et mouvement ---------- */
+  --radius-card: 24px;
+  --radius-pill: 999px;
+  --container-width: 1240px;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --focus-scale: 1.06;
+
+  /* ---------- Anciens noms (compatibilité des pages pas encore migrées) ---------- */
+  --background: var(--bg);
+  --foreground: var(--text);
   --primary: #4cc3ff;
   --primary-dark: #1fa3ec;
-  --primary-light: #e7f6ff;
+  --primary-light: rgba(76, 195, 255, 0.12);
   --secondary: #bfe7ff;
-
   --black: #05070a;
   --black-soft: #10151c;
   --white: #ffffff;
-
-  --text-primary: #05070a;
-  --text-secondary: #4a5563;
-  --text-light: #8a96a6;
+  --text-primary: var(--text);
+  --text-secondary: var(--text-muted);
+  --text-light: var(--text-faint);
   --text-on-dark: #c7d2df;
-
-  --border: #d3ecfb;
-
-  --card-radius: 28px;
-  --container-width: 1240px;
-
-  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --border: var(--line);
+  --card-radius: var(--radius-card);
 }
 
 * {
@@ -33,6 +62,8 @@
 html {
   height: 100%;
   scroll-behavior: smooth;
+  background: var(--bg);
+  scrollbar-color: #2a3350 var(--bg);
 }
 
 html,
@@ -43,12 +74,26 @@ body {
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
+  position: relative;
+  color: var(--text);
+  background: transparent;
   font-family: var(--font-plus-jakarta), Arial, Helvetica, sans-serif;
 
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* Lueur d'ambiance fixe derrière tout le site (comme le fond d'une console) */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(900px 600px at 12% -8%, rgba(0, 128, 255, 0.26), transparent 62%),
+    radial-gradient(700px 520px at 100% 18%, rgba(76, 195, 255, 0.1), transparent 60%),
+    radial-gradient(800px 600px at 50% 120%, rgba(0, 128, 255, 0.12), transparent 60%);
 }
 
 a {
@@ -76,14 +121,78 @@ ul {
   list-style: none;
 }
 
+/* ---------- Focus clavier / manette : toujours visible ---------- */
 :focus-visible {
-  outline: 3px solid var(--primary);
+  outline: 3px solid var(--accent-bright);
   outline-offset: 3px;
 }
 
 ::selection {
-  background: var(--primary);
-  color: var(--black);
+  background: var(--accent);
+  color: #fff;
+}
+
+/* ---------- Lien « Aller au contenu » (accessibilité) ---------- */
+.skip-link {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  z-index: 100;
+  padding: 10px 18px;
+  border-radius: var(--radius-pill);
+  background: #fff;
+  color: #000;
+  font-weight: 700;
+  font-size: 14px;
+  transform: translateY(-200%);
+  transition: transform 0.2s var(--ease);
+}
+
+.skip-link:focus {
+  transform: none;
+}
+
+#contenu:focus {
+  outline: none;
+}
+
+/* =====================================================
+   OUTILS RÉUTILISABLES (à utiliser dans les prochaines pages)
+===================================================== */
+
+/* Panneau en verre dépoli */
+.glass {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
+  -webkit-backdrop-filter: blur(24px) saturate(140%);
+  backdrop-filter: blur(24px) saturate(140%);
+}
+
+/* Carte sélectionnable façon console : grossit et brille quand elle est active */
+.console-card {
+  border-radius: var(--radius-card);
+  transition:
+    transform 0.22s var(--ease),
+    box-shadow 0.22s var(--ease);
+}
+
+.console-card:hover,
+.console-card:focus-visible {
+  transform: scale(var(--focus-scale));
+  box-shadow:
+    0 0 0 3px var(--accent),
+    0 24px 60px var(--accent-glow);
+  outline: none;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -96,5 +205,10 @@ ul {
   *::after {
     animation: none !important;
     transition: none !important;
+  }
+
+  .console-card:hover,
+  .console-card:focus-visible {
+    transform: none;
   }
 }

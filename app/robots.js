@@ -5,7 +5,13 @@ export default function robots() {
     rules: {
       userAgent: "*",
       allow: "/",
-      disallow: ["/admin", "/login", "/api/"],
+      disallow: [
+        "/admin",
+        "/login",
+        "/attestation",
+        "/verification",
+        "/api/",
+      ],
     },
     sitemap: `${SITE_URL}/sitemap.xml`,
   };

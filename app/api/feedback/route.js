@@ -1,14 +1,15 @@
 import nodemailer from "nodemailer";
+import { createLimiter, clientIp } from "@/lib/rateLimit";
+import { checkAppCheck } from "@/lib/serverAuth";
 
 export const runtime = "nodejs";
 
 /* ---------- Réglages ---------- */
 const MAX_BODY = 10_000; // taille maximale de la requête (caractères)
-const WINDOW_MS = 10 * 60 * 1000; // fenêtre par visiteur : 10 minutes
-const MAX_PER_IP = 3; // envois autorisés par visiteur et par fenêtre
-const GLOBAL_WINDOW_MS = 60 * 60 * 1000; // fenêtre globale : 1 heure
-const MAX_GLOBAL = 40; // envois maximum par heure, tous visiteurs confondus
 const MAX_LINKS = 2; // nombre de liens autorisés dans un message
+
+const perVisitor = createLimiter({ windowMs: 10 * 60 * 1000, max: 3 }); // 3 envois / 10 min / visiteur
+const overall = createLimiter({ windowMs: 60 * 60 * 1000, max: 40 }); // 40 envois / heure, tous visiteurs
 
 const EMAIL = /^[^\s@<>(),;:"\\]+@[^\s@<>(),;:"\\]+\.[^\s@<>(),;:"\\]{2,}$/;
 const PHONE = /^[0-9+().\s-]{6,40}$/;
@@ -21,7 +22,7 @@ const clean = (v, max) =>
     .trim()
     .slice(0, max);
 
-// Même chose, sur une seule ligne (noms, sujet de l'e-mail)
+// Même chose, sur une seule ligne (noms, sujet de l'e-mail : aucun retour à la ligne possible)
 const oneLine = (v, max) => clean(v, max).replace(/\s+/g, " ");
 
 const esc = (t) =>
@@ -42,46 +43,6 @@ function sameOrigin(req) {
   } catch {
     return false;
   }
-}
-
-function getIp(req) {
-  const xff = req.headers.get("x-forwarded-for");
-  return (xff ? xff.split(",")[0] : req.headers.get("x-real-ip") || "inconnu").trim();
-}
-
-/*
-  Limitation d'envois (en mémoire de l'instance du serveur).
-  Sur Vercel, plusieurs instances peuvent tourner : la limite est donc approximative.
-  Pour une limite stricte, utiliser une base partagée (Upstash Redis, gratuit).
-  Renvoie 0 si l'envoi est autorisé, sinon le nombre de secondes à attendre.
-*/
-const hits = new Map();
-let globalHits = [];
-const recent = (list, windowMs, now) => list.filter((t) => now - t < windowMs);
-
-function rateLimit(ip) {
-  const now = Date.now();
-
-  globalHits = recent(globalHits, GLOBAL_WINDOW_MS, now);
-  if (globalHits.length >= MAX_GLOBAL) {
-    return Math.ceil((globalHits[0] + GLOBAL_WINDOW_MS - now) / 1000);
-  }
-
-  const mine = recent(hits.get(ip) || [], WINDOW_MS, now);
-  if (mine.length >= MAX_PER_IP) {
-    hits.set(ip, mine);
-    return Math.ceil((mine[0] + WINDOW_MS - now) / 1000);
-  }
-
-  mine.push(now);
-  hits.set(ip, mine);
-  globalHits.push(now);
-
-  // Nettoyage pour que la mémoire ne grossisse pas indéfiniment
-  if (hits.size > 5000) {
-    for (const [k, v] of hits) if (!recent(v, WINDOW_MS, now).length) hits.delete(k);
-  }
-  return 0;
 }
 
 let transporter;
@@ -118,6 +79,9 @@ export async function POST(req) {
     if (!(req.headers.get("content-type") || "").includes("application/json")) {
       return json({ error: "Format de requête invalide." }, 415);
     }
+
+    // App Check (actif seulement si APPCHECK_ENFORCE=true)
+    if (!(await checkAppCheck(req))) return json({ error: "Requête refusée." }, 403);
 
     const raw = await req.text();
     if (raw.length > MAX_BODY) return json({ error: "Message trop long." }, 413);
@@ -157,7 +121,7 @@ export async function POST(req) {
       return json({ error: "Retire les liens de ton message, s'il te plaît." }, 400);
     }
 
-    const wait = rateLimit(getIp(req));
+    const wait = perVisitor(clientIp(req)) || overall("tous");
     if (wait > 0) {
       return json(
         { error: "Trop d'envois pour le moment. Réessaie dans quelques minutes." },

@@ -1,10 +1,11 @@
-.main {
-  /* Couleurs propres à cette page, dérivées de ton design (globals.css) */
-  --link: #0b78b8; /* bleu plus foncé pour les petits textes sur fond blanc */
-  --soft-bg: #f4fbff;
+/* =====================================================
+   PAGE D'ACCUEIL : LE HUB
+   Fond sombre (globals.css), verre dépoli, tuiles façon console.
+   Les classes "glass" viennent de globals.css.
+===================================================== */
 
-  background: var(--white);
-  color: var(--text-primary);
+.main {
+  color: var(--text);
   overflow-x: clip;
 }
 
@@ -22,8 +23,8 @@
   z-index: 10000;
   display: grid;
   place-items: center;
-  background: radial-gradient(circle at 50% 38%, #12354a 0%, var(--black-soft) 48%, var(--black) 100%);
-  color: var(--white);
+  background: radial-gradient(circle at 50% 38%, #12354a 0%, var(--bg-elevated) 48%, var(--bg) 100%);
+  color: #fff;
   animation: splashOut 0.65s var(--ease) 1.95s forwards;
 }
 
@@ -52,7 +53,7 @@
 
 .splashLogo img {
   border-radius: 22px;
-  background: var(--white);
+  background: #fff;
   padding: 6px;
   box-shadow: 0 12px 44px rgba(76, 195, 255, 0.5);
 }
@@ -107,9 +108,8 @@
 }
 
 .splashTag {
-  font-size: 0.82rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
+  font-size: 0.9rem;
+  letter-spacing: 0.08em;
   color: var(--text-on-dark);
   opacity: 0;
   animation: fadeIn 0.6s ease 1s forwards;
@@ -135,7 +135,7 @@
   height: 100%;
   width: 100%;
   border-radius: inherit;
-  background: linear-gradient(90deg, var(--primary), var(--white));
+  background: linear-gradient(90deg, var(--primary), #fff);
   transform: scaleX(0);
   transform-origin: left;
   animation: barFill 1.6s cubic-bezier(0.4, 0, 0.2, 1) 0.2s forwards;
@@ -148,86 +148,81 @@
 }
 
 /* =====================================================
-   HERO
+   LE HUB (hero)
 ===================================================== */
 .hero {
+  /* ↓↓ Pour régler la visibilité de l'image de fond : 0.3 (discrète) à 0.9 (très visible) ↓↓ */
+  --hero-image-opacity: 0.6;
+
   position: relative;
   min-height: 100svh;
   display: flex;
   align-items: center;
-  padding: 7rem 0 4rem;
-  color: var(--white);
-  background: var(--black);
+  padding: 7.5rem 0 3rem;
   isolation: isolate;
   overflow: hidden;
 }
 
+/* Image de fond : nette et bien visible */
 .heroImage {
   object-fit: cover;
   z-index: -3;
-  animation: slowZoom 18s ease-in-out infinite alternate;
+  opacity: var(--hero-image-opacity);
+  filter: saturate(1.15);
+  transform: scale(1.02);
 }
 
-@keyframes slowZoom {
-  from {
-    transform: scale(1);
-  }
-  to {
-    transform: scale(1.08);
-  }
-}
-
+/* Voile léger : assombrit surtout la gauche (là où est le texte) et le bas
+   (pour fondre l'image dans le fond de la page) */
 .heroShade {
   position: absolute;
   inset: 0;
   z-index: -2;
-  background: linear-gradient(
-    105deg,
-    rgba(5, 7, 10, 0.94) 0%,
-    rgba(5, 7, 10, 0.78) 55%,
-    rgba(5, 7, 10, 0.45) 100%
-  );
+  background:
+    linear-gradient(90deg, rgba(7, 10, 18, 0.55) 0%, rgba(7, 10, 18, 0) 65%),
+    linear-gradient(
+      180deg,
+      rgba(7, 10, 18, 0.3) 0%,
+      rgba(7, 10, 18, 0.05) 45%,
+      var(--bg) 100%
+    );
 }
 
-.orb1,
-.orb2 {
+/* Lueur : une couche par tuile, seule la tuile active est visible */
+.ambient {
   position: absolute;
+  inset: 0;
   z-index: -1;
-  border-radius: 50%;
-  filter: blur(70px);
-  opacity: 0.4;
-  animation: floaty 9s ease-in-out infinite alternate;
+  pointer-events: none;
 }
 
-.orb1 {
-  width: 340px;
-  height: 340px;
-  top: 8%;
-  right: 6%;
-  background: var(--primary);
+.glow {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.7s var(--ease);
+  background:
+    radial-gradient(
+      60% 55% at 72% 62%,
+      color-mix(in srgb, var(--from) 55%, transparent),
+      transparent 70%
+    ),
+    radial-gradient(
+      50% 50% at 18% 18%,
+      color-mix(in srgb, var(--to) 38%, transparent),
+      transparent 70%
+    );
 }
 
-.orb2 {
-  width: 260px;
-  height: 260px;
-  bottom: 6%;
-  left: 38%;
-  background: var(--primary-dark);
-  animation-delay: -4s;
-}
-
-@keyframes floaty {
-  from {
-    transform: translate(0, 0);
-  }
-  to {
-    transform: translate(-30px, 34px);
-  }
+.glowOn {
+  opacity: 0.8;
 }
 
 .heroContent {
   width: min(var(--container-width), 100% - 3rem);
   margin-inline: auto;
+  display: grid;
+  gap: 0.6rem;
 }
 
 .rise {
@@ -247,49 +242,201 @@
   }
 }
 
-.heroTitle {
-  max-width: 14ch;
-  font-size: clamp(2.5rem, 7vw, 5rem);
-  line-height: 1.04;
-  font-weight: 800;
-  letter-spacing: -0.03em;
+.heroHead {
+  max-width: 44rem;
 }
 
-.heroTitle span {
-  display: block;
-  background: linear-gradient(90deg, var(--primary), var(--secondary), var(--white));
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+.heroTitle {
+  max-width: 18ch;
+  font-size: clamp(2.1rem, 5.2vw, 3.7rem);
+  line-height: 1.06;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: #fff;
+  /* Ombre douce : le titre reste lisible sur l'image */
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.45);
 }
 
 .heroText {
   max-width: 34rem;
-  margin-top: 1.4rem;
-  font-size: clamp(1.02rem, 2.2vw, 1.25rem);
+  margin-top: 1rem;
+  font-size: clamp(1rem, 2vw, 1.15rem);
   line-height: 1.65;
-  color: var(--text-on-dark);
+  color: var(--text-muted);
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.5);
 }
 
-.heroActions {
+/* ---------- Rangée de tuiles ---------- */
+.rail {
+  display: flex;
+  gap: 1.1rem;
+  /* Marge en haut et en bas : la tuile active grossit et son halo ne doit pas être coupé */
+  padding: 2rem 0.9rem 2.4rem;
+  margin: 0 -0.9rem;
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  scrollbar-width: none;
+}
+
+.rail::-webkit-scrollbar {
+  display: none;
+}
+
+.tile {
+  position: relative;
+  flex: 0 0 clamp(168px, 17vw, 214px);
+  aspect-ratio: 4 / 5;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 1.1rem;
+  border-radius: 22px;
+  background: linear-gradient(155deg, var(--from), var(--to));
+  color: #fff;
+  overflow: hidden;
+  scroll-snap-align: center;
+  opacity: 0.7;
+  transform: scale(0.96);
+  transition:
+    transform 0.25s var(--ease),
+    opacity 0.25s var(--ease),
+    box-shadow 0.25s var(--ease);
+}
+
+/* Image de la tuile : remplit toute la tuile, sous le reflet et le texte */
+.tileImage {
+  object-fit: cover;
+  z-index: 0;
+  transition: transform 0.5s var(--ease);
+}
+
+.tileActive .tileImage {
+  transform: scale(1.06);
+}
+
+/* Reflet en haut à gauche + ombre en bas pour garder le texte lisible
+   (au-dessus de l'image, en dessous du texte) */
+.tile::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    radial-gradient(120% 80% at 0% 0%, rgba(255, 255, 255, 0.3), transparent 55%),
+    linear-gradient(180deg, transparent 35%, rgba(0, 0, 0, 0.72) 100%);
+  pointer-events: none;
+}
+
+/* Tout sauf l'image passe au-dessus du reflet */
+.tile > *:not(.tileImage) {
+  position: relative;
+  z-index: 2;
+}
+
+.tileActive {
+  opacity: 1;
+  z-index: 2;
+  transform: scale(1.08);
+  box-shadow:
+    0 0 0 3px var(--accent-bright),
+    0 18px 40px rgba(0, 0, 0, 0.5),
+    0 0 46px color-mix(in srgb, var(--from) 55%, transparent);
+}
+
+.tile:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: 4px;
+}
+
+.tileIcon {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  margin-bottom: auto;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  font-size: 22px;
+}
+
+.tileName {
+  font-size: 1.1rem;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.5);
+}
+
+.tileMeta {
+  margin-top: 0.25rem;
+  font-size: 0.85rem;
+  line-height: 1.35;
+  color: rgba(255, 255, 255, 0.88);
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
+}
+
+/* Aide clavier : visible seulement avec une souris/un clavier */
+.hint {
+  display: none;
+  margin: -1rem 0 0.4rem;
+  font-size: 0.85rem;
+  color: var(--text-faint);
+}
+
+@media (hover: hover) and (min-width: 861px) {
+  .hint {
+    display: block;
+  }
+}
+
+/* ---------- Panneau de détail ---------- */
+.panel {
+  max-width: 44rem;
+  padding: 1.7rem 1.9rem;
+}
+
+.panelBody {
+  animation: panelIn 0.3s var(--ease) both;
+}
+
+@keyframes panelIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.panelBody h2 {
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+.panelBody p {
+  max-width: 52ch;
+  margin-top: 0.6rem;
+  font-size: 1.02rem;
+  line-height: 1.65;
+  color: var(--text-muted);
+}
+
+.panelActions {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   gap: 0.8rem;
-  margin-top: 2rem;
+  margin-top: 1.4rem;
 }
 
-.scrollHint {
-  display: inline-block;
-  margin-top: 2.6rem;
-  font-size: 0.9rem;
-  color: var(--text-on-dark);
-}
-
-.scrollHint:hover {
-  color: var(--primary);
-}
-
-/* Boutons (même style que ton ContactForm) */
+/* ---------- Boutons ---------- */
 .btnPrimary,
 .btnGlass {
   display: inline-flex;
@@ -299,8 +446,10 @@
   border-radius: 999px;
   font-weight: 700;
   font-size: 1rem;
-  transition: transform 0.35s var(--ease), box-shadow 0.35s var(--ease),
-    background 0.35s var(--ease);
+  transition:
+    transform 0.3s var(--ease),
+    box-shadow 0.3s var(--ease),
+    background 0.3s var(--ease);
 }
 
 .btnPrimary {
@@ -315,8 +464,9 @@
 
 .btnGlass {
   background: rgba(255, 255, 255, 0.08);
-  color: var(--white);
+  color: #fff;
   border: 1px solid rgba(255, 255, 255, 0.28);
+  -webkit-backdrop-filter: blur(6px);
   backdrop-filter: blur(6px);
 }
 
@@ -329,52 +479,42 @@
    CHIFFRES
 ===================================================== */
 .stats {
-  background: var(--black);
-  color: var(--white);
-  padding: 2.4rem 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 0.5rem 0 1rem;
 }
 
 .statList {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 1rem;
+  padding: 1.8rem 1.2rem;
   text-align: center;
 }
 
 .statList strong {
   display: block;
-  font-size: clamp(2.2rem, 5vw, 3.2rem);
+  font-size: clamp(2rem, 4.6vw, 3rem);
   font-weight: 800;
   line-height: 1;
-  color: var(--primary);
+  color: var(--accent-bright);
 }
 
 .statList span {
   display: block;
   margin-top: 0.5rem;
-  font-size: 0.9rem;
-  color: var(--text-on-dark);
+  font-size: 0.92rem;
+  color: var(--text-muted);
 }
 
 /* =====================================================
    TITRES DE SECTION
 ===================================================== */
-.kicker {
-  margin-bottom: 0.6rem;
-  font-size: 0.8rem;
-  font-weight: 800;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--link);
-}
-
 .sectionTitle {
   max-width: 24ch;
   font-size: clamp(1.8rem, 4.2vw, 2.7rem);
   line-height: 1.12;
   font-weight: 800;
   letter-spacing: -0.025em;
+  color: #fff;
 }
 
 .sectionLead {
@@ -382,14 +522,16 @@
   margin-top: 1rem;
   font-size: 1.05rem;
   line-height: 1.7;
-  color: var(--text-secondary);
+  color: var(--text-muted);
 }
 
 /* Apparition au défilement */
 .reveal {
   opacity: 0;
   transform: translateY(28px);
-  transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+  transition:
+    opacity 0.7s var(--ease),
+    transform 0.7s var(--ease);
   transition-delay: var(--d, 0ms);
 }
 
@@ -402,7 +544,7 @@
    PILIERS
 ===================================================== */
 .intro {
-  padding: 5.5rem 0 3.5rem;
+  padding: 5rem 0 3.5rem;
 }
 
 .pillars {
@@ -414,46 +556,37 @@
 
 .pillar {
   padding: 1.9rem;
-  border: 1px solid var(--border);
-  border-radius: var(--card-radius);
-  background: var(--white);
-  transition-property: opacity, transform, box-shadow, border-color;
 }
 
-.pillar:hover {
-  border-color: var(--primary);
-  box-shadow: 0 16px 40px rgba(76, 195, 255, 0.18);
-}
-
-.pillarNum {
+.pillarIcon {
   display: grid;
   place-items: center;
-  width: 42px;
-  height: 42px;
+  width: 46px;
+  height: 46px;
   margin-bottom: 1.1rem;
   border-radius: 14px;
-  background: var(--primary);
-  color: var(--black);
-  font-weight: 800;
+  background: rgba(76, 195, 255, 0.14);
+  color: var(--accent-bright);
+  font-size: 22px;
 }
 
 .pillar h3 {
   margin-bottom: 0.5rem;
   font-size: 1.2rem;
   letter-spacing: -0.01em;
+  color: #fff;
 }
 
 .pillar p {
   line-height: 1.65;
-  color: var(--text-secondary);
+  color: var(--text-muted);
 }
 
 /* =====================================================
    VITRINE
 ===================================================== */
 .showcase {
-  padding: 4.5rem 0 5.5rem;
-  background: var(--soft-bg);
+  padding: 4.5rem 0 5rem;
   scroll-margin-top: 3rem;
 }
 
@@ -469,8 +602,8 @@
   max-width: 100%;
   padding: 0.3rem;
   border-radius: 999px;
-  background: var(--primary-light);
-  border: 1px solid var(--border);
+  background: var(--surface);
+  border: 1px solid var(--line);
   overflow-x: auto;
 }
 
@@ -478,16 +611,23 @@
   padding: 0.6rem 1.2rem;
   border-radius: 999px;
   background: transparent;
-  color: var(--text-secondary);
+  color: var(--text-muted);
   font-weight: 700;
   font-size: 0.9rem;
   white-space: nowrap;
-  transition: background 0.3s var(--ease), color 0.3s var(--ease);
+  transition:
+    background 0.25s var(--ease),
+    color 0.25s var(--ease);
 }
 
-.segActive {
-  background: var(--black);
-  color: var(--white);
+.segBtn:hover {
+  color: #fff;
+}
+
+.segActive,
+.segActive:hover {
+  background: #fff;
+  color: #000;
 }
 
 .chips {
@@ -498,21 +638,22 @@
 
 .chip {
   padding: 0.5rem 1rem;
-  border: 2px solid var(--border);
+  border: 1px solid var(--line);
   border-radius: 999px;
-  background: var(--white);
-  color: var(--text-secondary);
-  font-size: 0.85rem;
+  background: var(--surface);
+  color: var(--text-muted);
+  font-size: 0.86rem;
   font-weight: 700;
-  transition: all 0.3s var(--ease);
+  transition: all 0.25s var(--ease);
 }
 
 .chip:hover {
   border-color: var(--primary);
-  color: var(--black);
+  color: #fff;
 }
 
-.chipActive {
+.chipActive,
+.chipActive:hover {
   background: var(--primary);
   border-color: var(--primary);
   color: var(--black);
@@ -522,20 +663,23 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 1.4rem;
+  padding: 0.6rem 0;
 }
 
 .card {
   display: flex;
   flex-direction: column;
-  border: 1px solid var(--border);
-  border-radius: var(--card-radius);
-  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
+  background: var(--surface);
   overflow: hidden;
   opacity: 0;
   animation: cardIn 0.6s var(--ease) forwards;
   animation-delay: calc(var(--i) * 70ms);
-  transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease),
-    border-color 0.4s var(--ease);
+  transition:
+    transform 0.25s var(--ease),
+    box-shadow 0.25s var(--ease),
+    border-color 0.25s var(--ease);
 }
 
 @keyframes cardIn {
@@ -549,11 +693,15 @@
   }
 }
 
+/* Même logique que la rangée du Hub : la carte active grossit et s'entoure d'un anneau */
 .card:hover,
 .card:focus-visible {
-  transform: translateY(-6px);
-  border-color: var(--primary);
-  box-shadow: 0 20px 48px rgba(76, 195, 255, 0.25);
+  transform: scale(1.03);
+  border-color: transparent;
+  box-shadow:
+    0 0 0 3px var(--accent-bright),
+    0 24px 56px rgba(0, 128, 255, 0.3);
+  outline: none;
 }
 
 .thumb {
@@ -568,11 +716,12 @@
 .thumbEmoji {
   font-size: 4rem;
   filter: drop-shadow(0 8px 14px rgba(0, 0, 0, 0.25));
-  transition: transform 0.45s var(--ease);
+  transition: transform 0.4s var(--ease);
 }
 
-.card:hover .thumbEmoji {
-  transform: scale(1.15) rotate(-4deg);
+.card:hover .thumbEmoji,
+.card:focus-visible .thumbEmoji {
+  transform: scale(1.12) rotate(-4deg);
 }
 
 .thumbImage {
@@ -596,6 +745,7 @@
   gap: 5px;
   padding: 0.55rem 0.8rem;
   background: rgba(255, 255, 255, 0.2);
+  -webkit-backdrop-filter: blur(6px);
   backdrop-filter: blur(6px);
 }
 
@@ -610,9 +760,9 @@
   margin-left: 0.5rem;
   padding: 0.15rem 0.7rem;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.9);
-  color: var(--black);
-  font-size: 0.7rem;
+  background: rgba(255, 255, 255, 0.92);
+  color: #05070a;
+  font-size: 0.72rem;
   font-weight: 600;
   white-space: nowrap;
   overflow: hidden;
@@ -637,7 +787,7 @@
 .badgeCat {
   padding: 0.25rem 0.75rem;
   border-radius: 999px;
-  font-size: 0.72rem;
+  font-size: 0.75rem;
   font-weight: 800;
 }
 
@@ -647,25 +797,26 @@
 }
 
 .badgeConcept {
-  background: #fff1d6;
-  color: #8a5200;
+  background: rgba(255, 138, 31, 0.16);
+  color: #ffb066;
 }
 
 .badgeCat {
-  background: var(--primary-light);
-  color: var(--text-secondary);
+  background: var(--surface-strong);
+  color: var(--text-muted);
 }
 
 .cardBody h3 {
   margin-bottom: 0.35rem;
   font-size: 1.25rem;
   letter-spacing: -0.01em;
+  color: #fff;
 }
 
 .cardBody p {
   margin-bottom: 1.1rem;
   line-height: 1.55;
-  color: var(--text-secondary);
+  color: var(--text-muted);
   font-size: 0.95rem;
 }
 
@@ -673,29 +824,29 @@
   margin-top: auto;
   font-weight: 800;
   font-size: 0.92rem;
-  color: var(--link);
+  color: var(--accent-bright);
 }
 
 .empty {
   padding: 2rem 0;
-  color: var(--text-secondary);
+  color: var(--text-muted);
 }
 
 .linkBtn {
   background: none;
-  color: var(--link);
+  color: var(--accent-bright);
   font-weight: 700;
   text-decoration: underline;
 }
 
 .moreSites {
-  margin-top: 2.2rem;
-  color: var(--text-secondary);
+  margin-top: 2rem;
+  color: var(--text-muted);
   font-size: 0.95rem;
 }
 
 .moreSites a {
-  color: var(--link);
+  color: var(--accent-bright);
   font-weight: 700;
   text-decoration: underline;
 }
@@ -704,8 +855,7 @@
    SERVICES
 ===================================================== */
 .services {
-  padding: 5rem 0 5.5rem;
-  background: var(--white);
+  padding: 4rem 0 5rem;
 }
 
 .serviceGrid {
@@ -719,21 +869,19 @@
   display: flex;
   flex-direction: column;
   padding: 2.2rem;
-  border: 1px solid var(--border);
-  border-radius: var(--card-radius);
-  background: var(--primary-light);
 }
 
 .serviceCard h3 {
   margin-bottom: 0.6rem;
   font-size: 1.5rem;
   letter-spacing: -0.02em;
+  color: #fff;
 }
 
 .serviceCard p {
   margin-bottom: 1.2rem;
   line-height: 1.65;
-  color: var(--text-secondary);
+  color: var(--text-muted);
 }
 
 .serviceCard ul {
@@ -746,6 +894,7 @@
   position: relative;
   padding-left: 1.7rem;
   line-height: 1.5;
+  color: var(--text);
 }
 
 .serviceCard li::before {
@@ -756,18 +905,19 @@
   width: 0.95rem;
   height: 0.95rem;
   border-radius: 50%;
-  background: var(--white);
-  box-shadow: inset 0 0 0 4px var(--primary);
+  background: transparent;
+  box-shadow: inset 0 0 0 4px var(--accent-bright);
 }
 
 .serviceLink {
   margin-top: auto;
   font-weight: 800;
-  color: var(--black);
+  color: #fff;
+  border-radius: 8px;
 }
 
 .serviceLink:hover {
-  color: var(--link);
+  color: var(--accent-bright);
   text-decoration: underline;
 }
 
@@ -775,17 +925,22 @@
    APPEL À L'ACTION
 ===================================================== */
 .cta {
-  padding: 1rem 0 5.5rem;
-  background: var(--white);
+  padding: 1rem 0 3rem;
 }
 
 .ctaBox {
   padding: clamp(2.2rem, 6vw, 4rem);
+  border: 1px solid var(--line);
   border-radius: 36px;
-  background: radial-gradient(circle at 85% 0%, #14455f 0%, var(--black-soft) 45%, var(--black) 100%);
-  color: var(--white);
+  background: radial-gradient(
+    circle at 85% 0%,
+    rgba(0, 128, 255, 0.35) 0%,
+    var(--bg-elevated) 55%,
+    var(--bg) 100%
+  );
+  color: #fff;
   text-align: center;
-  box-shadow: 0 28px 70px rgba(5, 7, 10, 0.3);
+  box-shadow: 0 28px 70px rgba(0, 0, 0, 0.4);
 }
 
 .ctaBox h2 {
@@ -801,7 +956,7 @@
   max-width: 32rem;
   margin: 1rem auto 0;
   line-height: 1.7;
-  color: var(--text-on-dark);
+  color: var(--text-muted);
 }
 
 .ctaActions {
@@ -810,6 +965,61 @@
   justify-content: center;
   gap: 0.8rem;
   margin-top: 2.2rem;
+}
+
+/* =====================================================
+   IMAGE DU BAS DE PAGE
+   (l'image se change dans BOTTOM_IMAGE, en haut de page.js)
+===================================================== */
+.bottomImage {
+  padding: 1rem 0 5rem;
+}
+
+.bottomFrame {
+  position: relative;
+  aspect-ratio: 21 / 9;
+  border: 1px solid var(--line);
+  border-radius: 36px;
+  background: var(--bg-elevated);
+  overflow: hidden;
+  box-shadow: 0 28px 70px rgba(0, 0, 0, 0.4);
+}
+
+.bottomPhoto {
+  object-fit: cover;
+}
+
+/* Voile en bas pour que le texte (s'il y en a) reste lisible */
+.bottomFrame::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 45%, rgba(7, 10, 18, 0.75) 100%);
+  pointer-events: none;
+}
+
+.bottomCaption {
+  position: absolute;
+  left: clamp(1.2rem, 4vw, 2.6rem);
+  right: clamp(1.2rem, 4vw, 2.6rem);
+  bottom: clamp(1.1rem, 3.5vw, 2.2rem);
+  z-index: 1;
+  color: #fff;
+}
+
+.bottomCaption h2 {
+  max-width: 22ch;
+  font-size: clamp(1.4rem, 3.6vw, 2.3rem);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+.bottomCaption p {
+  max-width: 44ch;
+  margin-top: 0.5rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.9);
 }
 
 /* =====================================================
@@ -833,10 +1043,29 @@
   .splashName {
     font-size: 1.9rem;
   }
+
+  /* La rangée déborde jusqu'aux bords de l'écran, comme un carrousel */
+  .rail {
+    padding-inline: 1.5rem;
+    margin-inline: -1.5rem;
+  }
+
+  .tile {
+    flex-basis: min(58vw, 220px);
+  }
+
+  .panel {
+    padding: 1.4rem 1.3rem;
+  }
+
+  .bottomFrame {
+    aspect-ratio: 4 / 3;
+    border-radius: 26px;
+  }
 }
 
 @media (max-width: 520px) {
-  .heroActions > *,
+  .panelActions > *,
   .ctaActions > * {
     flex: 1 1 100%;
   }
@@ -848,8 +1077,8 @@
 
 /* =====================================================
    MOUVEMENT RÉDUIT
-   (ton globals.css coupe déjà les animations : on s'assure ici que
-   rien ne reste invisible)
+   (globals.css coupe déjà les animations : on s'assure ici que
+   rien ne reste invisible ni coincé hors de sa place)
 ===================================================== */
 @media (prefers-reduced-motion: reduce) {
   .splashLogo,
@@ -867,6 +1096,14 @@
 
   .reveal {
     opacity: 1;
+    transform: none;
+  }
+
+  .tile,
+  .tileActive,
+  .tileActive .tileImage,
+  .card:hover,
+  .card:focus-visible {
     transform: none;
   }
 }

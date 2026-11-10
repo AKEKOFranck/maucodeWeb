@@ -1,106 +1,145 @@
 .card {
-  background: var(--white);
-  border: 1px solid var(--border);
-  border-radius: var(--card-radius);
-  padding: 28px;
-  margin-bottom: 40px;
-  box-shadow: 0 20px 50px rgba(5, 7, 10, 0.05);
+  background: var(--bg-elevated);
+  border: 1px solid var(--line);
+  border-radius: var(--card-radius, 20px);
+  padding: 1.5rem;
+  margin-bottom: 2.5rem;
 }
 
 .title {
-  font-size: 24px;
+  font-size: 1.5rem;
   font-weight: 800;
-  margin-bottom: 6px;
+  color: var(--text);
+  margin-bottom: 0.4rem;
 }
 
 .lead {
-  color: var(--text-secondary);
-  font-size: 14px;
+  color: var(--text-muted);
+  font-size: 0.95rem;
   line-height: 1.6;
-  margin-bottom: 20px;
+  margin-bottom: 1.25rem;
 }
 
 .form {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 0.9rem;
 }
 
 .form label {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 0.4rem;
   font-weight: 600;
-  font-size: 14px;
+  font-size: 0.95rem;
+  color: var(--text);
 }
 
 .form input,
 .form textarea {
   width: 100%;
-  padding: 12px 14px;
+  min-height: 44px;
+  padding: 0.75rem 0.9rem;
   border-radius: 14px;
-  border: 2px solid var(--border);
-  background: var(--primary-light);
-  color: var(--text-primary);
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
   font-weight: 500;
 }
 
-.form textarea { resize: vertical; }
+.form input::placeholder,
+.form textarea::placeholder {
+  color: var(--text-faint);
+}
 
-.form input:focus,
-.form textarea:focus {
-  outline: none;
-  border-color: var(--primary);
-  background: var(--white);
+.form textarea {
+  resize: vertical;
+}
+
+/* Le focus clavier global (anneau 3px) reste actif : on ne le supprime pas */
+.form input:focus-visible,
+.form textarea:focus-visible {
+  border-color: var(--accent-bright);
 }
 
 .counter {
-  font-size: 12px;
+  font-size: 0.8rem;
   font-weight: 500;
-  color: var(--text-light);
+  color: var(--text-faint);
   text-align: right;
 }
 
 .preview {
-  border-left: 4px solid var(--primary);
-  background: var(--primary-light);
+  border-left: 4px solid var(--accent-bright);
+  background: var(--surface);
   border-radius: 14px;
-  padding: 14px 16px;
-  font-size: 14px;
+  padding: 0.9rem 1rem;
+  font-size: 0.95rem;
+  color: var(--text);
 }
 
 .preview p {
-  margin-top: 4px;
-  color: var(--text-secondary);
+  margin-top: 0.25rem;
+  color: var(--text-muted);
   white-space: pre-line;
   overflow-wrap: anywhere;
 }
 
-.ok { color: #1e7a46; font-size: 14px; font-weight: 600; }
-.error { color: #b3261e; font-size: 13px; font-weight: 600; }
+.ok {
+  color: var(--success);
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.error {
+  color: #ff8a80;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
 
 .actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 0.6rem;
 }
 
 .primary,
 .ghost,
 .danger {
-  padding: 11px 20px;
+  min-height: 44px;
+  padding: 0.65rem 1.25rem;
   border-radius: 999px;
   font-weight: 700;
-  font-size: 14px;
+  font-size: 0.95rem;
   transition: background 0.25s var(--ease), color 0.25s var(--ease);
 }
 
-.primary { background: var(--black); color: var(--white); }
-.primary:hover:not(:disabled) { background: var(--primary); color: var(--black); }
-.ghost { background: var(--primary-light); color: var(--text-primary); }
-.ghost:hover:not(:disabled) { background: var(--secondary); }
-.danger { background: #fdecea; color: #b3261e; }
-.danger:hover:not(:disabled) { background: #f6c7c3; }
+.primary {
+  background: var(--primary);
+  color: var(--black);
+}
+.primary:hover:not(:disabled) {
+  background: var(--accent-bright);
+}
+
+.ghost {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  color: var(--text);
+}
+.ghost:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.danger {
+  background: rgba(255, 59, 48, 0.14);
+  border: 1px solid rgba(255, 59, 48, 0.45);
+  color: #ff8a80;
+}
+.danger:hover:not(:disabled) {
+  background: rgba(255, 59, 48, 0.24);
+}
 
 .primary:disabled,
 .ghost:disabled,
@@ -110,39 +149,45 @@
 }
 
 .list {
-  margin-top: 28px;
+  margin-top: 1.75rem;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 0.75rem;
 }
 
 .row {
-  border: 1px solid var(--border);
+  border: 1px solid var(--line);
   border-radius: 18px;
-  padding: 16px;
+  padding: 1rem;
+  background: var(--surface);
 }
 
 .rowHead {
   display: flex;
   justify-content: space-between;
-  gap: 10px;
-  margin-bottom: 6px;
+  gap: 0.6rem;
+  margin-bottom: 0.4rem;
+  color: var(--text);
 }
 
-.rowHead time { font-size: 12px; color: var(--text-light); flex-shrink: 0; }
+.rowHead time {
+  font-size: 0.85rem;
+  color: var(--text-faint);
+  flex-shrink: 0;
+}
 
 .rowText {
-  font-size: 14px;
-  color: var(--text-secondary);
+  font-size: 0.95rem;
+  color: var(--text-muted);
   line-height: 1.55;
   white-space: pre-line;
   overflow-wrap: anywhere;
-  margin-bottom: 8px;
+  margin-bottom: 0.5rem;
 }
 
 .rowLink {
-  font-size: 12px;
-  color: var(--text-light);
-  margin-bottom: 10px;
+  font-size: 0.85rem;
+  color: var(--text-faint);
+  margin-bottom: 0.75rem;
   overflow-wrap: anywhere;
 }

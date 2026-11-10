@@ -1,17 +1,17 @@
-"use client";
-
-import { useState } from "react";
-import Link from "next/link";
-import Image from "next/image";
-import styles from "./page.module.css";
-
 import data from "@/lib/data/works.json";
 import { getCourse } from "@/lib/data/modules";
-import { SESSION_PRICE, FREE_MODULES_PER_COURSE } from "@/lib/config";
-import ContactForm, { BESOIN_SEANCE } from "@/components/ContactForm/contactform";
+import { SESSION_PRICE } from "@/lib/config";
+import CoursesRail from "./CoursesRail";
+import InviteBox from "./InviteBox";
+import styles from "./page.module.css";
 
+export const metadata = {
+  title: "Formations Office : Word, Excel et PowerPoint pour débutants",
+  description: data.program.description,
+  alternates: { canonical: "/works" },
+};
 
-const values = [
+const VALUES = [
   {
     title: "Aucun prérequis",
     text: "On part de zéro. Chaque parcours commence par la prise en main de l'interface, sans supposer que tu connais déjà le logiciel.",
@@ -27,54 +27,53 @@ const values = [
 ];
 
 export default function Works() {
-  const [openCourse, setOpenCourse] = useState(null);
-
-  const toggleCourse = (id) =>
-    setOpenCourse((current) => (current === id ? null : id));
+  /* Données légères envoyées au composant client (pas tout le contenu des cours) */
+  const courses = data.courses.map((c) => {
+    const detail = getCourse(c.id);
+    return {
+      id: c.id,
+      software: c.software,
+      title: c.title,
+      pitch: c.pitch,
+      level: c.level,
+      duration: c.duration,
+      format: c.format,
+      outcomes: c.outcomes,
+      color: c.accentColor,
+      icon: detail?.icon ?? null,
+      modules: (detail?.modules ?? []).map((m) => ({
+        slug: m.slug,
+        title: m.title,
+        intro: m.intro,
+        lessons: m.chapters.map((ch) => ch.title),
+      })),
+    };
+  });
 
   return (
     <main className={styles.main}>
-      {/* 1. Présentation */}
-      <section className={styles.presentation}>
-        <Image
-          src="/fondAbout (1).png"
-          alt="Formations Office Maucode"
-          fill
-          priority
-          sizes="100vw"
-          className={styles.heroImage}
-        />
-        <div className={styles.heroShade} />
-
-        <div className={styles.heroContent}>
-          <p className={styles.heroBrand} style={{ "--i": 0 }}>
-            {data.program.name}
-          </p>
-          <h1 className={styles.heroTitle} style={{ "--i": 1 }}>
-            {data.program.tagline}
-          </h1>
-          <p className={styles.heroText} style={{ "--i": 2 }}>
-            {data.program.description}
-          </p>
-          <div className={styles.heroTags} style={{ "--i": 3 }}>
-            <span>{data.program.audience}</span>
-           <span>3 logiciels, 3 parcours</span>
-            <span>1er module gratuit, sans compte</span>
-            <span>Exercices et corrigés</span>
-            <span>Séance approfondie : {SESSION_PRICE}</span>
-          </div>
+      <section className={styles.hero}>
+        <div className={styles.container}>
+          <h1 className={styles.heroTitle}>{data.program.tagline}</h1>
+          <p className={styles.heroText}>{data.program.description}</p>
+          <ul className={styles.tags}>
+            <li>{data.program.audience}</li>
+            <li>3 logiciels, 3 parcours</li>
+            <li>1er module gratuit, sans compte</li>
+            <li>Exercices et corrigés</li>
+            <li>Séance approfondie : {SESSION_PRICE}</li>
+          </ul>
         </div>
       </section>
 
-      {/* 2. Pourquoi cette formation */}
+      <CoursesRail courses={courses} />
+
       <section className={styles.values}>
         <div className={styles.container}>
-          <h2 className={styles.sectionTitleLight}>
-            Apprendre Office, sans stress.
-          </h2>
+          <h2 className={styles.sectionTitle}>Apprendre Office, sans stress.</h2>
           <ul className={styles.valueList}>
-            {values.map((v) => (
-              <li key={v.title} className={styles.valueItem}>
+            {VALUES.map((v) => (
+              <li key={v.title} className={`glass ${styles.valueItem}`}>
                 <h3>{v.title}</h3>
                 <p>{v.text}</p>
               </li>
@@ -83,134 +82,7 @@ export default function Works() {
         </div>
       </section>
 
-      {/* 3. Les parcours */}
-      <section className={styles.courses}>
-        <div className={styles.container}>
-          <h2 className={styles.sectionTitle}>Choisis ton parcours</h2>
-
-          <div className={styles.courseList}>
-            {data.courses.map((course) => {
-              const isOpen = openCourse === course.id;
-              const detail = getCourse(course.id);
-
-              return (
-                <article key={course.id} className={styles.courseCard}>
-                  <div className={styles.courseHead}>
-                    <div>
-                      <span
-                        className={styles.softwareTag}
-                        style={{
-                          color: course.accentColor,
-                          background: `${course.accentColor}1A`,
-                        }}
-                      >
-                        <span
-                          className={styles.softwareDot}
-                          style={{ background: course.accentColor }}
-                        />
-                        {course.software}
-                      </span>
-                      <h3 className={styles.courseTitle}>{course.title}</h3>
-                      <p className={styles.coursePitch}>{course.pitch}</p>
-                    </div>
-
-                    <dl className={styles.courseMeta}>
-                      <div>
-                        <dt>Niveau</dt>
-                        <dd>{course.level}</dd>
-                      </div>
-                      <div>
-                        <dt>Durée</dt>
-                        <dd>{course.duration}</dd>
-                      </div>
-                      <div>
-                        <dt>Format</dt>
-                        <dd>{course.format}</dd>
-                      </div>
-                    </dl>
-                  </div>
-
-                  <ul className={styles.outcomes}>
-                    {course.outcomes.map((outcome) => (
-                      <li key={outcome}>{outcome}</li>
-                    ))}
-                  </ul>
-
-                  <div className={styles.courseActions}>
-                    <Link
-                      href={`/works/${course.id}`}
-                      className={styles.btnPrimary}
-                    >
-                      Ouvrir le cours
-                    </Link>
-                    <button
-                      type="button"
-                      className={styles.btnOutline}
-                      onClick={() => toggleCourse(course.id)}
-                      aria-expanded={isOpen}
-                    >
-                      {isOpen ? "Masquer le programme" : "Voir le programme"}
-                    </button>
-                  </div>
-
-                {isOpen && (
-  <div className={styles.modules}>
-    {(detail?.modules ?? []).map((module, index) => (
-      <div key={module.slug} className={styles.moduleRow}>
-        <span className={styles.moduleIndex}>{index + 1}</span>
-        <div>
-          <h4 className={styles.moduleTitle}>{module.title}</h4>
-          <p className={styles.moduleIntro}>{module.intro}</p>
-          <div className={styles.lessonList}>
-            {module.chapters.map((chapter) => (
-              <span key={chapter.title} className={styles.lessonPill}>
-                {chapter.title}
-              </span>
-            ))}
-          </div>
-          <Link
-            href={`/works/${course.id}/${module.slug}`}
-            className={styles.moduleLink}
-          >
-            {index < FREE_MODULES_PER_COURSE
-              ? "Essayer gratuitement, sans compte"
-              : "Ouvrir ce module"}
-          </Link>
-        </div>
-      </div>
-    ))}
-  </div>
-)}
-                </article>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* 4. Aller plus loin : séance avec un formateur */}
-      <section className={styles.invitations}>
-        <div className={styles.container}>
-          <div className={styles.inviteBox}>
-            <h2>Envie d&apos;aller plus loin ?</h2>
-            <p>
-              Les parcours en ligne te donnent les bases. Pour une formation
-              plus poussée, réserve une séance avec un formateur :{" "}
-              <strong>{SESSION_PRICE} la séance</strong>. Dis-nous quel
-              logiciel tu veux approfondir et à quel moment tu es disponible,
-              nous fixons la séance avec toi.
-            </p>
-            <div className={styles.inviteActions}>
-              <ContactForm
-                label="Réserver une séance"
-                variant="primary"
-                defaultBesoin={BESOIN_SEANCE}
-              />
-              <ContactForm label="Poser une question" />
-            </div>
-          </div>
-        </div>
-      </section>
+      <InviteBox />
     </main>
   );
 }
