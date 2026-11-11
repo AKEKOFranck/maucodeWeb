@@ -1,8 +1,8 @@
 /* Donne ou retire le rôle administrateur (custom claim "admin") à un compte Firebase.
    Usage (e-mail OU uid) :
-     node --env-file=.env.local scripts/set-admin.mjs fa0055970@gmail.com
+     node --env-file=.env.local scripts/set-admin.mjs ton-email@exemple.com
      node --env-file=.env.local scripts/set-admin.mjs <uid>
-     node --env-file=.env.local scripts/set-admin.mjs fa0055970@gmail.com --remove
+     node --env-file=.env.local scripts/set-admin.mjs ton-email@exemple.com --remove
    Ensuite, la personne doit se déconnecter puis se reconnecter. */
 import { cert, initializeApp } from "firebase-admin/app";
 import { getAuth } from "firebase-admin/auth";
@@ -43,6 +43,9 @@ if (flag === "--remove") {
   await auth.revokeRefreshTokens(uid); // invalide les sessions existantes
   console.log(`Rôle admin retiré à ${user.email || uid}.`);
 } else {
+  if (!user.emailVerified) {
+    console.warn("Attention : l'e-mail de ce compte n'est pas vérifié. Vérifie que c'est bien le bon compte.");
+  }
   claims.admin = true;
   await auth.setCustomUserClaims(uid, claims);
   const check = await auth.getUser(uid);

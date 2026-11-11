@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { FieldValue } from "firebase-admin/firestore";
 import { adminDb } from "@/lib/firebaseAdmin";
-import { verifyBearer } from "@/lib/serverAuth";
+import { verifyBearer, checkAppCheck } from "@/lib/serverAuth";
 import { createLimiter, clientIp } from "@/lib/rateLimit";
 import { findModule, gradeQuiz } from "@/lib/quizServer";
 import { FREE_MODULES_PER_COURSE } from "@/lib/config";
@@ -9,9 +9,12 @@ import { FREE_MODULES_PER_COURSE } from "@/lib/config";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
+/* Plusieurs apprenants peuvent partager la même adresse IP (cybercafé, salle de classe, réseau mobile).
+   Les plafonds par IP sont donc larges : ils servent seulement à stopper un robot.
+   La vraie limite pour un apprenant connecté est celle par compte et par module (userLimit). */
 const TEN_MIN = 10 * 60 * 1000;
-const ipLimit = createLimiter({ windowMs: TEN_MIN, max: 60 }); // toutes requêtes, par visiteur
-const guestLimit = createLimiter({ windowMs: TEN_MIN, max: 20 }); // corrections sans compte
+const ipLimit = createLimiter({ windowMs: TEN_MIN, max: 200 }); // toutes requêtes, par adresse IP
+const guestLimit = createLimiter({ windowMs: TEN_MIN, max: 60 }); // corrections sans compte, par adresse IP
 const userLimit = createLimiter({ windowMs: TEN_MIN, max: 8 }); // corrections par compte et par module
 
 const json = (body, status = 200, headers = {}) =>
@@ -39,6 +42,10 @@ export async function POST(request) {
     if (w0 > 0) return tooMany(w0);
 
     if (!sameOrigin(request)) return json({ error: "forbidden" }, 403);
+
+    // App Check (actif seulement si APPCHECK_ENFORCE=true).
+    // Réponse 400 et non 403 : le navigateur affiche « verrouillé » pour tout 403.
+    if (!(await checkAppCheck(request))) return json({ error: "bad_request" }, 400);
 
     const raw = await request.text();
     if (raw.length > 2000) return json({ error: "bad_request" }, 400);

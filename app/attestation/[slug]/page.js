@@ -43,10 +43,25 @@ export default function AttestationPage() {
     [user, slug]
   );
 
-  /* Au chargement : attestation déjà émise ? apprenant éligible ? */
+  /* Au chargement : attestation déjà émise ? apprenant éligible ?
+     Quand l'utilisateur se déconnecte ou change de compte, on efface tout ce qui
+     appartenait à la personne précédente (ordinateurs partagés, cybercafés). */
   useEffect(() => {
-    if (!valid || authLoading || !user) return;
+    if (!valid || authLoading) return;
+
+    if (!user) {
+      setData(null);
+      setName("");
+      setAgreed(false);
+      setError("");
+      setStatus("loading");
+      return;
+    }
+
     let cancelled = false;
+    setData(null);
+    setStatus("loading");
+
     (async () => {
       try {
         const r = await callApi("GET");

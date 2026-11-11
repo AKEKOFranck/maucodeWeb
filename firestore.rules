@@ -1,0 +1,81 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    /* ---------- Outils ---------- */
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    // Rôle posé côté serveur (custom claim) par scripts/set-admin.mjs
+    function isAdmin() {
+      return signedIn() && request.auth.token.get('admin', false) == true;
+    }
+
+    /* ---------- Utilisateurs ---------- */
+    match /users/{uid} {
+      allow read: if isAdmin() || (signedIn() && request.auth.uid == uid);
+      allow create, update: if signedIn()
+        && request.auth.uid == uid
+        && request.resource.data.keys().hasOnly(['uid', 'lastLogin'])
+        && request.resource.data.keys().hasAll(['uid', 'lastLogin'])
+        && request.resource.data.uid == uid
+        && request.resource.data.lastLogin == request.time;
+      allow delete: if false;
+    }
+
+    /* ---------- Progression des apprenants ----------
+       Écrite UNIQUEMENT par le serveur (POST /api/quiz, SDK Admin) après correction du quiz.
+       Le client peut lire sa progression et la supprimer, jamais l'écrire. */
+    match /progress/{id} {
+      allow get: if isAdmin()
+        || (signedIn() && id.matches(request.auth.uid + '_.*'));
+      allow list: if isAdmin()
+        || (signedIn() && resource.data.uid == request.auth.uid);
+      allow create, update: if false;
+      allow delete: if signedIn() && resource.data.uid == request.auth.uid;
+    }
+
+    /* ---------- Annonces (lecture publique, écriture réservée à l'administrateur) ---------- */
+    function validHref(h) {
+      return h.matches('^/([A-Za-z0-9_#?=&%.-][A-Za-z0-9_/#?=&%.-]*)?$')
+        || h.matches('^https://(www[.]|chat[.])?whatsapp[.]com/[A-Za-z0-9_/#?=&%.-]*$')
+        || h.matches('^https://wa[.]me/[A-Za-z0-9_/#?=&%.-]*$');
+    }
+
+    function validAnnouncement() {
+      let d = request.resource.data;
+      return d.keys().hasOnly(['title', 'body', 'href', 'createdAt'])
+        && d.keys().hasAll(['title', 'body', 'createdAt'])
+        && d.title is string && d.title.size() >= 1 && d.title.size() <= 80
+        && d.body is string && d.body.size() >= 1 && d.body.size() <= 500
+        && d.createdAt is timestamp
+        && (!('href' in d)
+            || (d.href is string && d.href.size() <= 200 && (d.href == '' || validHref(d.href))));
+    }
+
+    match /announcements/{id} {
+      allow get: if true;
+      // Une requête doit toujours préciser une limite (le site demande 5, l'admin 50)
+      allow list: if request.query.limit <= 50;
+      allow create: if isAdmin() && validAnnouncement()
+        && request.resource.data.createdAt == request.time;
+      allow update: if isAdmin() && validAnnouncement()
+        && request.resource.data.createdAt == resource.data.createdAt;
+      allow delete: if isAdmin();
+    }
+
+    /* ---------- Attestations : fermées à tous les clients ---------- */
+    match /attestations/{id} {
+      allow read, write: if false;
+    }
+    match /attestationsPrivate/{id} {
+      allow read, write: if false;
+    }
+
+    /* ---------- Tout le reste : refusé ---------- */
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

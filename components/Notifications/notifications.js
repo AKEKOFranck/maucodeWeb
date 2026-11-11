@@ -113,7 +113,7 @@ export function NewModulesBanner() {
           ))}
         </ul>
       </div>
-      <button type="button" className={s.bannerBtn} onClick={dismiss}>J'ai vu</button>
+      <button type="button" className={s.bannerBtn} onClick={dismiss}>J&apos;ai vu</button>
     </aside>
   );
 }

@@ -8,11 +8,15 @@ export const runtime = "nodejs";
 const MAX_BODY = 10_000; // taille maximale de la requête (caractères)
 const MAX_LINKS = 2; // nombre de liens autorisés dans un message
 
+const anyRequest = createLimiter({ windowMs: 10 * 60 * 1000, max: 60 }); // toutes requêtes, par visiteur
 const perVisitor = createLimiter({ windowMs: 10 * 60 * 1000, max: 3 }); // 3 envois / 10 min / visiteur
 const overall = createLimiter({ windowMs: 60 * 60 * 1000, max: 40 }); // 40 envois / heure, tous visiteurs
 
 const EMAIL = /^[^\s@<>(),;:"\\]+@[^\s@<>(),;:"\\]+\.[^\s@<>(),;:"\\]{2,}$/;
 const PHONE = /^[0-9+().\s-]{6,40}$/;
+
+// Champs acceptés : chacun doit être du texte (ou absent)
+const FIELDS = ["name", "email", "phone", "kind", "course", "module", "message", "website"];
 
 /* ---------- Outils ---------- */
 // Supprime les caractères de contrôle (sauf retour à la ligne et tabulation), coupe à la longueur max
@@ -64,14 +68,23 @@ function getTransporter(user, pass) {
 /* ---------- Route ---------- */
 export async function POST(req) {
   try {
+    // Limite générale : même les requêtes invalides sont comptées
+    const hammer = anyRequest(clientIp(req));
+    if (hammer > 0) {
+      return json({ error: "Trop de requêtes. Réessaie dans quelques minutes." }, 429, {
+        "Retry-After": String(hammer),
+      });
+    }
+
     const user = process.env.GMAIL_USER;
     // Les espaces du mot de passe d'application sont retirés automatiquement
     const pass = (process.env.GMAIL_APP_PASSWORD || "").replace(/\s/g, "");
     const to = process.env.FEEDBACK_TO || user;
 
     if (!user || !pass) {
+      // Le détail reste dans les logs : le public ne doit pas savoir ce qui manque
       console.error("[feedback] GMAIL_USER ou GMAIL_APP_PASSWORD manquant (redémarre le serveur après modification)");
-      return json({ error: "Le serveur d'e-mail n'est pas configuré." }, 500);
+      return json({ error: "L'envoi est indisponible pour le moment." }, 500);
     }
 
     if (!sameOrigin(req)) return json({ error: "Requête refusée." }, 403);
@@ -82,6 +95,10 @@ export async function POST(req) {
 
     // App Check (actif seulement si APPCHECK_ENFORCE=true)
     if (!(await checkAppCheck(req))) return json({ error: "Requête refusée." }, 403);
+
+    // Refus immédiat si la taille annoncée est trop grande, avant de lire le contenu
+    const announced = Number(req.headers.get("content-length") || 0);
+    if (announced > MAX_BODY) return json({ error: "Message trop long." }, 413);
 
     const raw = await req.text();
     if (raw.length > MAX_BODY) return json({ error: "Message trop long." }, 413);
@@ -94,6 +111,13 @@ export async function POST(req) {
     }
     if (!b || typeof b !== "object" || Array.isArray(b)) {
       return json({ error: "Requête invalide." }, 400);
+    }
+
+    // Chaque champ doit être du texte : un objet ou un tableau est refusé
+    for (const f of FIELDS) {
+      if (b[f] !== undefined && b[f] !== null && typeof b[f] !== "string") {
+        return json({ error: "Requête invalide." }, 400);
+      }
     }
 
     // Piège anti-robot : ce champ est caché, seuls les robots le remplissent.

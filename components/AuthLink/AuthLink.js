@@ -13,7 +13,11 @@ export default function AuthLink({ className, activeClassName = "" }) {
 
   const items = [];
   if (user && isAdmin) items.push({ href: "/admin", label: "Admin" });
-  items.push({ href: "/login", label: user ? "Mon compte" : "Connexion" });
+  items.push(
+    user
+      ? { href: "/compte", label: "Mon compte" }
+      : { href: "/login", label: "Connexion" }
+  );
 
   return items.map(({ href, label }) => {
     const active = pathname.startsWith(href);

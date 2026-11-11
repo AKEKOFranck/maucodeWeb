@@ -9,7 +9,9 @@ const MENTION_LEGALE =
   "Elle n'est ni un diplôme, ni un certificat ou un titre homologué, et n'est pas validée ni reconnue par l'État de Côte d'Ivoire. " +
   "Elle ne confère aucun grade, aucune équivalence académique ou professionnelle.";
 
+/* Renvoie "" si la date est absente ou invalide : on n'invente jamais une date sur un document officiel */
 function formatDate(date) {
+  if (!(date instanceof Date) || Number.isNaN(date.getTime())) return "";
   return new Intl.DateTimeFormat("fr-FR", {
     day: "numeric",
     month: "long",
@@ -21,7 +23,8 @@ export default function Attestation({ name, tool, reference, date, verifyUrl }) 
   // React échappe déjà le texte ; on limite en plus la longueur
   const safeName = String(name || "").trim().slice(0, 60);
   const safeTool = String(tool || "").slice(0, 80);
-  const issued = date instanceof Date && !Number.isNaN(date.getTime()) ? date : new Date();
+  const safeRef = String(reference || "").slice(0, 40);
+  const issued = formatDate(date);
 
   return (
     <>
@@ -55,7 +58,7 @@ export default function Attestation({ name, tool, reference, date, verifyUrl }) 
             <p className={styles.tagline}>Formation en ligne · Abidjan, Côte d&apos;Ivoire</p>
           </header>
 
-          <h1 className={styles.title}>Attestation de réussite</h1>
+          <h2 className={styles.title}>Attestation de réussite</h2>
           <div className={styles.rule} />
 
           <p className={styles.lead}>Maucode atteste que</p>
@@ -70,10 +73,10 @@ export default function Attestation({ name, tool, reference, date, verifyUrl }) 
           <div className={styles.meta}>
             <div>
               <span className={styles.label}>Délivrée à</span>
-              <span>Abidjan, le {formatDate(issued)}</span>
+              <span>{issued ? `Abidjan, le ${issued}` : "—"}</span>
             </div>
 
-            <div className={styles.signature}>
+            <div>
               <span className={styles.label}>Pour Maucode</span>
               <span className={styles.signLine} />
               <span>Akeko Maurice</span>
@@ -89,7 +92,7 @@ export default function Attestation({ name, tool, reference, date, verifyUrl }) 
                 </>
               )}
               <span className={styles.label}>Référence</span>
-              <span className={styles.ref}>{reference}</span>
+              <span className={styles.ref}>{safeRef || "—"}</span>
             </div>
           </div>
 

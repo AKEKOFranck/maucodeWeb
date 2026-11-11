@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { FiMonitor, FiCalendar, FiCode } from "react-icons/fi";
 import ContactForm from "@/components/ContactForm/contactform";
-import { whatsappLink, WHATSAPP_SITE_MESSAGE } from "@/lib/config";
+import { whatsappLink, WHATSAPP_GENERAL_MESSAGE } from "@/lib/config";
 import styles from "./page.module.css";
 
 export const metadata = {
@@ -96,7 +96,7 @@ export default function About() {
             <div className={styles.inviteActions}>
               <ContactForm label="Ouvrir le formulaire" variant="primary" />
               <a
-                href={whatsappLink(WHATSAPP_SITE_MESSAGE)}
+                href={whatsappLink(WHATSAPP_GENERAL_MESSAGE)}
                 target="_blank"
                 rel="noopener noreferrer"
                 className={styles.btnGlass}

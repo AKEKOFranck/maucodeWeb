@@ -8,6 +8,7 @@ export default function robots() {
       disallow: [
         "/admin",
         "/login",
+        "/compte",
         "/attestation",
         "/verification",
         "/api/",

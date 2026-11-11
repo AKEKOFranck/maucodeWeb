@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { FiLogOut, FiUser } from "react-icons/fi";
+import { FiUser } from "react-icons/fi";
 import { auth } from "@/lib/firebase";
 import { useAuth } from "@/components/AuthProvider/AuthProvider";
 import s from "./page.module.css";
@@ -25,10 +25,16 @@ const MESSAGES = {
   Cela évite qu'un lien piégé comme /login?next=//site-malveillant.com renvoie l'utilisateur ailleurs.
 */
 function safeNext(value) {
-  if (typeof value !== "string") return "/works";
-  if (!/^\/(?![/\\])/.test(value)) return "/works"; // doit commencer par un seul "/"
-  if (/[\u0000-\u001f\u007f]/.test(value)) return "/works"; // pas de caractères de contrôle
+  if (typeof value !== "string") return "/compte";
+  if (!/^\/(?![/\\])/.test(value)) return "/compte"; // doit commencer par un seul "/"
+  if (/[\u0000-\u001f\u007f]/.test(value)) return "/compte"; // pas de caractères de contrôle
   return value;
+}
+
+/* Sans paramètre ?next=, on va sur la page de compte */
+function readTarget() {
+  const raw = new URLSearchParams(window.location.search).get("next");
+  return raw ? safeNext(raw) : "/compte";
 }
 
 function GoogleIcon() {
@@ -42,46 +48,18 @@ function GoogleIcon() {
   );
 }
 
-/* Photo du compte Google, ou initiale si elle manque ou ne se charge pas */
-function Avatar({ user }) {
-  const [broken, setBroken] = useState(false);
-  const photo =
-    typeof user?.photoURL === "string" && /^https:\/\//.test(user.photoURL) ? user.photoURL : null;
-  const initial = (user?.displayName || user?.email || "?").trim().charAt(0).toUpperCase();
-
-  if (photo && !broken) {
-    return (
-      // eslint-disable-next-line @next/next/no-img-element
-      <img
-        src={photo}
-        alt=""
-        width={52}
-        height={52}
-        referrerPolicy="no-referrer"
-        className={s.avatar}
-        onError={() => setBroken(true)}
-      />
-    );
-  }
-  return (
-    <span className={s.avatar} aria-hidden="true">
-      {initial}
-    </span>
-  );
-}
-
 export default function LoginPage() {
   const router = useRouter();
-  const { user, loading, logout } = useAuth();
+  const { user, loading } = useAuth();
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
-  const [nextUrl, setNextUrl] = useState("/works");
   const tileRefs = useRef([]);
 
+  /* Déjà connecté (ou connexion réussie) : on part vers la destination */
   useEffect(() => {
-    const next = new URLSearchParams(window.location.search).get("next");
-    setNextUrl(safeNext(next));
-  }, []);
+    if (loading || !user) return;
+    router.replace(readTarget());
+  }, [loading, user, router]);
 
   async function loginGoogle() {
     if (busy) return;
@@ -89,8 +67,7 @@ export default function LoginPage() {
     setError("");
     try {
       await signInWithPopup(auth, new GoogleAuthProvider());
-      const next = new URLSearchParams(window.location.search).get("next");
-      router.push(safeNext(next));
+      // La redirection est faite par l'effet ci-dessus dès que le compte est reconnu
     } catch (e) {
       console.error(e);
       setError(MESSAGES[e.code] || "Connexion impossible. Réessaie dans un instant.");
@@ -116,55 +93,15 @@ export default function LoginPage() {
     list[n].focus();
   };
 
-  const firstName = user?.displayName?.split(" ")[0];
-
   return (
     <main className={s.page}>
       <div className={`glass ${s.card}`}>
         <Image src="/LogoMC.png" alt="MauCode" width={64} height={64} className={s.logo} />
 
-        {loading ? (
+        {loading || user ? (
           <p className={s.lead} role="status">
-            Chargement…
+            {user ? "Redirection…" : "Chargement…"}
           </p>
-        ) : user ? (
-          <>
-            <h1 className={s.title}>Bonjour {firstName || ""}</h1>
-            <p className={s.lead}>Tu es connecté. Ta progression est enregistrée sur ton compte.</p>
-
-            <div className={s.tiles} role="group" aria-label="Que veux-tu faire ?" onKeyDown={onKeyDown}>
-              <Link
-                ref={(el) => {
-                  tileRefs.current[0] = el;
-                }}
-                href={nextUrl}
-                className={`console-card ${s.tile} ${s.tilePrimary}`}
-              >
-                <span className={s.tileIcon}>
-                  <Avatar user={user} />
-                </span>
-                <span className={s.tileName}>{firstName || "Mon compte"}</span>
-                <span className={s.tileMeta}>
-                  {nextUrl === "/works" ? "Continuer ma formation" : "Continuer"}
-                </span>
-              </Link>
-
-              <button
-                type="button"
-                ref={(el) => {
-                  tileRefs.current[1] = el;
-                }}
-                onClick={logout}
-                className={`console-card ${s.tile} ${s.tileAlt}`}
-              >
-                <span className={s.tileIcon} aria-hidden="true">
-                  <FiLogOut />
-                </span>
-                <span className={s.tileName}>Se déconnecter</span>
-                <span className={s.tileMeta}>Changer de compte</span>
-              </button>
-            </div>
-          </>
         ) : (
           <>
             <h1 className={s.title}>Crée ton compte ou connecte-toi</h1>

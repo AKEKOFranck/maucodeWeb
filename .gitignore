@@ -29,9 +29,19 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
+firebase-debug.log
 
-# env files (can opt-in for committing if needed)
+# env files (le modèle .env.example, sans valeurs, peut être publié)
 .env*
+!.env.example
+
+# clés de service et secrets (Firebase Admin, certificats)
+*firebase-adminsdk*.json
+serviceAccount*.json
+*.key
+*.p12
+*.pfx
+.firebase/
 
 # vercel
 .vercel

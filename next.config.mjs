@@ -12,7 +12,7 @@ const isDev = process.env.NODE_ENV !== "production";
     -> la règle est en mode "rapport" : rien n'est bloqué, mais la console du
        navigateur (F12) affiche ce qui AURAIT été bloqué.
        Teste : accueil, connexion Google/Firebase (photo de profil comprise),
-       formations, admin, attestation, formulaire de feedback.
+       formations, compte, admin, attestation, formulaire de feedback.
   ÉTAPE 2 : si la console est propre, passe ENFORCE_CSP à true.
 */
 const ENFORCE_CSP = false;
@@ -54,10 +54,18 @@ const securityHeaders = [
   // Limite les infos envoyées aux autres sites
   { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
   // Coupe les accès matériel inutiles
-  { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=(), payment=()" },
+  {
+    key: "Permissions-Policy",
+    value:
+      "camera=(), microphone=(), geolocation=(), payment=(), usb=(), bluetooth=(), serial=(), interest-cohort=()",
+  },
   // Isole la fenêtre du site tout en gardant la popup de connexion Google fonctionnelle
   // (ne pas mettre "same-origin" strict : ça casserait la connexion par popup)
   { key: "Cross-Origin-Opener-Policy", value: "same-origin-allow-popups" },
+  // Les ressources du site ne peuvent pas être chargées par d'autres sites
+  { key: "Cross-Origin-Resource-Policy", value: "same-site" },
+  // Pas de politiques Flash/Acrobat inter-domaines
+  { key: "X-Permitted-Cross-Domain-Policies", value: "none" },
   // Accélère la navigation sans risque
   { key: "X-DNS-Prefetch-Control", value: "on" },
   {
@@ -67,6 +75,9 @@ const securityHeaders = [
     value: csp,
   },
 ];
+
+/* Pages liées à un compte : jamais gardées en cache (ordinateur partagé, proxy) */
+const privateNoStore = [{ key: "Cache-Control", value: "private, no-store, max-age=0" }];
 
 const nextConfig = {
   // Cache la mention « X-Powered-By: Next.js »
@@ -80,6 +91,10 @@ const nextConfig = {
         source: "/api/:path*",
         headers: [{ key: "Cache-Control", value: "no-store" }],
       },
+      { source: "/compte", headers: privateNoStore },
+      { source: "/login", headers: privateNoStore },
+      { source: "/admin/:path*", headers: privateNoStore },
+      { source: "/attestation/:path*", headers: privateNoStore },
     ];
   },
 };

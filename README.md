@@ -1,6 +1,6 @@
 # File Tree: maucodeweb
 
-**Generated:** 11/7/2026, 6:04:46 AM
+**Generated:** 11/11/2026, 11:55:23 PM
 **Root Path:** `c:\Users\fm005\OneDrive\Desktop\MaucodeWeb\maucodeweb`
 
 ```
@@ -9,18 +9,26 @@
 │   │   ├── 📄 page.js
 │   │   └── 🎨 page.module.css
 │   ├── 📁 admin
+│   │   ├── 📄 AdminClient.js
 │   │   ├── 📄 layout.js
 │   │   ├── 📄 page.js
 │   │   └── 🎨 page.module.css
 │   ├── 📁 api
 │   │   ├── 📁 attestation
 │   │   │   └── 📄 route.js
-│   │   └── 📁 feedback
+│   │   ├── 📁 feedback
+│   │   │   └── 📄 route.js
+│   │   └── 📁 quiz
 │   │       └── 📄 route.js
 │   ├── 📁 attestation
 │   │   └── 📁 [slug]
 │   │       ├── 📄 page.js
 │   │       └── 🎨 page.module.css
+│   ├── 📁 compte
+│   │   ├── 📄 CompteClient.js
+│   │   ├── 📄 layout.js
+│   │   ├── 📄 page.js
+│   │   └── 🎨 page.module.css
 │   ├── 📁 login
 │   │   ├── 📄 layout.js
 │   │   ├── 📄 page.js
@@ -30,6 +38,8 @@
 │   │       ├── 📄 page.js
 │   │       └── 🎨 page.module.css
 │   ├── 📁 webPage
+│   │   ├── 📄 RealisationsRail.js
+│   │   ├── 🎨 RealisationsRail.module.css
 │   │   ├── 📄 page.js
 │   │   └── 🎨 page.module.css
 │   ├── 📁 works
@@ -38,19 +48,25 @@
 │   │   │   │   ├── 📄 Moduleflow.js
 │   │   │   │   ├── 🎨 Moduleflow.module.css
 │   │   │   │   └── 📄 page.js
+│   │   │   ├── 📄 CourseProgress.js
 │   │   │   ├── 📄 ModuleCard.js
 │   │   │   ├── 🎨 ModuleCard.module.css
 │   │   │   ├── 📄 page.js
 │   │   │   └── 🎨 page.module.css
+│   │   ├── 📄 CoursesRail.js
+│   │   ├── 🎨 CoursesRail.module.css
+│   │   ├── 📄 InviteBox.js
 │   │   ├── 📄 page.js
 │   │   └── 🎨 page.module.css
+│   ├── 📄 HomeClient.js
+│   ├── 📄 error.js
 │   ├── 🎨 globals.css
 │   ├── 📄 layout.js
 │   ├── 📄 not-found.js
 │   ├── 🎨 not-found.module.css
 │   ├── 📄 page.js
 │   ├── 🎨 page.module.css
-│   ├── 📄 robot.js
+│   ├── 📄 robots.js
 │   └── 📄 sitemap.js
 ├── 📁 components
 │   ├── 📁 Announcements
@@ -95,13 +111,17 @@
 │   │   ├── 📄 modules.js
 │   │   └── ⚙️ works.json
 │   ├── 📄 announcements.js
+│   ├── 📄 appCheck.js
 │   ├── 📄 attestation.js
 │   ├── 📄 attestationServer.js
 │   ├── 📄 config.js
 │   ├── 📄 courseCatalog.js
 │   ├── 📄 firebase.js
 │   ├── 📄 firebaseAdmin.js
-│   └── 📄 progress.js
+│   ├── 📄 progress.js
+│   ├── 📄 quizServer.js
+│   ├── 📄 rateLimit.js
+│   └── 📄 serverAuth.js
 ├── 📁 public
 │   ├── 📄 LogoMC.ico
 │   ├── 🖼️ LogoMC.jpg
@@ -111,12 +131,21 @@
 │   ├── 🖼️ fondAbout (2).png
 │   ├── 🖼️ fondMain (2).png
 │   ├── 🖼️ fondMain (3).png
-│   └── 🖼️ main.jpg
+│   ├── 🖼️ main.jpg
+│   ├── 🖼️ tuile-academie.png
+│   ├── 🖼️ tuile-bibliotheque.png
+│   ├── 🖼️ tuile-compte.png
+│   ├── 🖼️ tuile-studio.png
+│   └── 🖼️ tuile-support.png
+├── 📁 scripts
+│   └── 📄 set-admin.mjs
 ├── ⚙️ .gitignore
 ├── 📝 AGENTS.md
 ├── 📝 CLAUDE.md
 ├── 📝 README.md
 ├── 📄 eslint.config.mjs
+├── ⚙️ firebase.json
+├── 📄 firestore.rules
 ├── ⚙️ jsconfig.json
 ├── 📄 next.config.mjs
 ├── ⚙️ package-lock.json

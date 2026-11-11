@@ -307,7 +307,7 @@ export function FeedbackForm({ course, module, fixedKind, withPhone, messageLabe
           Je veux
           <select name="kind" defaultValue="Commentaire">
             <option>Commentaire</option>
-            <option>M'inscrire à la formation</option>
+            <option>M&apos;inscrire à la formation</option>
           </select>
         </label>
       )}

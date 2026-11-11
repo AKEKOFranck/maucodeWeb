@@ -127,7 +127,7 @@ export default function AnnouncementsAdmin() {
     <section className={s.card}>
       <h2 className={s.title}>Annonces</h2>
       <p className={s.lead}>
-        Elles s'affichent dans la cloche de la barre de navigation, pour tous les visiteurs.
+        Elles s&apos;affichent dans la cloche de la barre de navigation, pour tous les visiteurs.
         Texte simple uniquement. Lien autorisé : une page du site (par exemple /works) ou une
         adresse WhatsApp (whatsapp.com, chat.whatsapp.com, wa.me).
       </p>
