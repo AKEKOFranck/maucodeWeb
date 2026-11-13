@@ -1,6 +1,6 @@
 /* =====================================================
-   FOOTER : style console
-   Fond profond, liseré lumineux en haut, liens en pilules
+   FOOTER : blanc & tech
+   Fond blanc, liseré indigo en haut, liens en pilules
 ===================================================== */
 
 .footer {
@@ -8,15 +8,11 @@
   width: 100%;
   margin-top: 80px;
   color: var(--text);
-  background: linear-gradient(
-    180deg,
-    rgba(13, 18, 32, 0) 0%,
-    rgba(13, 18, 32, 0.92) 40%
-  );
+  background: #fff;
   border-top: 1px solid var(--line);
 }
 
-/* Liseré lumineux bleu sur le bord haut */
+/* Liseré indigo sur le bord haut */
 .footer::before {
   content: "";
   position: absolute;
@@ -25,13 +21,7 @@
   width: min(520px, 60%);
   height: 2px;
   transform: translateX(-50%);
-  background: linear-gradient(
-    90deg,
-    transparent,
-    var(--accent-bright),
-    transparent
-  );
-  opacity: 0.8;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
 }
 
 .footerContainer {
@@ -60,51 +50,21 @@
   display: inline-flex;
   align-items: center;
   gap: 12px;
-  color: #fff;
+  color: var(--text);
   border-radius: 14px;
-  transition: transform 0.25s var(--ease), opacity 0.25s var(--ease);
+  transition: opacity 0.25s var(--ease);
 }
 
 .footerLogoLink:hover {
-  transform: translateY(-2px);
-  opacity: 0.92;
+  opacity: 0.85;
 }
 
 .logoMark {
+  display: block;
   width: 44px;
   height: 44px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 3px;
-  padding: 9px;
-  background: linear-gradient(145deg, var(--accent-bright), var(--accent));
-  border-radius: 14px;
-  box-shadow: 0 8px 26px var(--accent-glow);
-  transition: transform 0.25s var(--ease);
-}
-
-.footerLogoLink:hover .logoMark {
-  transform: rotate(-3deg);
-}
-
-.logoMark span {
-  width: 3px;
-  display: block;
-  background: #fff;
-  border-radius: 999px;
-}
-
-.logoMark span:nth-child(1) {
-  height: 10px;
-}
-
-.logoMark span:nth-child(2) {
-  height: 18px;
-}
-
-.logoMark span:nth-child(3) {
-  height: 13px;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px var(--accent-glow);
 }
 
 .logoText {
@@ -115,17 +75,18 @@
 }
 
 .logoText strong {
-  color: #fff;
+  color: var(--text);
   font-size: 21px;
-  font-weight: 750;
+  font-weight: 800;
   letter-spacing: -0.8px;
 }
 
 .logoText small {
   margin-top: 5px;
-  color: var(--accent-bright);
-  font-size: 9px;
-  font-weight: 800;
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
   letter-spacing: 3px;
 }
 
@@ -149,7 +110,7 @@
 .socialSection h3,
 .footerColumn h3 {
   margin: 0;
-  color: #fff;
+  color: var(--text);
   font-size: 16px;
   font-weight: 700;
   line-height: 1.3;
@@ -171,7 +132,6 @@
   margin-bottom: 18px;
   background: var(--accent);
   border-radius: 999px;
-  box-shadow: 0 0 12px var(--accent-glow);
 }
 
 /* ---------- Réseaux sociaux ---------- */
@@ -190,15 +150,14 @@
   align-items: center;
   justify-content: center;
   color: var(--text-muted);
-  background: var(--surface);
+  background: var(--surface-strong);
   border: 1px solid var(--line);
-  border-radius: 50%;
+  border-radius: 14px;
   transition:
     color 0.22s var(--ease),
     background 0.22s var(--ease),
     border-color 0.22s var(--ease),
-    transform 0.22s var(--ease),
-    box-shadow 0.22s var(--ease);
+    transform 0.22s var(--ease);
 }
 
 .socialLink:hover,
@@ -206,12 +165,11 @@
   color: #fff;
   background: var(--accent);
   border-color: var(--accent);
-  transform: translateY(-4px) scale(1.05);
-  box-shadow: 0 10px 26px var(--accent-glow);
+  transform: translateY(-3px);
 }
 
 .socialLink:focus-visible {
-  outline: 2px solid var(--accent-bright);
+  outline: 2px solid var(--accent);
   outline-offset: 3px;
 }
 
@@ -237,8 +195,8 @@
   margin-left: -14px;
   color: var(--text-muted);
   font-size: 14px;
-  font-weight: 500;
-  border-radius: 14px;
+  font-weight: 600;
+  border-radius: 12px;
   transition:
     color 0.22s var(--ease),
     background 0.22s var(--ease),
@@ -247,13 +205,13 @@
 
 .footerNavLink:hover,
 .footerNavLink:focus-visible {
-  color: #fff;
+  color: var(--text);
   background: var(--surface-strong);
   transform: translateX(4px);
 }
 
 .footerNavLink:focus-visible {
-  outline: 2px solid var(--accent-bright);
+  outline: 2px solid var(--accent);
   outline-offset: 2px;
 }
 
@@ -265,7 +223,7 @@
 
 .footerNavLink:hover svg,
 .footerNavLink:focus-visible svg {
-  color: var(--accent-bright);
+  color: var(--accent);
   transform: translate(2px, -2px);
 }
 
@@ -289,20 +247,22 @@
   align-items: center;
   gap: 6px;
   padding: 8px 16px;
-  color: #fff;
+  color: var(--text);
   font-size: 13px;
   font-weight: 700;
-  background: var(--surface);
+  background: #fff;
   border: 1px solid var(--line);
   border-radius: var(--radius-pill);
   transition:
     background 0.22s var(--ease),
     border-color 0.22s var(--ease),
+    color 0.22s var(--ease),
     transform 0.22s var(--ease);
 }
 
 .originalMaucode a:hover,
 .originalMaucode a:focus-visible {
+  color: #fff;
   background: var(--accent);
   border-color: var(--accent);
   transform: translateX(3px);
@@ -447,9 +407,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .footerLogoLink:hover,
-  .socialLink:hover,
   .footerNavLink:hover,
+  .socialLink:hover,
   .originalMaucode a:hover {
     transform: none;
   }

@@ -1,4 +1,4 @@
-/* Page 404 : thème console. Aucune image externe. */
+/* Pages 404 et erreur : blanc & tech. Aucune image externe. */
 
 .main {
   position: relative;
@@ -12,25 +12,27 @@
   color: var(--text);
 }
 
-/* Fond d'ambiance : rouge/orange = "game over", bleu en contrepoint */
+/* Fond d'ambiance : lueur rouge très discrète au centre, indigo en contrepoint */
 .ambient {
   position: absolute;
   inset: 0;
   z-index: -1;
   background:
-    radial-gradient(50% 55% at 50% 38%, rgba(255, 59, 48, 0.26), transparent 70%),
-    radial-gradient(45% 50% at 85% 95%, rgba(255, 138, 31, 0.18), transparent 70%),
-    radial-gradient(40% 45% at 8% 100%, rgba(0, 128, 255, 0.2), transparent 70%);
+    radial-gradient(50% 55% at 50% 38%, rgba(217, 45, 32, 0.1), transparent 70%),
+    radial-gradient(45% 50% at 85% 95%, rgba(56, 57, 175, 0.12), transparent 70%),
+    radial-gradient(40% 45% at 8% 100%, rgba(74, 76, 214, 0.1), transparent 70%);
 }
 
 .panel {
   width: min(100%, 560px);
   padding: clamp(32px, 6vw, 56px);
-  border-radius: 32px;
+  border-radius: 24px;
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
+  background: var(--ticks-bg), var(--surface);
+  box-shadow: var(--shadow-md);
   animation: rise 0.8s var(--ease) both;
 }
 
@@ -39,11 +41,11 @@
   height: 64px;
   display: grid;
   place-items: center;
-  border-radius: 20px;
+  border-radius: 18px;
   font-size: 30px;
-  background: rgba(255, 59, 48, 0.18);
-  border: 1px solid rgba(255, 59, 48, 0.5);
-  color: #ff8a80;
+  background: rgba(217, 45, 32, 0.1);
+  border: 1px solid rgba(217, 45, 32, 0.4);
+  color: var(--danger);
 }
 
 .title {
@@ -52,7 +54,7 @@
   line-height: 1;
   font-weight: 800;
   letter-spacing: -0.04em;
-  color: #fff;
+  color: var(--text);
 }
 
 .text {
@@ -82,33 +84,37 @@
   border-radius: 999px;
   font-weight: 700;
   font-size: 1rem;
-  transition: background 0.3s var(--ease);
+  transition:
+    background 0.3s var(--ease),
+    border-color 0.3s var(--ease),
+    box-shadow 0.3s var(--ease);
 }
 
 .btnPrimary {
-  background: var(--primary);
-  color: var(--black);
+  background: var(--accent);
+  color: #fff;
 }
 
 .btnPrimary:hover {
-  background: var(--accent-bright);
+  background: var(--accent-strong);
+  box-shadow: 0 12px 28px var(--accent-glow);
 }
 
 .btnGlass {
-  background: rgba(255, 255, 255, 0.08);
-  color: #fff;
-  border: 1px solid rgba(255, 255, 255, 0.28);
-  -webkit-backdrop-filter: blur(6px);
-  backdrop-filter: blur(6px);
+  background: #fff;
+  color: var(--text);
+  border: 1px solid var(--line);
 }
 
 .btnGlass:hover {
-  background: rgba(255, 255, 255, 0.18);
+  border-color: var(--accent);
+  box-shadow: var(--shadow-sm);
 }
 
 .code {
   margin-top: 28px;
-  font-size: 0.9rem;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
   color: var(--text-faint);
 }
 

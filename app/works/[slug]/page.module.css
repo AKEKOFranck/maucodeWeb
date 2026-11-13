@@ -1,17 +1,19 @@
 /* =====================================================
    PAGE D'UN COURS  +  en-tête partagé avec la page d'un module
-   La couleur du cours arrive par --course (style en ligne sur <main>).
+   (blanc & tech) La couleur du cours arrive par --course
+   (style en ligne sur <main>).
 ===================================================== */
 .page {
   position: relative;
   isolation: isolate;
   width: 100%;
   min-height: 100svh;
-  /* Version éclaircie de la couleur du cours : lisible sur fond sombre */
-  --course-soft: color-mix(in srgb, var(--course, #4cc3ff) 55%, #ffffff);
+  /* Version assombrie de la couleur du cours : lisible sur fond blanc,
+     et assez foncée pour porter du texte blanc (pastilles, numéros) */
+  --course-soft: color-mix(in srgb, var(--course, #3839af) 80%, #0b0f2a);
 }
 
-/* Lueur de la couleur du cours, en haut de page */
+/* Lueur de la couleur du cours, en haut de page (discrète sur fond clair) */
 .page::before {
   content: "";
   position: absolute;
@@ -21,7 +23,7 @@
   pointer-events: none;
   background: radial-gradient(
     60% 100% at 80% 0%,
-    color-mix(in srgb, var(--course, #4cc3ff) 45%, transparent),
+    color-mix(in srgb, var(--course, #3839af) 22%, transparent),
     transparent 72%
   );
 }
@@ -46,7 +48,7 @@
 }
 
 .back:hover {
-  color: #fff;
+  color: var(--accent);
 }
 
 .badge {
@@ -55,9 +57,9 @@
   gap: 0.5rem;
   margin-bottom: 1rem;
   padding: 0.4rem 0.95rem;
-  border: 1px solid color-mix(in srgb, var(--course, #4cc3ff) 50%, transparent);
+  border: 1px solid color-mix(in srgb, var(--course, #3839af) 40%, transparent);
   border-radius: 999px;
-  background: color-mix(in srgb, var(--course, #4cc3ff) 22%, transparent);
+  background: color-mix(in srgb, var(--course, #3839af) 12%, #fff);
   color: var(--course-soft);
   font-size: 0.9rem;
   font-weight: 700;
@@ -69,7 +71,7 @@
   line-height: 1.08;
   font-weight: 800;
   letter-spacing: -0.03em;
-  color: #fff;
+  color: var(--text);
 }
 
 .heroLead {
@@ -90,6 +92,7 @@
   height: 10px;
   border-radius: 999px;
   background: var(--surface-strong);
+  border: 1px solid var(--line);
   overflow: hidden;
 }
 
@@ -103,8 +106,9 @@
 
 .progressText {
   margin-top: 0.5rem;
-  font-size: 0.92rem;
-  font-weight: 600;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 500;
   color: var(--text-muted);
 }
 
@@ -114,7 +118,7 @@
   font-size: 1.4rem;
   font-weight: 800;
   letter-spacing: -0.01em;
-  color: #fff;
+  color: var(--text);
 }
 
 .levels {

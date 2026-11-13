@@ -1,5 +1,6 @@
-/* Page de l'attestation : fond sombre autour, document clair au centre
-   (le document, lui, est défini dans components/Attestation/Attestation.module.css) */
+/* Page de l'attestation (blanc & tech) : le document est une feuille blanche,
+   posée sur un plateau grisé pour qu'elle se distingue du fond de la page.
+   (le document lui-même est défini dans components/Attestation/Attestation.module.css) */
 .wrap {
   max-width: var(--container-width);
   min-height: 70vh;
@@ -20,19 +21,20 @@
   margin: 1.5rem auto;
   padding: 2rem 1.6rem;
   text-align: center;
+  box-shadow: var(--shadow-md);
 }
 
 .boxIcon {
   margin-bottom: 0.6rem;
   font-size: 2rem;
-  color: var(--accent-bright);
+  color: var(--accent);
 }
 
 .box h1 {
   margin: 0 0 0.6rem;
   font-size: 1.5rem;
   font-weight: 800;
-  color: #fff;
+  color: var(--text);
 }
 
 .box p {
@@ -58,7 +60,7 @@
   font-weight: 800;
   line-height: 1.25;
   letter-spacing: -0.02em;
-  color: #fff;
+  color: var(--text);
 }
 
 .title svg {
@@ -75,24 +77,29 @@
 .input {
   width: 100%;
   padding: 14px 18px;
-  border: 2px solid var(--line);
-  border-radius: 18px;
-  background: var(--surface);
+  border: 1.5px solid var(--line);
+  border-radius: 14px;
+  background: #fff;
   color: var(--text);
   font-size: 1rem;
-  transition: border-color 0.25s var(--ease);
+  transition:
+    border-color 0.25s var(--ease),
+    box-shadow 0.25s var(--ease);
 }
 
 .input:focus {
-  border-color: var(--accent-bright);
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-glow);
 }
 
 .notice {
   margin: 0;
   padding: 0.8rem 1rem;
   border: 1px solid var(--line);
-  border-radius: 18px;
-  background: var(--surface);
+  border-left: 4px solid var(--accent);
+  border-radius: 14px;
+  background: var(--surface-strong);
   font-size: 0.9rem;
   line-height: 1.55;
   color: var(--text);
@@ -113,17 +120,17 @@
   width: 20px;
   height: 20px;
   margin-top: 2px;
-  accent-color: var(--accent-bright);
+  accent-color: var(--accent);
 }
 
 .error {
   margin: 0;
   padding: 0.7rem 1rem;
-  border: 1px solid #ff6b60;
+  border: 1px solid var(--danger);
   border-radius: 14px;
-  background: rgba(255, 59, 48, 0.14);
+  background: rgba(217, 45, 32, 0.08);
   font-size: 0.95rem;
-  color: #fff;
+  color: #8f1d14;
 }
 
 .row {
@@ -146,16 +153,18 @@
   cursor: pointer;
   transition:
     background 0.25s var(--ease),
+    border-color 0.25s var(--ease),
     transform 0.25s var(--ease);
 }
 
 .btn {
-  background: var(--primary);
-  color: var(--black);
-  border: 2px solid transparent;
+  background: var(--accent);
+  color: #fff;
+  border: 1px solid transparent;
 }
 
 .btn:hover:not(:disabled) {
+  background: var(--accent-strong);
   transform: translateY(-2px);
 }
 
@@ -165,13 +174,13 @@
 }
 
 .btnGhost {
-  background: rgba(255, 255, 255, 0.08);
-  color: #fff;
-  border: 1px solid rgba(255, 255, 255, 0.28);
+  background: #fff;
+  color: var(--text);
+  border: 1px solid var(--line);
 }
 
 .btnGhost:hover {
-  background: rgba(255, 255, 255, 0.18);
+  border-color: var(--accent);
 }
 
 .tip {
@@ -181,8 +190,26 @@
   color: var(--text-faint);
 }
 
-/* Le document est une feuille claire posée sur le fond sombre */
+/* Plateau grisé sous la feuille : elle ressort sur le fond blanc de la page */
 .preview {
-  padding: 1rem 0 0.8rem;
+  padding: 1.2rem;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: var(--surface-strong);
   overflow-x: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn:hover:not(:disabled) {
+    transform: none;
+  }
+}
+
+/* À l'impression, seule la feuille compte : on retire le plateau */
+@media print {
+  .preview {
+    padding: 0;
+    border: 0;
+    background: none;
+  }
 }

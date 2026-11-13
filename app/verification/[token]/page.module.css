@@ -1,4 +1,5 @@
-/* Page publique de vérification : un grand état visuel (authentique / annulée / inconnue) */
+/* Page publique de vérification (blanc & tech) :
+   un grand état visuel (authentique / annulée / inconnue) */
 .wrap {
   min-height: 100svh;
   display: flex;
@@ -13,15 +14,16 @@
   padding: 2rem 1.6rem 1.8rem;
   text-align: center;
   color: var(--text);
+  background: var(--ticks-bg), var(--surface);
+  box-shadow: var(--shadow-md);
 }
 
 .logo {
   height: auto;
   margin: 0 auto 1.4rem;
-  padding: 4px;
   border-radius: 14px;
-  background: #fff;
   object-fit: contain;
+  box-shadow: 0 8px 22px var(--accent-glow);
 }
 
 .seal {
@@ -31,23 +33,24 @@
   height: 104px;
   margin: 0 auto 1rem;
   border-radius: 50%;
-  color: #05070a;
+  color: #fff;
   font-size: 50px;
 }
 
 .ok {
   background: var(--success);
-  box-shadow: 0 0 60px rgba(47, 210, 122, 0.45);
+  box-shadow: 0 10px 40px rgba(18, 131, 74, 0.35);
 }
 
 .warn {
-  background: #ffb020;
-  box-shadow: 0 0 60px rgba(255, 176, 32, 0.4);
+  background: #f5a623;
+  color: #3a2500;
+  box-shadow: 0 10px 40px rgba(245, 166, 35, 0.4);
 }
 
 .ko {
-  background: #ff5a4f;
-  box-shadow: 0 0 60px rgba(255, 90, 79, 0.4);
+  background: var(--danger);
+  box-shadow: 0 10px 40px rgba(217, 45, 32, 0.35);
 }
 
 .badge {
@@ -56,16 +59,17 @@
   font-weight: 800;
 }
 
+/* Textes assombris : lisibles sur fond blanc */
 .okText {
   color: var(--success);
 }
 
 .warnText {
-  color: #ffb020;
+  color: #a85f00;
 }
 
 .koText {
-  color: #ff7a70;
+  color: #b42318;
 }
 
 .title {
@@ -74,7 +78,7 @@
   font-weight: 800;
   line-height: 1.3;
   letter-spacing: -0.01em;
-  color: #fff;
+  color: var(--text);
 }
 
 .list {
@@ -87,8 +91,8 @@
 .list > div {
   padding: 0.8rem 1rem;
   border: 1px solid var(--line);
-  border-radius: 18px;
-  background: var(--surface);
+  border-radius: 14px;
+  background: var(--bg);
 }
 
 .list dt {
@@ -100,12 +104,12 @@
   margin: 2px 0 0;
   font-size: 1.08rem;
   font-weight: 700;
-  color: #fff;
+  color: var(--text);
   overflow-wrap: anywhere;
 }
 
 .ref {
-  font-family: "Courier New", monospace;
+  font-family: var(--font-mono);
 }
 
 .hint {
@@ -119,8 +123,9 @@
   margin-top: 0.4rem;
   padding: 0.9rem 1rem;
   border: 1px solid var(--line);
-  border-radius: 18px;
-  background: var(--surface);
+  border-left: 4px solid var(--accent);
+  border-radius: 14px;
+  background: var(--surface-strong);
   font-size: 0.875rem;
   line-height: 1.55;
   color: var(--text);
@@ -134,9 +139,10 @@
   margin-top: 1.2rem;
   border-radius: 8px;
   font-weight: 700;
-  color: var(--accent-bright);
+  color: var(--accent);
 }
 
 .home:hover {
+  color: var(--accent-strong);
   text-decoration: underline;
 }

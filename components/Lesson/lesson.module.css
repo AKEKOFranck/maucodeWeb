@@ -1,6 +1,6 @@
 /* =====================================================
    LEÇON : illustrations, quiz, exercice, formulaires, fin de cours
-   Thème sombre. La couleur du cours (--course-soft) vient de la page.
+   Thème blanc & tech. La couleur du cours (--course-soft) vient de la page.
 ===================================================== */
 
 /* ---------- Illustrations ---------- */
@@ -9,7 +9,8 @@
   padding: 1.6rem 1.3rem 1.2rem;
   border: 1px solid var(--line);
   border-radius: var(--radius-card);
-  background: var(--surface);
+  background: #fff;
+  box-shadow: var(--shadow-sm);
 }
 
 .visual figcaption {
@@ -45,9 +46,9 @@
   width: 84px;
   height: 84px;
   border: 1px solid var(--line);
-  border-radius: 24px;
+  border-radius: 22px;
   background: var(--surface-strong);
-  color: var(--course-soft, var(--accent-bright));
+  color: var(--course-soft, var(--accent));
   font-size: 38px;
 }
 
@@ -87,27 +88,28 @@
 }
 
 .grid td {
-  background: rgba(255, 255, 255, 0.03);
+  background: #fff;
 }
 
 .grid td.hl {
-  background: #ffd84d;
-  color: #05070a;
+  background: #ffe27a;
+  color: #0b0f2a;
   font-weight: 700;
-  outline: 2px solid #fff;
+  outline: 2px solid var(--accent);
   outline-offset: -2px;
 }
 
-/* Diapositive : volontairement claire, comme une vraie diapositive */
+/* Diapositive : claire, comme une vraie diapositive */
 .slide {
   max-width: 420px;
   aspect-ratio: 16 / 9;
   margin: 0 auto;
   padding: 20px 28px;
-  border-radius: 16px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
   background: #fff;
-  color: #0b1220;
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
+  color: #0b0f2a;
+  box-shadow: var(--shadow-md);
 }
 
 .slideTitle {
@@ -131,7 +133,7 @@
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: #1fa3ec;
+  background: var(--accent);
 }
 
 /* ---------- Quiz ---------- */
@@ -144,15 +146,16 @@
 .question {
   padding: 1.4rem;
   border: 1px solid var(--line);
-  border-radius: 20px;
-  background: var(--surface);
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: var(--shadow-sm);
 }
 
 .qText {
   margin-bottom: 0.9rem;
   font-size: 1.1rem;
   font-weight: 700;
-  color: #fff;
+  color: var(--text);
 }
 
 .options {
@@ -169,15 +172,19 @@
   padding: 0.85rem 1.1rem;
   border: 1px solid var(--line);
   border-radius: 14px;
-  background: var(--surface);
+  background: #fff;
   color: var(--text);
   font-weight: 500;
   text-align: left;
-  transition: background 0.2s var(--ease);
+  transition:
+    background 0.2s var(--ease),
+    border-color 0.2s var(--ease),
+    box-shadow 0.2s var(--ease);
 }
 
 .option:hover:not(:disabled) {
   background: var(--surface-strong);
+  border-color: var(--accent);
 }
 
 .option:disabled {
@@ -185,14 +192,23 @@
   cursor: default;
 }
 
+/* Réponse choisie, avant correction */
+.selected {
+  border-color: var(--accent);
+  background: var(--surface-strong);
+  box-shadow: 0 0 0 2px var(--accent);
+}
+
 .right {
-  background: rgba(47, 210, 122, 0.16) !important;
-  border-color: var(--success);
+  background: rgba(18, 131, 74, 0.1) !important;
+  border-color: var(--success) !important;
+  box-shadow: none;
 }
 
 .wrong {
-  background: rgba(255, 59, 48, 0.16) !important;
-  border-color: #ff6b60;
+  background: rgba(217, 45, 32, 0.08) !important;
+  border-color: var(--danger) !important;
+  box-shadow: none;
 }
 
 .option svg {
@@ -205,7 +221,7 @@
 }
 
 .wrong svg {
-  color: #ff6b60;
+  color: var(--danger);
 }
 
 .why {
@@ -223,22 +239,24 @@
   gap: 0.8rem;
   padding: 1.3rem;
   border: 1px solid var(--line);
-  border-radius: 20px;
+  border-left: 4px solid var(--accent);
+  border-radius: 18px;
   background: var(--surface-strong);
-  color: #fff;
+  color: var(--text);
   font-weight: 700;
 }
 
 .score svg {
   margin-right: 4px;
   vertical-align: -0.15em;
+  color: var(--success);
 }
 
 /* ---------- Exercice et corrigé ---------- */
 .exercise h3 {
   font-size: 1.4rem;
   font-weight: 800;
-  color: #fff;
+  color: var(--text);
 }
 
 .exHint {
@@ -256,21 +274,21 @@
 }
 
 .steps li::marker {
-  color: var(--course-soft, var(--accent-bright));
+  color: var(--course-soft, var(--accent));
   font-weight: 800;
 }
 
 .correction {
   padding: 1.5rem;
   border: 1px solid var(--line);
-  border-radius: 24px;
+  border-radius: 20px;
   background: var(--surface-strong);
 }
 
 .correction h4 {
   margin-bottom: 0.7rem;
   font-size: 1.1rem;
-  color: var(--accent-bright);
+  color: var(--accent);
 }
 
 /* ---------- Boutons ---------- */
@@ -283,17 +301,20 @@
   font-weight: 700;
   transition:
     transform 0.25s var(--ease),
-    background 0.25s var(--ease);
+    background 0.25s var(--ease),
+    border-color 0.25s var(--ease),
+    box-shadow 0.25s var(--ease);
 }
 
 .primary {
-  background: var(--primary);
-  color: var(--black);
+  background: var(--accent);
+  color: #fff;
 }
 
 .primary:hover:not(:disabled) {
-  background: var(--primary-dark);
+  background: var(--accent-strong);
   transform: translateY(-2px);
+  box-shadow: 0 12px 26px var(--accent-glow);
 }
 
 .primary:disabled {
@@ -302,13 +323,13 @@
 }
 
 .ghost {
-  background: rgba(255, 255, 255, 0.08);
-  color: #fff;
-  border: 1px solid rgba(255, 255, 255, 0.28);
+  background: #fff;
+  color: var(--text);
+  border: 1px solid var(--line);
 }
 
 .ghost:hover {
-  background: rgba(255, 255, 255, 0.18);
+  border-color: var(--accent);
 }
 
 /* ---------- Formulaire ---------- */
@@ -330,10 +351,23 @@
 .form select,
 .form textarea {
   padding: 13px 16px;
-  border: 1px solid var(--line);
+  border: 1.5px solid var(--line);
   border-radius: 14px;
-  background: var(--surface);
+  background: var(--bg);
   color: var(--text);
+  transition:
+    border-color 0.25s var(--ease),
+    box-shadow 0.25s var(--ease),
+    background 0.25s var(--ease);
+}
+
+.form input:focus,
+.form select:focus,
+.form textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  background: #fff;
+  box-shadow: 0 0 0 3px var(--accent-glow);
 }
 
 .form input::placeholder,
@@ -353,32 +387,30 @@
   padding: 1.1rem 1.4rem;
   border: 1px solid var(--success);
   border-radius: 16px;
-  background: rgba(47, 210, 122, 0.14);
+  background: rgba(18, 131, 74, 0.1);
   color: var(--text);
   font-weight: 600;
 }
 
 .error {
   grid-column: 1 / -1;
-  color: #ff6b60;
+  color: var(--danger);
   font-weight: 600;
 }
 
-/* ---------- Fin de formation ---------- */
+/* ---------- Fin de formation (repères de coin) ---------- */
 .end {
   display: grid;
   justify-items: start;
   gap: 1rem;
   padding: clamp(1.6rem, 5vw, 3.4rem);
   border: 1px solid var(--line);
-  border-radius: 36px;
-  background: radial-gradient(
-    circle at 85% 0%,
-    rgba(47, 210, 122, 0.22) 0%,
-    var(--bg-elevated) 60%,
-    var(--bg) 100%
-  );
-  color: #fff;
+  border-radius: 24px;
+  background:
+    var(--ticks-bg),
+    radial-gradient(circle at 85% 0%, rgba(18, 131, 74, 0.12) 0%, #ffffff 60%);
+  box-shadow: var(--shadow-md);
+  color: var(--text);
 }
 
 .endSpaced {
@@ -394,6 +426,7 @@
   font-size: clamp(1.5rem, 3vw, 2.1rem);
   font-weight: 800;
   letter-spacing: -0.02em;
+  color: var(--text);
 }
 
 .end p {
@@ -403,7 +436,7 @@
 }
 
 .end strong {
-  color: #fff;
+  color: var(--text);
 }
 
 .endActions {
@@ -417,8 +450,8 @@
   width: 100%;
   padding: 1.5rem;
   border: 1px solid var(--line);
-  border-radius: 24px;
-  background: var(--surface);
+  border-radius: 20px;
+  background: #fff;
 }
 
 @media (max-width: 640px) {
@@ -431,7 +464,8 @@
   }
 }
 
-  .selected {
-    border-color: var(--accent-bright);
-    background: var(--surface-strong);
+@media (prefers-reduced-motion: reduce) {
+  .primary:hover:not(:disabled) {
+    transform: none;
   }
+}

@@ -1,5 +1,5 @@
 /* =====================================================
-   STUDIO (création de site web) : thème console
+   STUDIO (création de site web) : blanc & tech
 ===================================================== */
 
 .page {
@@ -27,7 +27,7 @@
   line-height: 1.1;
   letter-spacing: -0.03em;
   font-weight: 800;
-  color: #fff;
+  color: var(--text);
 }
 
 .sectionText {
@@ -44,20 +44,20 @@
   justify-content: center;
   padding: 16px 30px;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.08);
-  color: #fff;
-  border: 1px solid rgba(255, 255, 255, 0.28);
+  background: #fff;
+  color: var(--text);
+  border: 1px solid var(--line);
   font-weight: 700;
   font-size: 1rem;
-  -webkit-backdrop-filter: blur(6px);
-  backdrop-filter: blur(6px);
   transition:
-    background 0.3s var(--ease),
+    border-color 0.3s var(--ease),
+    box-shadow 0.3s var(--ease),
     transform 0.3s var(--ease);
 }
 
 .btnGlass:hover {
-  background: rgba(255, 255, 255, 0.18);
+  border-color: var(--accent);
+  box-shadow: var(--shadow-sm);
   transform: translateY(-3px);
 }
 
@@ -69,23 +69,15 @@
   isolation: isolate;
 }
 
-/* Lueur bleue derrière le titre */
+/* Lueur indigo derrière le titre (très légère sur fond clair) */
 .hero::before {
   content: "";
   position: absolute;
   inset: 0;
   z-index: -1;
   background:
-    radial-gradient(
-      50% 70% at 85% 10%,
-      rgba(0, 128, 255, 0.4),
-      transparent 70%
-    ),
-    radial-gradient(
-      40% 50% at 5% 100%,
-      rgba(124, 58, 237, 0.22),
-      transparent 70%
-    );
+    radial-gradient(50% 70% at 85% 10%, rgba(56, 57, 175, 0.16), transparent 70%),
+    radial-gradient(40% 50% at 5% 100%, rgba(74, 76, 214, 0.1), transparent 70%);
 }
 
 .heroInner {
@@ -109,7 +101,7 @@
   line-height: 1.02;
   font-weight: 800;
   letter-spacing: -0.04em;
-  color: #fff;
+  color: var(--text);
 }
 
 .heroText {
@@ -154,13 +146,10 @@
   display: flex;
   flex-direction: column;
   padding: 44px 40px;
-  border-radius: 32px;
-  border: 1px solid rgba(var(--tint), 0.45);
-  background: linear-gradient(
-    160deg,
-    rgba(var(--tint), 0.24) 0%,
-    rgba(13, 18, 32, 0.88) 58%
-  );
+  border-radius: 24px;
+  border: 1px solid rgba(var(--tint), 0.35);
+  background: linear-gradient(160deg, rgba(var(--tint), 0.12) 0%, #ffffff 58%);
+  box-shadow: var(--shadow-sm);
   color: var(--text);
 }
 
@@ -169,9 +158,9 @@
   height: 56px;
   display: grid;
   place-items: center;
-  border-radius: 18px;
+  border-radius: 16px;
   font-size: 26px;
-  background: rgba(var(--tint), 0.4);
+  background: rgb(var(--tint));
   color: #fff;
 }
 
@@ -179,7 +168,7 @@
   margin-top: 24px;
   font-size: clamp(1.6rem, 3vw, 2.1rem);
   letter-spacing: -0.02em;
-  color: #fff;
+  color: var(--text);
 }
 
 .offerSubtitle {
@@ -197,14 +186,14 @@
 .reservationBox {
   margin: 28px 0 8px;
   padding: 22px 24px;
-  border-radius: 20px;
+  border-radius: 16px;
   border: 1px solid var(--line);
-  background: rgba(255, 255, 255, 0.05);
+  background: #fff;
 }
 
 .reservationBox h4 {
   font-size: 1rem;
-  color: #fff;
+  color: var(--text);
 }
 
 .reservationBox p {
@@ -216,7 +205,7 @@
 .listLabel {
   margin-top: 28px;
   font-size: 1rem;
-  color: #fff;
+  color: var(--text);
 }
 
 .list {
@@ -259,8 +248,8 @@
   background: linear-gradient(
     180deg,
     transparent,
-    rgba(13, 18, 32, 0.7) 20%,
-    rgba(13, 18, 32, 0.7) 80%,
+    rgba(56, 57, 175, 0.05) 20%,
+    rgba(56, 57, 175, 0.05) 80%,
     transparent
   );
 }
@@ -276,7 +265,8 @@
   padding: 28px 26px 34px;
   border-radius: var(--radius-card);
   border: 1px solid var(--line);
-  background: var(--surface);
+  background: #fff;
+  box-shadow: var(--shadow-sm);
 }
 
 .stepTop {
@@ -290,10 +280,10 @@
   height: 52px;
   display: grid;
   place-items: center;
-  border-radius: 16px;
+  border-radius: 14px;
   font-size: 24px;
-  background: var(--primary);
-  color: var(--black);
+  background: var(--accent);
+  color: #fff;
 }
 
 .stepNum {
@@ -301,17 +291,19 @@
   place-items: center;
   width: 34px;
   height: 34px;
-  border-radius: 50%;
+  border-radius: 10px;
   border: 1px solid var(--line);
-  color: var(--text-muted);
-  font-weight: 800;
+  background: var(--surface-strong);
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-weight: 700;
   font-size: 0.95rem;
 }
 
 .stepCard h3 {
   margin-top: 22px;
   font-size: 1.3rem;
-  color: #fff;
+  color: var(--text);
 }
 
 .stepCard p {
@@ -326,7 +318,7 @@
   scroll-margin-top: 2rem;
 }
 
-/* ---------- CTA ---------- */
+/* ---------- CTA (repères de coin) ---------- */
 .cta {
   padding: 40px 0 110px;
 }
@@ -334,14 +326,9 @@
 .ctaBox {
   padding: clamp(40px, 7vw, 88px);
   border: 1px solid var(--line);
-  border-radius: 40px;
-  background: radial-gradient(
-    circle at 85% 0%,
-    rgba(0, 128, 255, 0.38) 0%,
-    var(--bg-elevated) 55%,
-    var(--bg) 100%
-  );
-  box-shadow: 0 28px 70px rgba(0, 0, 0, 0.4);
+  border-radius: 28px;
+  background: var(--ticks-bg), linear-gradient(135deg, #ffffff 0%, var(--surface-strong) 100%);
+  box-shadow: var(--shadow-md);
 }
 
 .ctaBox h2 {
@@ -350,7 +337,7 @@
   line-height: 1.04;
   letter-spacing: -0.035em;
   font-weight: 800;
-  color: #fff;
+  color: var(--text);
 }
 
 .ctaBox p {
@@ -400,5 +387,13 @@
   }
   .heroActions > * {
     flex: 1 1 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .heroTitle,
+  .heroText,
+  .heroActions {
+    animation: none;
   }
 }

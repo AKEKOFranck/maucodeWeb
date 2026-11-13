@@ -35,6 +35,10 @@ const csp = [
   }`,
   // Fenêtres d'authentification Firebase / Google + iframe reCAPTCHA
   "frame-src 'self' https://*.firebaseapp.com https://accounts.google.com https://*.web.app https://www.google.com/recaptcha/ https://recaptcha.google.com",
+  // PWA : seuls NOS scripts peuvent s'enregistrer comme service worker
+  "worker-src 'self'",
+  // PWA : le manifest ne peut venir que de notre domaine
+  "manifest-src 'self'",
   "object-src 'none'",
   "base-uri 'self'",
   "form-action 'self'",
@@ -79,6 +83,21 @@ const securityHeaders = [
 /* Pages liées à un compte : jamais gardées en cache (ordinateur partagé, proxy) */
 const privateNoStore = [{ key: "Cache-Control", value: "private, no-store, max-age=0" }];
 
+/*
+  Service worker : toujours rechargé depuis le réseau (une correction de faille
+  doit arriver tout de suite), et avec sa propre CSP stricte, appliquée
+  même quand ENFORCE_CSP est false.
+*/
+const serviceWorkerHeaders = [
+  { key: "Content-Type", value: "application/javascript; charset=utf-8" },
+  { key: "Cache-Control", value: "no-cache, no-store, must-revalidate" },
+  { key: "Service-Worker-Allowed", value: "/" },
+  {
+    key: "Content-Security-Policy",
+    value: "default-src 'self'; script-src 'self'; connect-src 'self'",
+  },
+];
+
 const nextConfig = {
   // Cache la mention « X-Powered-By: Next.js »
   poweredByHeader: false,
@@ -91,6 +110,7 @@ const nextConfig = {
         source: "/api/:path*",
         headers: [{ key: "Cache-Control", value: "no-store" }],
       },
+      { source: "/sw.js", headers: serviceWorkerHeaders },
       { source: "/compte", headers: privateNoStore },
       { source: "/login", headers: privateNoStore },
       { source: "/admin/:path*", headers: privateNoStore },

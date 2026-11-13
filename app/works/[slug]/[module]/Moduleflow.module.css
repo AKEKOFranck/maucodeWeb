@@ -1,5 +1,5 @@
 /* =====================================================
-   MODULE JOUÉ ÉTAPE PAR ÉTAPE
+   MODULE JOUÉ ÉTAPE PAR ÉTAPE (blanc & tech)
    Couleurs : --course / --course-soft (définies dans ../page.module.css)
 ===================================================== */
 .loading {
@@ -29,6 +29,7 @@
   height: 10px;
   border-radius: 999px;
   background: var(--surface-strong);
+  border: 1px solid var(--line);
   overflow: hidden;
 }
 
@@ -36,7 +37,7 @@
   display: block;
   height: 100%;
   border-radius: inherit;
-  background: var(--course-soft, var(--accent-bright));
+  background: var(--course-soft, var(--accent));
   transition: width 0.4s var(--ease);
 }
 
@@ -60,17 +61,17 @@
   position: absolute;
   inset: 9px;
   border-radius: 50%;
-  background: var(--surface-strong);
+  background: #cfd2ea;
   transition: all 0.2s var(--ease);
 }
 
 .dotPast::before {
-  background: color-mix(in srgb, var(--course-soft, #4cc3ff) 55%, transparent);
+  background: color-mix(in srgb, var(--course-soft, #3839af) 55%, #fff);
 }
 
 .dotOn::before {
   inset: 6px;
-  background: var(--course-soft, var(--accent-bright));
+  background: var(--course-soft, var(--accent));
 }
 
 /* ---------- Une étape ---------- */
@@ -91,7 +92,7 @@
   line-height: 1.2;
   font-weight: 800;
   letter-spacing: -0.02em;
-  color: #fff;
+  color: var(--text);
 }
 
 .stepTitle:focus {
@@ -99,7 +100,7 @@
 }
 
 .stepTitle:focus-visible {
-  outline: 3px solid var(--accent-bright);
+  outline: 3px solid var(--accent);
   outline-offset: 4px;
   border-radius: 8px;
 }
@@ -110,10 +111,12 @@
   flex-shrink: 0;
   width: 2.2rem;
   height: 2.2rem;
-  border-radius: 50%;
-  background: var(--course-soft, var(--accent-bright));
-  color: var(--black);
+  border-radius: 10px;
+  background: var(--course-soft, var(--accent));
+  color: #fff;
+  font-family: var(--font-mono);
   font-size: 1rem;
+  font-weight: 700;
 }
 
 .explain {
@@ -134,9 +137,11 @@
   max-width: 62ch;
   margin: 1.2rem 0 0;
   padding: 0.9rem 1.1rem;
-  border-left: 4px solid var(--course-soft, var(--accent-bright));
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--course-soft, var(--accent));
   border-radius: 0 14px 14px 0;
-  background: var(--surface);
+  background: #fff;
+  box-shadow: var(--shadow-sm);
   line-height: 1.6;
   color: var(--text);
 }
@@ -166,27 +171,30 @@
   transition:
     transform 0.25s var(--ease),
     background 0.25s var(--ease),
+    border-color 0.25s var(--ease),
     box-shadow 0.25s var(--ease);
 }
 
 .btn {
-  background: var(--primary);
-  color: var(--black);
+  background: var(--accent);
+  color: #fff;
 }
 
 .btn:hover {
+  background: var(--accent-strong);
   transform: translateY(-2px);
-  box-shadow: 0 12px 30px rgba(76, 195, 255, 0.4);
+  box-shadow: 0 12px 28px var(--accent-glow);
 }
 
 .btnGhost {
-  background: rgba(255, 255, 255, 0.08);
-  color: #fff;
-  border: 1px solid rgba(255, 255, 255, 0.28);
+  background: #fff;
+  color: var(--text);
+  border: 1px solid var(--line);
 }
 
 .btnGhost:hover:not(:disabled) {
-  background: rgba(255, 255, 255, 0.18);
+  border-color: var(--accent);
+  box-shadow: var(--shadow-sm);
 }
 
 .btnGhost:disabled {
@@ -214,6 +222,7 @@
 }
 
 .trophyScore {
+  font-family: var(--font-mono);
   font-size: 1.1rem;
   font-weight: 700;
   color: var(--success);
@@ -227,17 +236,18 @@
   margin: 2.5rem auto 4rem;
   padding: 2rem 1.6rem;
   text-align: center;
+  box-shadow: var(--shadow-md);
 }
 
 .lockIcon {
   font-size: 2rem;
-  color: var(--accent-bright);
+  color: var(--accent);
 }
 
 .lockedBox h2 {
   margin: 0.8rem 0 0.6rem;
   font-size: 1.5rem;
-  color: #fff;
+  color: var(--text);
 }
 
 .lockedBox p {
@@ -246,7 +256,7 @@
 }
 
 .lockedBox strong {
-  color: #fff;
+  color: var(--text);
 }
 
 .lockedBox .actions {
@@ -256,5 +266,11 @@
 @media (max-width: 560px) {
   .stepNav > * {
     flex: 1 1 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn:hover {
+    transform: none;
   }
 }

@@ -1,6 +1,6 @@
 # File Tree: maucodeweb
 
-**Generated:** 11/11/2026, 11:55:23 PM
+**Generated:** 11/13/2026, 9:54:02 PM
 **Root Path:** `c:\Users\fm005\OneDrive\Desktop\MaucodeWeb\maucodeweb`
 
 ```
@@ -18,6 +18,11 @@
 │   │   │   └── 📄 route.js
 │   │   ├── 📁 feedback
 │   │   │   └── 📄 route.js
+│   │   ├── 📁 push
+│   │   │   ├── 📁 send
+│   │   │   │   └── 📄 route.js
+│   │   │   └── 📁 subscribe
+│   │   │       └── 📄 route.js
 │   │   └── 📁 quiz
 │   │       └── 📄 route.js
 │   ├── 📁 attestation
@@ -62,6 +67,7 @@
 │   ├── 📄 error.js
 │   ├── 🎨 globals.css
 │   ├── 📄 layout.js
+│   ├── 📄 manifest.js
 │   ├── 📄 not-found.js
 │   ├── 🎨 not-found.module.css
 │   ├── 📄 page.js
@@ -101,6 +107,9 @@
 │   ├── 📁 Notifications
 │   │   ├── 📄 notifications.js
 │   │   └── 🎨 notifications.module.css
+│   ├── 📁 PwaInstall
+│   │   ├── 📄 PwaInstall.js
+│   │   └── 🎨 PwaInstall.module.css
 │   └── 📁 SignupBanner
 │       ├── 📄 SignupBanner.js
 │       └── 🎨 SignupBanner.module.css
@@ -123,6 +132,13 @@
 │   ├── 📄 rateLimit.js
 │   └── 📄 serverAuth.js
 ├── 📁 public
+│   ├── 📁 icons
+│   │   ├── 🖼️ apple-touch-icon.png
+│   │   ├── 🖼️ icon-192.png
+│   │   ├── 🖼️ icon-512.png
+│   │   ├── 🖼️ mark-128.png
+│   │   ├── 🖼️ mark-256.png
+│   │   └── 🖼️ maskable-512.png
 │   ├── 📄 LogoMC.ico
 │   ├── 🖼️ LogoMC.jpg
 │   ├── 🖼️ LogoMC.png
@@ -132,6 +148,8 @@
 │   ├── 🖼️ fondMain (2).png
 │   ├── 🖼️ fondMain (3).png
 │   ├── 🖼️ main.jpg
+│   ├── 🌐 offline.html
+│   ├── 📄 sw.js
 │   ├── 🖼️ tuile-academie.png
 │   ├── 🖼️ tuile-bibliotheque.png
 │   ├── 🖼️ tuile-compte.png

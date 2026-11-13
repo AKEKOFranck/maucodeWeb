@@ -6,6 +6,7 @@ import Footer from "@/components/Footer/footer";
 import { NotificationsProvider } from "@/components/Notifications/notifications";
 import { AuthProvider } from "@/components/AuthProvider/AuthProvider";
 import SignupBanner from "@/components/SignupBanner/SignupBanner";
+import PwaInstall from "@/components/PwaInstall/PwaInstall";
 import { getNewModules } from "@/lib/data/modules";
 import {
   SITE_URL,
@@ -38,11 +39,13 @@ const DESCRIPTION =
 const SHARE_IMAGE = "/main.jpg";
 
 // Thème sombre : colore la barre du navigateur sur mobile
+// (étape 2 : passera au thème blanc)
+// Thème blanc : colore la barre du navigateur sur mobile
 export const viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#070a12",
-  colorScheme: "dark",
+  themeColor: "#f6f7fb",
+  colorScheme: "light",
 };
 
 export const metadata = {
@@ -54,6 +57,8 @@ export const metadata = {
   },
 
   description: DESCRIPTION,
+
+  applicationName: "Maucode",
 
   keywords: [
     "MauCodeWeb",
@@ -72,14 +77,36 @@ export const metadata = {
   authors: [{ name: "MauCodeWeb" }],
   creator: "MauCodeWeb",
 
+  // Le lien vers /manifest.webmanifest est ajouté automatiquement par Next
+  // grâce au fichier app/manifest.js.
+
   // Pas de canonical ici : chaque page définit le sien
   // (l'accueil dans app/page.js, les autres dans leur propre metadata).
 
   icons: {
-    icon: "/LogoMC.ico",
+    icon: [
+      { url: "/LogoMC.ico" },
+      { url: "/icons/icon-192.png", sizes: "192x192", type: "image/png" },
+    ],
     shortcut: "/LogoMC.ico",
-    apple: "/LogoMC.png",
+    apple: [
+      {
+        url: "/icons/apple-touch-icon.png",
+        sizes: "180x180",
+        type: "image/png",
+      },
+    ],
   },
+
+  // Application ajoutée à l'écran d'accueil sur iPhone / iPad
+  appleWebApp: {
+    capable: true,
+    title: "Maucode",
+    statusBarStyle: "default",
+  },
+
+  // Empêche iOS de transformer des nombres en liens téléphone
+  formatDetection: { telephone: false },
 
   openGraph: {
     title: "MauCodeWeb | Formation & Création de sites web",
@@ -166,6 +193,7 @@ export default function RootLayout({ children }) {
             <Footer />
           </NotificationsProvider>
         </AuthProvider>
+        <PwaInstall />
         <Analytics />
       </body>
     </html>

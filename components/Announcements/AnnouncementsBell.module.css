@@ -1,3 +1,7 @@
+/* =====================================================
+   ANNONCES (cloche + panneau) : blanc & tech
+===================================================== */
+
 .item {
   position: relative;
   display: flex;
@@ -12,15 +16,20 @@
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--surface-strong);
   color: var(--text);
   transition: background 0.3s var(--ease), color 0.3s var(--ease);
 }
 
 .bell:hover,
 .bell[aria-expanded="true"] {
-  background: var(--primary);
-  color: var(--black);
+  background: var(--accent);
+  color: #fff;
+}
+
+.bell:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
 }
 
 .badge {
@@ -33,10 +42,10 @@
   display: grid;
   place-items: center;
   border-radius: 999px;
-  border: 2px solid var(--bg);
-  background: var(--cta);
-  color: var(--black);
-  font-size: 12px;
+  border: 2px solid #fff;
+  background: var(--danger);
+  color: #fff;
+  font-size: 11px;
   font-weight: 800;
   line-height: 1;
 }
@@ -51,11 +60,11 @@
   max-height: min(70vh, 560px);
   overflow-y: auto;
   padding: 1.1rem;
-  background: var(--surface-solid);
+  background: #fff;
   color: var(--text);
   border: 1px solid var(--line);
-  border-radius: 24px;
-  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.55);
+  border-radius: 22px;
+  box-shadow: 0 24px 70px rgba(17, 24, 70, 0.22);
   animation: panelIn 0.35s var(--ease) both;
 }
 
@@ -81,13 +90,15 @@
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.08);
+  background: var(--surface-strong);
   color: var(--text);
   font-size: 1rem;
+  transition: background 0.25s var(--ease), color 0.25s var(--ease);
 }
 
 .close:hover {
-  background: rgba(255, 255, 255, 0.16);
+  background: var(--accent);
+  color: #fff;
 }
 
 .list {
@@ -99,12 +110,13 @@
 .entry {
   padding: 0.9rem 1rem;
   border: 1px solid var(--line);
-  border-radius: 18px;
-  background: var(--surface);
+  border-radius: 16px;
+  background: var(--bg);
 }
 
+/* Annonce non lue avant l'ouverture */
 .fresh {
-  border-left: 4px solid var(--accent-bright);
+  border-left: 4px solid var(--accent);
   background: var(--surface-strong);
 }
 
@@ -124,7 +136,8 @@
 
 .meta time {
   flex-shrink: 0;
-  font-size: 0.8rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
   color: var(--text-faint);
 }
 
@@ -143,17 +156,21 @@
   margin-top: 0.6rem;
   padding: 0.5rem 1.1rem;
   border-radius: 999px;
-  background: var(--primary);
-  color: var(--black);
+  background: var(--accent);
+  color: #fff;
   font-size: 0.9rem;
   font-weight: 700;
   transition: background 0.25s var(--ease);
 }
 
 .link:hover {
-  background: var(--accent-bright);
+  background: var(--accent-strong);
 }
 
 @media (max-width: 640px) {
   .panel { top: 84px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .panel { animation: none; }
 }

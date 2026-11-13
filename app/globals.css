@@ -1,49 +1,69 @@
 /* =====================================================
-   MAUCODE OS : DESIGN SYSTEM
-   Thème sombre « console » : fond profond, verre dépoli,
-   un seul accent bleu, focus très visible.
+   MAUCODE : DESIGN SYSTEM « BLANC & TECH »
+   Fond blanc cassé, grille de points, un seul accent :
+   l'indigo du logo. Focus très visible.
 ===================================================== */
 
 :root {
-  color-scheme: dark;
+  color-scheme: light;
 
   /* ---------- Surfaces ---------- */
-  --bg: #070a12;
-  --bg-elevated: #0d1220;
-  --surface: rgba(255, 255, 255, 0.06);
-  --surface-strong: rgba(255, 255, 255, 0.1);
-  --surface-solid: #111729;
-  --line: rgba(255, 255, 255, 0.12);
+  --bg: #f6f7fb;
+  --bg-elevated: #ffffff;
+  --surface: #ffffff;
+  --surface-strong: #eceefb;
+  --surface-solid: #ffffff;
+  --line: #dde0f0;
 
   /* ---------- Accents ---------- */
-  --accent: #0080ff;
-  --accent-bright: #4cc3ff;
-  --accent-glow: rgba(0, 128, 255, 0.45);
-  --cta: #ff8a1f; /* actions fortes : WhatsApp, "Lancer mon projet" */
-  --danger: #ff3b30;
-  --success: #2fd27a;
+  --accent: #3839af; /* indigo exact du logo */
+  --accent-bright: #4a4cd6;
+  --accent-strong: #2b2c8c;
+  --accent-glow: rgba(56, 57, 175, 0.28);
+  --cta: #e8710a; /* actions fortes : WhatsApp, "Lancer mon projet" */
+  --danger: #d92d20;
+  --success: #12834a;
 
   /* ---------- Texte ---------- */
-  --text: #f4f7fb;
-  --text-muted: #aab4c4;
-  --text-faint: #7c879a;
+  --text: #0b0f2a;
+  --text-muted: #4b5170;
+  --text-faint: #6b7192;
 
-  /* ---------- Formes et mouvement ---------- */
-  --radius-card: 24px;
+  /* ---------- Formes, ombres, mouvement ---------- */
+  --radius-card: 18px;
   --radius-pill: 999px;
   --container-width: 1240px;
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
-  --focus-scale: 1.06;
+  --focus-scale: 1.02;
+  --shadow-sm: 0 1px 2px rgba(17, 24, 70, 0.06), 0 4px 14px rgba(17, 24, 70, 0.05);
+  --shadow-md: 0 2px 4px rgba(17, 24, 70, 0.05), 0 18px 44px rgba(17, 24, 70, 0.1);
+
+  /* ---------- Police des données (chiffres, adresses, étiquettes) ---------- */
+  --font-mono: var(--font-geist-mono), ui-monospace, "SFMono-Regular", Menlo,
+    Consolas, monospace;
+
+  /* ---------- Repères de coin « tech » ----------
+     À utiliser ainsi :  background: var(--ticks-bg), var(--surface);  */
+  --tick: var(--accent);
+  --ticks-bg:
+    linear-gradient(var(--tick), var(--tick)) left 10px top 10px / 14px 2px no-repeat,
+    linear-gradient(var(--tick), var(--tick)) left 10px top 10px / 2px 14px no-repeat,
+    linear-gradient(var(--tick), var(--tick)) right 10px top 10px / 14px 2px no-repeat,
+    linear-gradient(var(--tick), var(--tick)) right 10px top 10px / 2px 14px no-repeat,
+    linear-gradient(var(--tick), var(--tick)) left 10px bottom 10px / 14px 2px no-repeat,
+    linear-gradient(var(--tick), var(--tick)) left 10px bottom 10px / 2px 14px no-repeat,
+    linear-gradient(var(--tick), var(--tick)) right 10px bottom 10px / 14px 2px no-repeat,
+    linear-gradient(var(--tick), var(--tick)) right 10px bottom 10px / 2px 14px no-repeat;
 
   /* ---------- Anciens noms (compatibilité des pages pas encore migrées) ---------- */
   --background: var(--bg);
   --foreground: var(--text);
-  --primary: #4cc3ff;
-  --primary-dark: #1fa3ec;
-  --primary-light: rgba(76, 195, 255, 0.12);
-  --secondary: #bfe7ff;
-  --black: #05070a;
-  --black-soft: #10151c;
+  --primary: var(--accent);
+  --primary-dark: var(--accent-strong);
+  --primary-light: rgba(56, 57, 175, 0.1);
+  --secondary: #c9cbf3;
+  --black: #0b0f2a;
+  --black-soft: #151a3d;
   --white: #ffffff;
   --text-primary: var(--text);
   --text-secondary: var(--text-muted);
@@ -63,7 +83,7 @@ html {
   height: 100%;
   scroll-behavior: smooth;
   background: var(--bg);
-  scrollbar-color: #2a3350 var(--bg);
+  scrollbar-color: #c3c6e6 var(--bg);
 }
 
 html,
@@ -83,17 +103,21 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Lueur d'ambiance fixe derrière tout le site (comme le fond d'une console) */
+/* Grille de points fixe derrière tout le site : elle s'estompe vers le bas */
 body::before {
   content: "";
   position: fixed;
   inset: 0;
   z-index: -1;
   pointer-events: none;
-  background:
-    radial-gradient(900px 600px at 12% -8%, rgba(0, 128, 255, 0.26), transparent 62%),
-    radial-gradient(700px 520px at 100% 18%, rgba(76, 195, 255, 0.1), transparent 60%),
-    radial-gradient(800px 600px at 50% 120%, rgba(0, 128, 255, 0.12), transparent 60%);
+  background-image:
+    radial-gradient(800px 480px at 8% -10%, rgba(56, 57, 175, 0.09), transparent 65%),
+    radial-gradient(rgba(56, 57, 175, 0.2) 1px, transparent 1.3px);
+  background-size:
+    auto,
+    24px 24px;
+  -webkit-mask-image: linear-gradient(180deg, #000 0%, rgba(0, 0, 0, 0.4) 60%, rgba(0, 0, 0, 0.14) 100%);
+  mask-image: linear-gradient(180deg, #000 0%, rgba(0, 0, 0, 0.4) 60%, rgba(0, 0, 0, 0.14) 100%);
 }
 
 a {
@@ -121,9 +145,9 @@ ul {
   list-style: none;
 }
 
-/* ---------- Focus clavier / manette : toujours visible ---------- */
+/* ---------- Focus clavier : toujours visible ---------- */
 :focus-visible {
-  outline: 3px solid var(--accent-bright);
+  outline: 3px solid var(--accent);
   outline-offset: 3px;
 }
 
@@ -140,8 +164,8 @@ ul {
   z-index: 100;
   padding: 10px 18px;
   border-radius: var(--radius-pill);
-  background: #fff;
-  color: #000;
+  background: var(--accent);
+  color: #fff;
   font-weight: 700;
   font-size: 14px;
   transform: translateY(-200%);
@@ -157,19 +181,26 @@ ul {
 }
 
 /* =====================================================
-   OUTILS RÉUTILISABLES (à utiliser dans les prochaines pages)
+   OUTILS RÉUTILISABLES
 ===================================================== */
 
-/* Panneau en verre dépoli */
+/* Panneau blanc à fine bordure */
 .glass {
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: var(--radius-card);
-  -webkit-backdrop-filter: blur(24px) saturate(140%);
-  backdrop-filter: blur(24px) saturate(140%);
+  box-shadow: var(--shadow-sm);
 }
 
-/* Carte sélectionnable façon console : grossit et brille quand elle est active */
+/* Même panneau avec repères de coin (à réserver aux blocs importants) */
+.glass-ticks {
+  background: var(--ticks-bg), var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Carte sélectionnable : grossit légèrement et s'entoure d'un anneau indigo */
 .console-card {
   border-radius: var(--radius-card);
   transition:
@@ -181,8 +212,8 @@ ul {
 .console-card:focus-visible {
   transform: scale(var(--focus-scale));
   box-shadow:
-    0 0 0 3px var(--accent),
-    0 24px 60px var(--accent-glow);
+    0 0 0 2px var(--accent),
+    0 20px 44px rgba(56, 57, 175, 0.18);
   outline: none;
 }
 

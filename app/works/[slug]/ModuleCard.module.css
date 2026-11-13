@@ -1,5 +1,5 @@
-/* Carte d'un module : une ligne avec numéro, titre, état.
-   La couleur du cours vient de --course / --course-soft (définies dans ../page.module.css). */
+/* Carte d'un module : une ligne avec numéro, titre, état (blanc & tech).
+   La couleur du cours vient de --course / --course-soft (définies dans ./page.module.css). */
 .card {
   display: flex;
   align-items: center;
@@ -7,23 +7,24 @@
   min-height: 76px;
   padding: 1.1rem 1.3rem;
   border: 1px solid var(--line);
-  border-radius: 20px;
-  background: var(--surface);
+  border-radius: 18px;
+  background: #fff;
   color: var(--text);
+  box-shadow: var(--shadow-sm);
   transition:
     transform 0.22s var(--ease),
     box-shadow 0.22s var(--ease),
     border-color 0.22s var(--ease);
 }
 
-/* Seules les cartes cliquables réagissent : même logique que les tuiles du Hub */
+/* Seules les cartes cliquables réagissent : anneau indigo, comme les tuiles du Hub */
 a.card:hover,
 a.card:focus-visible {
   transform: scale(1.02);
   border-color: transparent;
   box-shadow:
-    0 0 0 3px var(--accent-bright),
-    0 18px 44px var(--accent-glow);
+    0 0 0 2px var(--accent),
+    0 18px 44px rgba(56, 57, 175, 0.18);
   outline: none;
 }
 
@@ -33,10 +34,11 @@ a.card:focus-visible {
   flex-shrink: 0;
   width: 2.5rem;
   height: 2.5rem;
-  border-radius: 50%;
-  background: var(--course-soft, var(--accent-bright));
-  color: var(--black);
-  font-weight: 800;
+  border-radius: 12px;
+  background: var(--course-soft, var(--accent));
+  color: #fff;
+  font-family: var(--font-mono);
+  font-weight: 700;
 }
 
 .body {
@@ -48,7 +50,7 @@ a.card:focus-visible {
   font-size: 1.1rem;
   font-weight: 800;
   letter-spacing: -0.01em;
-  color: #fff;
+  color: var(--text);
 }
 
 .desc {
@@ -72,12 +74,12 @@ a.card:focus-visible {
   flex-shrink: 0;
   font-size: 0.9rem;
   font-weight: 700;
-  color: var(--accent-bright);
+  color: var(--accent);
   white-space: nowrap;
 }
 
 .done {
-  border-color: rgba(47, 210, 122, 0.55);
+  border-color: rgba(18, 131, 74, 0.45);
 }
 
 .done .num {
@@ -90,6 +92,8 @@ a.card:focus-visible {
 
 .locked {
   border-style: dashed;
+  background: var(--bg);
+  box-shadow: none;
   cursor: not-allowed;
 }
 

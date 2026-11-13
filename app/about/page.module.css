@@ -1,5 +1,5 @@
 /* =====================================================
-   À PROPOS : thème console, calme (l'audace est dans le Hub)
+   À PROPOS : blanc & tech, calme (l'audace est dans le Hub)
 ===================================================== */
 
 .main {
@@ -18,6 +18,9 @@
 
 /* ---------- 1. Présentation ---------- */
 .presentation {
+  /* ↓ Visibilité de l'image de fond : 0.15 (très pâle) à 0.9 (très marquée) ↓ */
+  --about-image-opacity: 0.85; /* MODIF (avant : 0.4) */
+
   position: relative;
   min-height: 70vh;
   min-height: 70svh;
@@ -31,21 +34,24 @@
 .heroImage {
   object-fit: cover;
   z-index: -2;
+  opacity: var(--about-image-opacity);
   animation: heroZoom 14s var(--ease) both;
 }
 
+/* Voile blanc : léger en haut, plus dense seulement en bas, là où se trouve le texte */
 .heroShade {
   position: absolute;
   inset: 0;
   z-index: -1;
+  /* MODIF : voile beaucoup plus léger */
   background:
     linear-gradient(
       to top,
-      var(--bg) 4%,
-      rgba(7, 10, 18, 0.62) 50%,
-      rgba(7, 10, 18, 0.4) 100%
+      rgba(246, 247, 251, 0.92) 0%,
+      rgba(246, 247, 251, 0.55) 35%,
+      rgba(246, 247, 251, 0) 75%
     ),
-    linear-gradient(100deg, rgba(0, 128, 255, 0.26), transparent 55%);
+    linear-gradient(100deg, rgba(56, 57, 175, 0.12), transparent 55%);
 }
 
 .heroContent {
@@ -70,7 +76,7 @@
   font-weight: 800;
   letter-spacing: -0.035em;
   max-width: 18ch;
-  color: #fff;
+  color: var(--text);
 }
 
 .heroText {
@@ -110,7 +116,7 @@
   line-height: 1.1;
   letter-spacing: -0.03em;
   font-weight: 800;
-  color: #fff;
+  color: var(--text);
 }
 
 .infoList {
@@ -120,13 +126,13 @@
   list-style: none;
 }
 
-/* Cartes décoratives : verre dépoli, aucun effet de survol */
+/* Cartes décoratives : blanches, aucun effet de survol */
 .infoCard {
   display: flex;
   align-items: flex-start;
   gap: 20px;
   padding: 32px 30px;
-  border-radius: var(--card-radius, 24px);
+  border-radius: var(--radius-card);
 }
 
 .infoIcon {
@@ -135,15 +141,15 @@
   height: 52px;
   display: grid;
   place-items: center;
-  border-radius: 16px;
+  border-radius: 14px;
   font-size: 24px;
-  background: var(--primary);
-  color: var(--black);
+  background: var(--accent);
+  color: #fff;
 }
 
 .infoCard h3 {
   font-size: 1.3rem;
-  color: #fff;
+  color: var(--text);
   margin-bottom: 10px;
 }
 
@@ -152,7 +158,7 @@
   color: var(--text-muted);
 }
 
-/* ---------- 3. Invitation ---------- */
+/* ---------- 3. Invitation (repères de coin) ---------- */
 .invitation {
   padding: 20px 0 110px;
 }
@@ -160,14 +166,9 @@
 .inviteBox {
   padding: clamp(36px, 7vw, 88px);
   border: 1px solid var(--line);
-  border-radius: 40px;
-  background: radial-gradient(
-    circle at 85% 0%,
-    rgba(0, 128, 255, 0.36) 0%,
-    var(--bg-elevated) 55%,
-    var(--bg) 100%
-  );
-  box-shadow: 0 28px 70px rgba(0, 0, 0, 0.4);
+  border-radius: 28px;
+  background: var(--ticks-bg), linear-gradient(135deg, #ffffff 0%, var(--surface-strong) 100%);
+  box-shadow: var(--shadow-md);
 }
 
 .inviteBox h2 {
@@ -176,7 +177,7 @@
   line-height: 1.05;
   letter-spacing: -0.035em;
   font-weight: 800;
-  color: #fff;
+  color: var(--text);
 }
 
 .inviteBox p {
@@ -201,18 +202,19 @@
   min-height: 48px;
   padding: 14px 28px;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.08);
-  color: #fff;
-  border: 1px solid rgba(255, 255, 255, 0.28);
+  background: #fff;
+  color: var(--text);
+  border: 1px solid var(--line);
   font-weight: 700;
   font-size: 1rem;
-  -webkit-backdrop-filter: blur(6px);
-  backdrop-filter: blur(6px);
-  transition: background 0.3s var(--ease);
+  transition:
+    border-color 0.3s var(--ease),
+    box-shadow 0.3s var(--ease);
 }
 
 .btnGlass:hover {
-  background: rgba(255, 255, 255, 0.18);
+  border-color: var(--accent);
+  box-shadow: var(--shadow-sm);
 }
 
 /* ---------- Apparition au scroll (seulement si le mouvement est autorisé) ---------- */

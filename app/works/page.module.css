@@ -1,5 +1,5 @@
 /* =====================================================
-   ACADÉMIE : page d'accueil des formations
+   ACADÉMIE : page d'accueil des formations (blanc & tech)
    (la rangée de parcours est dans CoursesRail.module.css)
 ===================================================== */
 .main {
@@ -23,7 +23,7 @@
   line-height: 1.06;
   font-weight: 800;
   letter-spacing: -0.03em;
-  color: #fff;
+  color: var(--text);
 }
 
 .heroText {
@@ -45,7 +45,7 @@
   padding: 0.5rem 1rem;
   border: 1px solid var(--line);
   border-radius: 999px;
-  background: var(--surface);
+  background: #fff;
   color: var(--text);
   font-size: 0.9rem;
   font-weight: 600;
@@ -62,7 +62,7 @@
   line-height: 1.12;
   font-weight: 800;
   letter-spacing: -0.025em;
-  color: #fff;
+  color: var(--text);
 }
 
 .valueList {
@@ -80,7 +80,7 @@
   margin-bottom: 0.5rem;
   font-size: 1.2rem;
   letter-spacing: -0.01em;
-  color: #fff;
+  color: var(--text);
 }
 
 .valueItem p {
@@ -88,20 +88,17 @@
   color: var(--text-muted);
 }
 
-/* ---------- Invitation : séance avec un formateur ---------- */
+/* ---------- Invitation : séance avec un formateur (repères de coin) ---------- */
 .invite {
   padding: 1rem 0 5rem;
 }
 
 .inviteBox {
   padding: clamp(2rem, 6vw, 3.8rem);
-  border-radius: 36px;
-  background: radial-gradient(
-    circle at 85% 0%,
-    rgba(0, 128, 255, 0.3) 0%,
-    var(--bg-elevated) 60%,
-    var(--bg) 100%
-  );
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  background: var(--ticks-bg), linear-gradient(135deg, #ffffff 0%, var(--surface-strong) 100%);
+  box-shadow: var(--shadow-md);
 }
 
 .inviteBox h2 {
@@ -110,7 +107,7 @@
   line-height: 1.12;
   font-weight: 800;
   letter-spacing: -0.025em;
-  color: #fff;
+  color: var(--text);
 }
 
 .inviteBox p {
@@ -122,7 +119,7 @@
 }
 
 .inviteBox strong {
-  color: #fff;
+  color: var(--text);
 }
 
 .inviteActions {

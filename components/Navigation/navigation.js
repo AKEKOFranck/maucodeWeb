@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import AnnouncementsBell from "@/components/Announcements/AnnouncementsBell";
 import useAnnouncements from "@/components/Announcements/useAnnouncements";
@@ -65,11 +66,14 @@ export default function Navigation() {
     <header className={styles.wrapper}>
       <nav className={styles.nav} aria-label="Navigation principale">
         <Link href="/" className={styles.brand} aria-label="MauCode, accueil">
-          <span className={styles.mark} aria-hidden="true">
-            <i />
-            <i />
-            <i />
-          </span>
+          <Image
+            src="/icons/mark-128.png"
+            alt=""
+            width={34}
+            height={34}
+            className={styles.mark}
+            priority
+          />
           <span className={styles.brandText}>
             Mau<span>code</span>
           </span>

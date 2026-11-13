@@ -1,3 +1,6 @@
+/* =====================================================
+   ADMIN : tableau de bord (blanc & tech)
+===================================================== */
 .page {
   min-height: 100vh;
   padding: 7.5rem 1.25rem 5rem;
@@ -33,18 +36,20 @@
 }
 
 .kpi {
-  background: var(--surface);
+  background: #fff;
   border: 1px solid var(--line);
-  border-radius: var(--card-radius, 20px);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-sm);
   padding: 1.5rem;
 }
 
 .kpiValue {
   display: block;
+  font-family: var(--font-mono);
   font-size: 2.6rem;
-  font-weight: 800;
+  font-weight: 700;
   line-height: 1.1;
-  color: var(--accent-bright);
+  color: var(--accent);
 }
 
 .kpiLabel {
@@ -55,9 +60,10 @@
 }
 
 .course {
-  background: var(--bg-elevated);
+  background: #fff;
   border: 1px solid var(--line);
-  border-radius: var(--card-radius, 20px);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-sm);
   padding: 1.5rem;
   margin-bottom: 1.5rem;
 }
@@ -76,7 +82,7 @@
   width: 12px;
   height: 12px;
   border-radius: 50%;
-  background: var(--course, var(--accent-bright));
+  background: var(--course, var(--accent));
   flex-shrink: 0;
 }
 
@@ -123,7 +129,8 @@
 }
 
 .num {
-  font-weight: 700;
+  font-family: var(--font-mono);
+  font-weight: 600;
   font-variant-numeric: tabular-nums;
 }
 
@@ -138,22 +145,24 @@
   flex: 1;
   height: 8px;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--surface-strong);
+  border: 1px solid var(--line);
   overflow: hidden;
 }
 
 .barFill {
   height: 100%;
   border-radius: 999px;
-  background: var(--course, var(--accent-bright));
+  background: var(--course, var(--accent));
 }
 
 .state {
   max-width: 520px;
   margin: 0 auto;
-  background: var(--surface);
+  background: #fff;
   border: 1px solid var(--line);
-  border-radius: var(--card-radius, 20px);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-md);
   padding: 2.25rem 1.75rem;
   text-align: center;
   line-height: 1.7;
@@ -168,9 +177,14 @@
   margin-top: 0.75rem;
   padding: 0.65rem 1.5rem;
   border-radius: 999px;
-  background: var(--primary);
-  color: var(--black);
+  background: var(--accent);
+  color: #fff;
   font-weight: 700;
+  transition: background 0.25s var(--ease);
+}
+
+.btn:hover {
+  background: var(--accent-strong);
 }
 
 @media (max-width: 640px) {

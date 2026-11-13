@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 import {
   FiInstagram,
@@ -17,6 +18,7 @@ import {
   NAV_LINKS,
   whatsappLink,
 } from "@/lib/config";
+import { PushToggle } from "@/components/Notifications/notifications";
 
 import styles from "./footer.module.css";
 
@@ -86,11 +88,13 @@ export default function Footer() {
               className={styles.footerLogoLink}
               aria-label="MauCodeWeb - Accueil"
             >
-              <div className={styles.logoMark} aria-hidden="true">
-                <span></span>
-                <span></span>
-                <span></span>
-              </div>
+              <Image
+                src="/icons/mark-128.png"
+                alt=""
+                width={44}
+                height={44}
+                className={styles.logoMark}
+              />
 
               <div className={styles.logoText}>
                 <strong>{brand.name}</strong>
@@ -130,6 +134,9 @@ export default function Footer() {
                 );
               })}
             </div>
+
+            {/* NOTIFICATIONS PUSH (invisible si non supporté ou clé VAPID absente) */}
+            <PushToggle />
           </div>
 
           {/* EXPLORER */}

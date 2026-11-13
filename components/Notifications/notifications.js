@@ -2,6 +2,7 @@
 
 import { createContext, useCallback, useContext, useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { getAppCheckHeaders } from "@/lib/appCheck";
 import s from "./notifications.module.css";
 // Plus d'import de "@/lib/data/modules" ici : la liste arrive en props depuis le layout (serveur).
 
@@ -162,19 +163,25 @@ export function PushToggle() {
         return;
       }
       const reg = await navigator.serviceWorker.ready;
+
+      /* MODIF : on retire un ancien abonnement (autre clé VAPID, restes d'un test) */
+      const old = await reg.pushManager.getSubscription();
+      if (old) await old.unsubscribe();
+
       const sub = await reg.pushManager.subscribe({
         userVisibleOnly: true,
         applicationServerKey: urlBase64ToUint8Array(key),
       });
       const res = await fetch("/api/push/subscribe", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", ...(await getAppCheckHeaders()) },
         body: JSON.stringify(sub),
       });
-      if (!res.ok) throw new Error("subscribe");
+      if (!res.ok) throw new Error("subscribe " + res.status); /* MODIF : le code apparaît */
       setState("on");
       toast("Rappels activés. Tu seras prévenu des nouveaux modules.", { type: "success" });
-    } catch {
+    } catch (e) {
+      console.error("Activation des rappels :", e); /* MODIF */
       toast("Impossible d'activer les rappels pour le moment.", { type: "error" });
     }
   }
@@ -186,7 +193,7 @@ export function PushToggle() {
       if (sub) {
         await fetch("/api/push/subscribe", {
           method: "DELETE",
-          headers: { "Content-Type": "application/json" },
+          headers: { "Content-Type": "application/json", ...(await getAppCheckHeaders()) },
           body: JSON.stringify({ endpoint: sub.endpoint }),
         });
         await sub.unsubscribe();

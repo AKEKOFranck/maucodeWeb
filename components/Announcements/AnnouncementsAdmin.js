@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
+import { getAuth } from "firebase/auth";
 import {
   addDoc,
   collection,
@@ -10,7 +11,8 @@ import {
   serverTimestamp,
   updateDoc,
 } from "firebase/firestore";
-import { db } from "@/lib/firebase";
+import { app, db } from "@/lib/firebase";
+import { getAppCheckHeaders } from "@/lib/appCheck";
 import { LIMITS, checkHref, fetchAnnouncements, invalidateCache } from "@/lib/announcements";
 import s from "./AnnouncementsAdmin.module.css";
 
@@ -24,13 +26,45 @@ const FIRST = {
 
 const EMPTY = { title: "", body: "", href: "" };
 
+const PUSH_BODY_MAX = 300;
+
 const fmt = (ms) =>
   ms ? new Date(ms).toLocaleString("fr-FR", { dateStyle: "short", timeStyle: "short" }) : "";
+
+/* Envoie la notification à tous les abonnés (route réservée à l'admin) */
+async function sendPush({ title, body, href, external }) {
+  const user = getAuth(app).currentUser;
+  if (!user) throw new Error("Non connecté.");
+  const token = await user.getIdToken();
+
+  const text = body.length > PUSH_BODY_MAX ? body.slice(0, PUSH_BODY_MAX - 1).trimEnd() + "…" : body;
+  const url = href && !external ? href : "/";
+
+  const res = await fetch("/api/push/send", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+      ...(await getAppCheckHeaders()),
+    },
+    body: JSON.stringify({ title, body: text, url }),
+  });
+
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) {
+    const err = new Error(data.error || "Envoi impossible.");
+    err.status = res.status;
+    err.data = data;
+    throw err;
+  }
+  return data; // { ok, sent, removed, failed }
+}
 
 export default function AnnouncementsAdmin() {
   const [items, setItems] = useState(null);
   const [form, setForm] = useState(EMPTY);
   const [editingId, setEditingId] = useState(null);
+  const [alsoPush, setAlsoPush] = useState(false);
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState(null);
 
@@ -62,6 +96,7 @@ export default function AnnouncementsAdmin() {
   function reset() {
     setForm(EMPTY);
     setEditingId(null);
+    setAlsoPush(false);
   }
 
   async function submit(e) {
@@ -69,6 +104,11 @@ export default function AnnouncementsAdmin() {
     if (busy || !valid) return;
     setBusy(true);
     setMessage(null);
+
+    const wasEditing = Boolean(editingId);
+    const wantPush = alsoPush && !wasEditing;
+    const snapshot = { title, body, href: link.href, external: link.external };
+
     try {
       if (editingId) {
         await updateDoc(doc(db, "announcements", editingId), {
@@ -83,8 +123,6 @@ export default function AnnouncementsAdmin() {
       }
       invalidateCache();
       reset();
-      setMessage({ type: "ok", text: editingId ? "Annonce modifiée." : "Annonce publiée." });
-      await load();
     } catch (err) {
       console.error(err);
       setMessage({
@@ -94,9 +132,36 @@ export default function AnnouncementsAdmin() {
             ? "Refusé par Firestore : vérifie que tu es connecté avec le compte administrateur et que les règles sont publiées."
             : "Enregistrement impossible. Réessaie dans un instant.",
       });
-    } finally {
       setBusy(false);
+      return;
     }
+
+    // L'annonce est enregistrée. Notification éventuelle :
+    let text = wasEditing ? "Annonce modifiée." : "Annonce publiée.";
+    let type = "ok";
+
+    if (wantPush) {
+      try {
+        const r = await sendPush(snapshot);
+        text += ` Notification envoyée à ${r.sent} appareil(s)`;
+        if (r.removed) text += `, ${r.removed} abonnement(s) périmé(s) supprimé(s)`;
+        if (r.failed) text += `, ${r.failed} échec(s)`;
+        text += ".";
+      } catch (err) {
+        console.error(err);
+        type = "error";
+        text +=
+          err.status === 403
+            ? " Notification refusée (403) : compte non administrateur ou App Check."
+            : err.status === 429
+              ? " Notification non envoyée : trop d'envois, réessaie dans quelques minutes."
+              : " Notification non envoyée : " + (err.message || "erreur") + ".";
+      }
+    }
+
+    setMessage({ type, text });
+    await load();
+    setBusy(false);
   }
 
   async function remove(id) {
@@ -119,6 +184,7 @@ export default function AnnouncementsAdmin() {
 
   function startEdit(a) {
     setEditingId(a.id);
+    setAlsoPush(false);
     setForm({ title: a.title, body: a.body, href: a.href });
     setMessage(null);
   }
@@ -161,6 +227,22 @@ export default function AnnouncementsAdmin() {
             </span>
           )}
         </label>
+
+        {!editingId && (
+          <label className={s.check}>
+            <input
+              type="checkbox"
+              checked={alsoPush}
+              onChange={(e) => setAlsoPush(e.target.checked)}
+              disabled={busy}
+            />
+            <span>
+              Envoyer aussi en notification à tous les abonnés
+              {body.length > 300 && " (message coupé à 300 caractères)"}
+              {link.ok && link.external && " (le lien WhatsApp n'est pas repris : la notification ouvre l'accueil)"}
+            </span>
+          </label>
+        )}
 
         {(title || body) && (
           <div className={s.preview} aria-label="Aperçu">
