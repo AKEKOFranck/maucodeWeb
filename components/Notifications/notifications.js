@@ -80,6 +80,7 @@ export function NotificationsProvider({ children, newModules = [] }) {
       <ToastProvider>
         {children}
         <NewModulesWatcher />
+        <PushPrompt />
       </ToastProvider>
     </NewModulesContext.Provider>
   );
@@ -127,19 +128,21 @@ export function NewBadge({ added, days = 14 }) {
   return show ? <span className={s.badge}>Nouveau</span> : null;
 }
 
-/* ---------- 4. Bouton « Activer les rappels » (notifications push) ---------- */
+/* ---------- 4. Notifications push : logique commune ---------- */
 function urlBase64ToUint8Array(b64) {
   const pad = "=".repeat((4 - (b64.length % 4)) % 4);
   const raw = atob((b64 + pad).replace(/-/g, "+").replace(/_/g, "/"));
   return Uint8Array.from([...raw].map((c) => c.charCodeAt(0)));
 }
 
-export function PushToggle() {
+const PUSH_EVENT = "maucode:push-changed";
+
+function usePush() {
   const toast = useToast();
   const key = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY;
   const [state, setState] = useState("loading"); // loading | unsupported | off | on | denied
 
-  useEffect(() => {
+  const check = useCallback(() => {
     if (!key || !("serviceWorker" in navigator) || !("PushManager" in window)) {
       setState("unsupported");
       return;
@@ -155,7 +158,13 @@ export function PushToggle() {
       .catch(() => setState("unsupported"));
   }, [key]);
 
-  async function enable() {
+  useEffect(() => {
+    check();
+    window.addEventListener(PUSH_EVENT, check);
+    return () => window.removeEventListener(PUSH_EVENT, check);
+  }, [check]);
+
+  const enable = useCallback(async () => {
     try {
       const perm = await Notification.requestPermission();
       if (perm !== "granted") {
@@ -164,7 +173,7 @@ export function PushToggle() {
       }
       const reg = await navigator.serviceWorker.ready;
 
-      /* MODIF : on retire un ancien abonnement (autre clé VAPID, restes d'un test) */
+      // On retire un ancien abonnement (autre clé VAPID, restes d'un test)
       const old = await reg.pushManager.getSubscription();
       if (old) await old.unsubscribe();
 
@@ -177,16 +186,17 @@ export function PushToggle() {
         headers: { "Content-Type": "application/json", ...(await getAppCheckHeaders()) },
         body: JSON.stringify(sub),
       });
-      if (!res.ok) throw new Error("subscribe " + res.status); /* MODIF : le code apparaît */
+      if (!res.ok) throw new Error("subscribe " + res.status);
       setState("on");
+      window.dispatchEvent(new Event(PUSH_EVENT));
       toast("Rappels activés. Tu seras prévenu des nouveaux modules.", { type: "success" });
     } catch (e) {
-      console.error("Activation des rappels :", e); /* MODIF */
+      console.error("Activation des rappels :", e);
       toast("Impossible d'activer les rappels pour le moment.", { type: "error" });
     }
-  }
+  }, [key, toast]);
 
-  async function disable() {
+  const disable = useCallback(async () => {
     try {
       const reg = await navigator.serviceWorker.ready;
       const sub = await reg.pushManager.getSubscription();
@@ -199,11 +209,19 @@ export function PushToggle() {
         await sub.unsubscribe();
       }
       setState("off");
+      window.dispatchEvent(new Event(PUSH_EVENT));
       toast("Rappels désactivés.", { type: "info" });
     } catch {
       toast("Impossible de désactiver les rappels.", { type: "error" });
     }
-  }
+  }, [toast]);
+
+  return { state, enable, disable };
+}
+
+/* ---------- 5. Bouton « Activer les rappels » (pied de page) ---------- */
+export function PushToggle() {
+  const { state, enable, disable } = usePush();
 
   if (state === "loading" || state === "unsupported") return null;
   if (state === "denied") {
@@ -213,5 +231,72 @@ export function PushToggle() {
     <button type="button" className={s.push} onClick={state === "on" ? disable : enable}>
       {state === "on" ? "🔔 Rappels activés (désactiver)" : "🔔 Activer les rappels"}
     </button>
+  );
+}
+
+/* ---------- 6. Invitation au premier lancement de l'app installée ---------- */
+const PROMPT_KEY = "maucode:push-prompt-dismissed-at";
+const PROMPT_DAYS = 7;
+
+function isStandalone() {
+  return (
+    window.matchMedia("(display-mode: standalone)").matches ||
+    window.navigator.standalone === true
+  );
+}
+
+function promptDismissedRecently() {
+  try {
+    const at = Number(localStorage.getItem(PROMPT_KEY));
+    return Number.isFinite(at) && at > 0 && Date.now() - at < PROMPT_DAYS * 86400000;
+  } catch {
+    return false;
+  }
+}
+
+function PushPrompt() {
+  const { state, enable } = usePush();
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    if (state !== "off") {
+      setVisible(false);
+      return;
+    }
+    // Seulement dans l'app installée, et pas si fermé récemment
+    if (!isStandalone() || promptDismissedRecently()) return;
+    const t = setTimeout(() => setVisible(true), 3000);
+    return () => clearTimeout(t);
+  }, [state]);
+
+  if (!visible) return null;
+
+  const later = () => {
+    try { localStorage.setItem(PROMPT_KEY, String(Date.now())); } catch {}
+    setVisible(false);
+  };
+
+  const accept = async () => {
+    setVisible(false);
+    await enable(); // la demande doit partir d'un clic (obligatoire sur iPhone)
+  };
+
+  return (
+    <section className={s.prompt} aria-label="Activer les notifications">
+      <div className={s.promptText}>
+        <strong>Reçois les nouveautés sur ton téléphone</strong>
+        <span>
+          Nouveaux modules et annonces, directement sur ton écran, sans ouvrir l&apos;app.
+        </span>
+      </div>
+      <div className={s.promptActions}>
+        <button type="button" className={s.promptPrimary} onClick={accept}>
+          Activer
+        </button>
+        <button type="button" className={s.promptGhost} onClick={later}>
+          Plus tard
+        </button>
+      </div>
+    </section>
   );
 }

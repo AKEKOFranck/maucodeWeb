@@ -160,10 +160,85 @@
   color: var(--text-muted);
 }
 
+/* ---------- Invitation au premier lancement (app installée) ---------- */
+.prompt {
+  position: fixed;
+  left: 16px;
+  bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+  z-index: 45;
+  display: grid;
+  gap: 12px;
+  width: min(420px, calc(100vw - 32px));
+  padding: 16px 16px 14px;
+  background: var(--surface-solid);
+  border: 1px solid var(--line);
+  border-left: 6px solid var(--accent);
+  border-radius: 18px;
+  box-shadow: var(--shadow-md);
+  animation: slideUp 0.4s var(--ease) both;
+}
+
+.promptText {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.promptText strong {
+  color: var(--text);
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.promptText span {
+  color: var(--text-muted);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.promptActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.promptPrimary,
+.promptGhost {
+  min-height: 44px;
+  padding: 0 20px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.promptPrimary {
+  background: var(--accent);
+  color: #fff;
+}
+
+.promptPrimary:hover { background: var(--accent-strong); }
+
+.promptGhost {
+  background: transparent;
+  color: var(--text-muted);
+  border: 1px solid var(--line);
+}
+
+.promptGhost:hover {
+  color: var(--text);
+  border-color: var(--accent);
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: none; }
+}
+
 @media (max-width: 520px) {
   .stack { right: 12px; bottom: 12px; width: calc(100vw - 24px); }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .bannerBtn:hover { transform: none; }
+  .prompt { animation: none; }
 }

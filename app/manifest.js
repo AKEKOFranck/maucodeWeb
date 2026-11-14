@@ -1,7 +1,6 @@
 /*
   Manifest de l'application (généré par Next.js sur /manifest.webmanifest).
   SÉCURITÉ : toutes les URLs sont relatives à ton domaine (aucune URL externe).
-  Étape 2 : on changera background_color et theme_color pour le thème blanc.
 */
 export default function manifest() {
   return {
@@ -15,8 +14,9 @@ export default function manifest() {
     start_url: "/?source=pwa",
     scope: "/",
     display: "standalone",
-       background_color: "#f6f7fb",
+    background_color: "#f6f7fb",
     theme_color: "#f6f7fb",
+    prefer_related_applications: false, // MODIF
     categories: ["education", "business", "productivity"],
     icons: [
       {

@@ -77,6 +77,7 @@
   gap: 8px;
   padding: 12px 8px 4px 22px;
   border-top: 1px solid var(--line);
+  list-style: decimal; /* MODIF : garde les numéros */
   color: var(--text-muted);
   font-size: 13px;
   line-height: 1.5;

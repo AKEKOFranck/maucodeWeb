@@ -5,9 +5,11 @@ import Image from "next/image";
 import styles from "./PwaInstall.module.css";
 
 /*
-  Enregistre le service worker et propose d'installer l'application.
-  - Android / Chrome / Edge : bouton « Installer » (événement beforeinstallprompt).
-  - iPhone / iPad : petit guide « Sur l'écran d'accueil » (iOS n'a pas de bouton natif).
+  Enregistre le service worker et aide à installer l'application.
+  - Android / Chrome / Edge : bouton « Installer » (beforeinstallprompt).
+  - Android sans bouton (Samsung Internet...) : guide pas à pas.
+  - iPhone / iPad : guide « Sur l'écran d'accueil ».
+  - Navigateur intégré (Facebook, Instagram...) : il faut ouvrir le site dans le vrai navigateur.
   - Rien n'est affiché si l'app est déjà installée ou si l'invite a été fermée récemment.
   SÉCURITÉ : aucune donnée envoyée ; seul l'horodatage du « Fermer » est gardé en local.
 */
@@ -27,6 +29,21 @@ function isIos() {
   return (
     /iphone|ipad|ipod/i.test(ua) ||
     (ua.includes("Macintosh") && window.navigator.maxTouchPoints > 1)
+  );
+}
+
+function isAndroid() {
+  return /android/i.test(window.navigator.userAgent);
+}
+
+function isSamsungBrowser() {
+  return /SamsungBrowser/i.test(window.navigator.userAgent);
+}
+
+/* Navigateurs intégrés aux applications : ils ne savent pas installer une PWA */
+function isInAppBrowser() {
+  return /FBAN|FBAV|FB_IAB|Instagram|TikTok|musical_ly|Snapchat|Line\/|MicroMessenger|; wv\)/i.test(
+    window.navigator.userAgent
   );
 }
 
@@ -52,8 +69,9 @@ function rememberDismiss() {
 
 export default function PwaInstall() {
   const [deferred, setDeferred] = useState(null);
-  const [mode, setMode] = useState(null); // "android" | "ios" | null
-  const [iosOpen, setIosOpen] = useState(false);
+  const [mode, setMode] = useState(null); // "android" | "manual" | "ios" | "inapp" | null
+  const [open, setOpen] = useState(false);
+  const [samsung, setSamsung] = useState(false);
 
   /* ---------- 1. Service worker (production + HTTPS uniquement) ---------- */
   useEffect(() => {
@@ -93,6 +111,8 @@ export default function PwaInstall() {
   useEffect(() => {
     if (isStandalone() || recentlyDismissed()) return;
 
+    setSamsung(isSamsungBrowser());
+
     const onBeforeInstall = (event) => {
       event.preventDefault();
       setDeferred(event);
@@ -106,9 +126,17 @@ export default function PwaInstall() {
     window.addEventListener("beforeinstallprompt", onBeforeInstall);
     window.addEventListener("appinstalled", onInstalled);
 
-    // iOS : on attend quelques secondes pour ne pas gêner l'arrivée sur le site
+    // On attend quelques secondes pour ne pas gêner l'arrivée sur le site
     const timer = window.setTimeout(() => {
-      if (isIos()) setMode("ios");
+      if (isInAppBrowser()) {
+        setMode("inapp");
+        setOpen(true);
+      } else if (isIos()) {
+        setMode("ios");
+      } else if (isAndroid()) {
+        // Pas de bouton natif reçu : on propose le guide manuel
+        setMode((prev) => prev || "manual");
+      }
     }, 4000);
 
     return () => {
@@ -134,10 +162,22 @@ export default function PwaInstall() {
   const dismiss = () => {
     rememberDismiss();
     setMode(null);
-    setIosOpen(false);
+    setOpen(false);
   };
 
   if (!mode) return null;
+
+  const title =
+    mode === "inapp" ? "Ouvre dans ton navigateur" : "Installer Maucode";
+
+  const subtitle =
+    mode === "inapp"
+      ? "L'installation ne marche pas depuis cette fenêtre."
+      : mode === "ios"
+        ? "Ajoutez l'app à votre écran d'accueil."
+        : mode === "manual"
+          ? "Ajoutez l'app à votre écran d'accueil, c'est gratuit et sans risque."
+          : "Accès direct depuis votre écran d'accueil, en plein écran.";
 
   return (
     <section className={styles.card} aria-label="Installer l'application Maucode">
@@ -150,25 +190,22 @@ export default function PwaInstall() {
       />
 
       <div className={styles.text}>
-        <strong>Installer Maucode</strong>
-        <span>
-          {mode === "ios"
-            ? "Ajoutez l'app à votre écran d'accueil."
-            : "Accès direct depuis votre écran d'accueil, en plein écran."}
-        </span>
+        <strong>{title}</strong>
+        <span>{subtitle}</span>
       </div>
 
       <div className={styles.actions}>
-        {mode === "android" ? (
+        {mode === "android" && (
           <button type="button" className={styles.primary} onClick={install}>
             Installer
           </button>
-        ) : (
+        )}
+        {(mode === "ios" || mode === "manual") && (
           <button
             type="button"
             className={styles.primary}
-            onClick={() => setIosOpen((v) => !v)}
-            aria-expanded={iosOpen}
+            onClick={() => setOpen((v) => !v)}
+            aria-expanded={open}
           >
             Comment faire
           </button>
@@ -183,17 +220,56 @@ export default function PwaInstall() {
         </button>
       </div>
 
-      {mode === "ios" && iosOpen && (
+      {mode === "ios" && open && (
         <ol className={styles.steps}>
           <li>
             Dans Safari, appuyez sur <b>Partager</b> (le carré avec une flèche).
           </li>
           <li>
-            Choisissez <b>Sur l'écran d'accueil</b>.
+            Choisissez <b>Sur l&apos;écran d&apos;accueil</b>.
           </li>
           <li>
             Validez avec <b>Ajouter</b>, puis ouvrez Maucode depuis son icône.
           </li>
+        </ol>
+      )}
+
+      {mode === "manual" && open && (
+        <ol className={styles.steps}>
+          {samsung ? (
+            <>
+              <li>
+                Dans Samsung Internet, appuyez sur le menu <b>☰</b>.
+              </li>
+              <li>
+                Choisissez <b>Ajouter la page à</b>, puis <b>Écran d&apos;accueil</b>.
+              </li>
+              <li>Validez, puis ouvrez Maucode depuis son icône.</li>
+            </>
+          ) : (
+            <>
+              <li>
+                Dans Chrome, appuyez sur le menu <b>⋮</b>.
+              </li>
+              <li>
+                Choisissez <b>Installer l&apos;application</b> (ou{" "}
+                <b>Ajouter à l&apos;écran d&apos;accueil</b>).
+              </li>
+              <li>Validez, puis ouvrez Maucode depuis son icône.</li>
+            </>
+          )}
+        </ol>
+      )}
+
+      {mode === "inapp" && open && (
+        <ol className={styles.steps}>
+          <li>
+            Appuyez sur le menu <b>⋮</b> ou <b>…</b> de cette fenêtre.
+          </li>
+          <li>
+            Choisissez <b>Ouvrir dans le navigateur</b> (Chrome, Samsung Internet ou Safari).
+          </li>
+          <li>Installez ensuite l&apos;app depuis ce navigateur.</li>
         </ol>
       )}
     </section>
