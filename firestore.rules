@@ -2,17 +2,11 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    /* ---------- Outils ---------- */
-    function signedIn() {
-      return request.auth != null;
-    }
-
-    // Rôle posé côté serveur (custom claim) par scripts/set-admin.mjs
+    function signedIn() { return request.auth != null; }
     function isAdmin() {
       return signedIn() && request.auth.token.get('admin', false) == true;
     }
 
-    /* ---------- Utilisateurs ---------- */
     match /users/{uid} {
       allow read: if isAdmin() || (signedIn() && request.auth.uid == uid);
       allow create, update: if signedIn()
@@ -24,9 +18,6 @@ service cloud.firestore {
       allow delete: if false;
     }
 
-    /* ---------- Progression des apprenants ----------
-       Écrite UNIQUEMENT par le serveur (POST /api/quiz, SDK Admin) après correction du quiz.
-       Le client peut lire sa progression et la supprimer, jamais l'écrire. */
     match /progress/{id} {
       allow get: if isAdmin()
         || (signedIn() && id.matches(request.auth.uid + '_.*'));
@@ -36,7 +27,6 @@ service cloud.firestore {
       allow delete: if signedIn() && resource.data.uid == request.auth.uid;
     }
 
-    /* ---------- Annonces (lecture publique, écriture réservée à l'administrateur) ---------- */
     function validHref(h) {
       return h.matches('^/([A-Za-z0-9_#?=&%.-][A-Za-z0-9_/#?=&%.-]*)?$')
         || h.matches('^https://(www[.]|chat[.])?whatsapp[.]com/[A-Za-z0-9_/#?=&%.-]*$')
@@ -56,7 +46,6 @@ service cloud.firestore {
 
     match /announcements/{id} {
       allow get: if true;
-      // Une requête doit toujours préciser une limite (le site demande 5, l'admin 50)
       allow list: if request.query.limit <= 50;
       allow create: if isAdmin() && validAnnouncement()
         && request.resource.data.createdAt == request.time;
@@ -65,17 +54,21 @@ service cloud.firestore {
       allow delete: if isAdmin();
     }
 
-    /* ---------- Attestations : fermées à tous les clients ---------- */
-    match /attestations/{id} {
-      allow read, write: if false;
+    /* ---------- Paiements : lecture seule, écriture uniquement par le serveur ---------- */
+    match /paymentRequests/{id} {
+      allow get, list: if isAdmin() || (signedIn() && resource.data.uid == request.auth.uid);
+      allow create, update, delete: if false;
     }
-    match /attestationsPrivate/{id} {
-      allow read, write: if false;
+    match /entitlements/{id} {
+      allow get, list: if isAdmin() || (signedIn() && resource.data.uid == request.auth.uid);
+      allow create, update, delete: if false;
     }
+    match /usedTransactions/{id} { allow read, write: if false; }
+    match /auditLogs/{id} { allow read, write: if false; }
 
-    /* ---------- Tout le reste : refusé ---------- */
-    match /{document=**} {
-      allow read, write: if false;
-    }
+    match /attestations/{id} { allow read, write: if false; }
+    match /attestationsPrivate/{id} { allow read, write: if false; }
+
+    match /{document=**} { allow read, write: if false; }
   }
 }

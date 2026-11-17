@@ -5,6 +5,7 @@ import { collection, getCountFromServer, getDocs } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { useAuth } from "@/components/AuthProvider/AuthProvider";
 import AnnouncementsAdmin from "@/components/Announcements/AnnouncementsAdmin";
+import PaymentsAdmin from "@/components/Payments/PaymentsAdmin";
 import s from "./page.module.css";
 
 const fmt = (ms) =>
@@ -128,7 +129,7 @@ export default function AdminClient({ catalog }) {
       <div className={s.container}>
         <header className={s.header}>
           <h1 className={s.title}>Tableau de bord</h1>
-          <p className={s.lead}>Suivi des apprenants, des quiz validés et des annonces.</p>
+          <p className={s.lead}>Suivi des apprenants, des paiements, des quiz validés et des annonces.</p>
         </header>
 
         <div className={s.kpis}>
@@ -145,6 +146,8 @@ export default function AdminClient({ catalog }) {
             <span className={s.kpiLabel}>module(s) validé(s)</span>
           </div>
         </div>
+
+        <PaymentsAdmin />
 
         <AnnouncementsAdmin />
 

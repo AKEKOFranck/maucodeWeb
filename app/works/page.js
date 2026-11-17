@@ -6,7 +6,7 @@ import InviteBox from "./InviteBox";
 import styles from "./page.module.css";
 
 export const metadata = {
-  title: "Formations Office : Word, Excel et PowerPoint pour débutants",
+  title: "Formations : Word, Excel, PowerPoint et programmation pour débutants",
   description: data.program.description,
   alternates: { canonical: "/works" },
 };
@@ -14,7 +14,7 @@ export const metadata = {
 const VALUES = [
   {
     title: "Aucun prérequis",
-    text: "On part de zéro. Chaque parcours commence par la prise en main de l'interface, sans supposer que tu connais déjà le logiciel.",
+    text: "On part de zéro. Chaque parcours commence par les bases, sans supposer que tu connais déjà le logiciel ou la programmation.",
   },
   {
     title: "Que l'essentiel",
@@ -22,33 +22,37 @@ const VALUES = [
   },
   {
     title: "Des cas concrets",
-    text: "CV, budget, présentation à l'oral : chaque parcours se termine sur un exercice qui ressemble à un vrai besoin.",
+    text: "CV, budget, présentation à l'oral, calcul de prix : chaque parcours se termine sur un exercice qui ressemble à un vrai besoin.",
   },
 ];
 
 export default function Works() {
-  /* Données légères envoyées au composant client (pas tout le contenu des cours) */
-  const courses = data.courses.map((c) => {
-    const detail = getCourse(c.id);
-    return {
-      id: c.id,
-      software: c.software,
-      title: c.title,
-      pitch: c.pitch,
-      level: c.level,
-      duration: c.duration,
-      format: c.format,
-      outcomes: c.outcomes,
-      color: c.accentColor,
-      icon: detail?.icon ?? null,
-      modules: (detail?.modules ?? []).map((m) => ({
-        slug: m.slug,
-        title: m.title,
-        intro: m.intro,
-        lessons: m.chapters.map((ch) => ch.title),
-      })),
-    };
-  });
+  /* Données légères envoyées au composant client (pas tout le contenu des cours).
+     Un cours listé dans works.json mais absent de modules.js est ignoré, au lieu de planter la page. */
+  const courses = data.courses
+    .map((c) => {
+      const detail = getCourse(c.id);
+      if (!detail) return null;
+      return {
+        id: c.id,
+        software: c.software,
+        title: c.title,
+        pitch: c.pitch,
+        level: c.level,
+        duration: c.duration,
+        format: c.format,
+        outcomes: c.outcomes,
+        color: c.accentColor,
+        icon: detail.icon ?? null,
+        modules: detail.modules.map((m) => ({
+          slug: m.slug,
+          title: m.title,
+          intro: m.intro,
+          lessons: m.chapters.map((ch) => ch.title),
+        })),
+      };
+    })
+    .filter(Boolean);
 
   return (
     <main className={styles.main}>
@@ -58,7 +62,7 @@ export default function Works() {
           <p className={styles.heroText}>{data.program.description}</p>
           <ul className={styles.tags}>
             <li>{data.program.audience}</li>
-            <li>3 logiciels, 3 parcours</li>
+            <li>{courses.length} parcours : Office et programmation</li>
             <li>1er module gratuit, sans compte</li>
             <li>Exercices et corrigés</li>
             <li>Séance approfondie : {SESSION_PRICE}</li>
@@ -70,7 +74,7 @@ export default function Works() {
 
       <section className={styles.values}>
         <div className={styles.container}>
-          <h2 className={styles.sectionTitle}>Apprendre Office, sans stress.</h2>
+          <h2 className={styles.sectionTitle}>Apprendre, sans stress.</h2>
           <ul className={styles.valueList}>
             {VALUES.map((v) => (
               <li key={v.title} className={`glass ${styles.valueItem}`}>

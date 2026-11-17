@@ -1,8 +1,8 @@
 {
   "program": {
     "name": "Maucode Bureautique",
-    "tagline": "Word, Excel, PowerPoint : l'essentiel pour être vraiment à l'aise",
-    "description": "Un second programme Maucode, dédié à ceux qui veulent maîtriser les logiciels Office du quotidien. Pas de blabla technique : que les bases solides et les astuces qui servent vraiment, au bureau, à l'école ou pour un projet perso.",
+    "tagline": "Office et programmation : l'essentiel pour être vraiment à l'aise",
+    "description": "Un second programme Maucode, dédié à ceux qui veulent maîtriser les logiciels Office du quotidien et comprendre les bases de la programmation. Pas de blabla technique : que les bases solides et les astuces qui servent vraiment, au bureau, à l'école ou pour un projet perso.",
     "audience": "Étudiants, chercheurs d'emploi, employés, entrepreneurs — aucune expérience requise.",
     "contact": {
       "phone": "+225 07 89 76 30 83",
@@ -59,6 +59,23 @@
         "Choisir un thème et ajouter des images",
         "Dessiner des formes et ajouter des transitions",
         "Présenter avec confiance : notes, entraînement, export en PDF"
+      ]
+    },
+    {
+      "id": "fondamentaux",
+      "slug": "fondamentaux",
+      "software": "Programmation",
+      "accentColor": "#7c3aed",
+      "title": "Les fondamentaux de la programmation",
+      "level": "Débutant",
+      "duration": "4 semaines",
+      "format": "Leçons illustrées + quiz + exercices corrigés",
+      "pitch": "Apprends à raisonner comme un programmeur, sans langage compliqué : les idées qui servent en Python comme en JavaScript.",
+      "outcomes": [
+        "Comprendre ce qu'est un programme, un algorithme, une variable",
+        "Faire des choix et répéter avec les conditions, les boucles et les fonctions",
+        "Ranger ses données : tableaux, dictionnaires, piles et files",
+        "Connaître les grands classiques : recherche, tri, récursivité, complexité"
       ]
     }
   ]

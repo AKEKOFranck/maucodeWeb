@@ -5,6 +5,8 @@ import { verifyBearer, checkAppCheck } from "@/lib/serverAuth";
 import { createLimiter, clientIp } from "@/lib/rateLimit";
 import { findModule, gradeQuiz } from "@/lib/quizServer";
 import { FREE_MODULES_PER_COURSE } from "@/lib/config";
+import { isPaidModule } from "@/lib/paymentConfig";
+import { isEntitled } from "@/lib/entitlements";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -68,7 +70,7 @@ export async function POST(request) {
 
     /* Identité : jamais un uid envoyé par le client */
     const hasAuth = request.headers.has("authorization");
-    const decoded = hasAuth ? await verifyBearer(request) : null;
+    const decoded = hasAuth ? await verifyBearer(request, { checkRevoked: true }) : null;
     if (hasAuth && !decoded) return json({ error: "unauthorized" }, 401);
 
     /* Visiteur sans compte : seulement les modules gratuits, correction sans écriture */
@@ -84,6 +86,12 @@ export async function POST(request) {
     const { course, module: moduleSlug } = body;
     const w = userLimit(`${uid}:${course}:${moduleSlug}`);
     if (w > 0) return tooMany(w);
+
+    /* Module payant : l'accès doit avoir été débloqué (collection entitlements).
+       Sans ce contrôle, un compte gratuit pourrait faire corriger un quiz payant par appel direct. */
+    if (isPaidModule(course, found.index) && !(await isEntitled(uid, course))) {
+      return json({ error: "payment_required" }, 402);
+    }
 
     const db = adminDb();
     const col = db.collection("progress");

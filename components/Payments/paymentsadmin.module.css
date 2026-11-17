@@ -1,0 +1,123 @@
+/* Panneau « Paiements à valider » (blanc & tech, comme le reste de l'admin) */
+.box {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-sm);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--text);
+}
+
+.help {
+  margin: 0.6rem 0;
+  line-height: 1.6;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.error {
+  margin: 0.6rem 0;
+  color: #b3261e;
+  font-weight: 600;
+}
+
+.list {
+  display: grid;
+  gap: 0.8rem;
+  margin: 1rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+}
+
+.info {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 0.6rem 1.2rem;
+  flex: 1 1 380px;
+  margin: 0;
+}
+
+.info dt {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+.info dd {
+  margin: 0;
+  color: var(--text);
+  overflow-wrap: anywhere;
+}
+
+.mono {
+  font-family: var(--font-mono);
+  font-weight: 600;
+}
+
+.actions {
+  display: flex;
+  gap: 0.6rem;
+}
+
+.ok,
+.no,
+.ghost {
+  min-height: 44px;
+  padding: 0.55rem 1.3rem;
+  border-radius: 999px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.ok {
+  background: var(--accent);
+  color: #fff;
+  border: 0;
+}
+
+.ok:hover:not(:disabled) {
+  background: var(--accent-strong);
+}
+
+.no,
+.ghost {
+  background: #fff;
+  color: var(--text);
+  border: 1px solid var(--line);
+}
+
+.no:hover:not(:disabled),
+.ghost:hover {
+  border-color: var(--accent);
+}
+
+.ok:disabled,
+.no:disabled {
+  opacity: 0.5;
+  cursor: default;
+}

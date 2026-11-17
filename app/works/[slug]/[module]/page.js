@@ -2,8 +2,9 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { COURSES, getCourse, getModule } from "@/lib/data/modules";
 import { publicModule } from "@/lib/quizServer";
+import { isPaidModule } from "@/lib/paymentConfig";
 import { Icon } from "@/components/Lesson/icons";
-import ModuleFlow from "./Moduleflow";
+import ModuleGate from "./ModuleGate";
 import styles from "../page.module.css";
 
 export function generateStaticParams() {
@@ -34,6 +35,10 @@ export default async function ModulePage({ params }) {
   const idx = course.modules.findIndex((m) => m.slug === moduleSlug);
   const pick = (m) => (m ? { slug: m.slug, title: m.title } : null);
 
+  /* Module payant : le contenu (leçons, quiz) n'est JAMAIS mis dans le HTML.
+     Il est chargé par le navigateur via /api/module, après vérification du paiement. */
+  const paid = isPaidModule(slug, idx);
+
   return (
     <main className={styles.page} style={{ "--course": course.accent }}>
       <section className={styles.hero}>
@@ -51,12 +56,14 @@ export default async function ModulePage({ params }) {
         </div>
       </section>
 
-      <ModuleFlow
+      <ModuleGate
+        paid={paid}
+        moduleSlug={moduleSlug}
         courseSlug={slug}
         courseTitle={course.software}
         moduleSlugs={course.modules.map((m) => m.slug)}
         index={idx}
-        module={publicModule(mod)}
+        module={paid ? null : publicModule(mod)}
         prev={pick(course.modules[idx - 1])}
         next={pick(course.modules[idx + 1])}
       />

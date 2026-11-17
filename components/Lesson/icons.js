@@ -65,6 +65,14 @@ import {
   FaUsers,
   FaWandMagicSparkles,
   FaWater,
+  FaHtml5,
+  FaCss3Alt,
+  FaCode,
+  FaTerminal,
+  FaGamepad,
+  FaLayerGroup,
+  FaMobileScreenButton,
+  FaStar,
 } from "react-icons/fa6";
 
 const ICONS = {
@@ -132,6 +140,14 @@ const ICONS = {
   FaUsers,
   FaWandMagicSparkles,
   FaWater,
+  FaHtml5,
+  FaCss3Alt,
+  FaCode,
+  FaTerminal,
+  FaGamepad,
+  FaLayerGroup,
+  FaMobileScreenButton,
+  FaStar,
 };
 
 export function Icon({ name, ...props }) {

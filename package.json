@@ -10,7 +10,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "audit:prod": "npm audit --omit=dev"
+    "audit:prod": "npm audit --omit=dev",
+    "check:courses": "node scripts/check-courses.mjs",
+    "prebuild": "node scripts/check-courses.mjs"
   },
   "dependencies": {
     "@vercel/analytics": "^2.0.1",

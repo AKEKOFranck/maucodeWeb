@@ -85,7 +85,7 @@ function buildTrophies(catalog, stats) {
       id: `course-${c.slug}`,
       tier: "gold",
       icon: FiBookOpen,
-      name: `${c.software} maîtrisé`,
+      name: `Formation ${c.software} maîtrisée`,
       desc: `Valider tous les modules de la formation ${c.software}.`,
       value: stats.perCourse[c.slug] ?? 0,
       target: c.modules.length,

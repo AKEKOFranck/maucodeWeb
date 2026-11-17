@@ -1,6 +1,6 @@
 # File Tree: maucodeweb
 
-**Generated:** 11/13/2026, 9:54:02 PM
+**Generated:** 11/17/2026, 2:25:56 AM
 **Root Path:** `c:\Users\fm005\OneDrive\Desktop\MaucodeWeb\maucodeweb`
 
 ```
@@ -14,10 +14,20 @@
 │   │   ├── 📄 page.js
 │   │   └── 🎨 page.module.css
 │   ├── 📁 api
+│   │   ├── 📁 admin
+│   │   │   └── 📁 payments
+│   │   │       └── 📄 route.js
 │   │   ├── 📁 attestation
 │   │   │   └── 📄 route.js
 │   │   ├── 📁 feedback
 │   │   │   └── 📄 route.js
+│   │   ├── 📁 module
+│   │   │   └── 📄 route.js
+│   │   ├── 📁 payment
+│   │   │   ├── 📁 request
+│   │   │   │   └── 📄 route.js
+│   │   │   └── 📁 submit
+│   │   │       └── 📄 route.js
 │   │   ├── 📁 push
 │   │   │   ├── 📁 send
 │   │   │   │   └── 📄 route.js
@@ -50,6 +60,7 @@
 │   ├── 📁 works
 │   │   ├── 📁 [slug]
 │   │   │   ├── 📁 [module]
+│   │   │   │   ├── 📄 ModuleGate.js
 │   │   │   │   ├── 📄 Moduleflow.js
 │   │   │   │   ├── 🎨 Moduleflow.module.css
 │   │   │   │   └── 📄 page.js
@@ -98,6 +109,8 @@
 │   │   ├── 📄 footer.js
 │   │   └── 🎨 footer.module.css
 │   ├── 📁 Lesson
+│   │   ├── 📄 GameVisual.js
+│   │   ├── 🎨 gamevisual.module.css
 │   │   ├── 📄 icons.js
 │   │   ├── 📄 lesson.js
 │   │   └── 🎨 lesson.module.css
@@ -107,6 +120,12 @@
 │   ├── 📁 Notifications
 │   │   ├── 📄 notifications.js
 │   │   └── 🎨 notifications.module.css
+│   ├── 📁 PayBox
+│   │   ├── 📄 PayBox.js
+│   │   └── 🎨 PayBox.module.css
+│   ├── 📁 Payments
+│   │   ├── 📄 PaymentsAdmin.js
+│   │   └── 🎨 paymentsadmin.module.css
 │   ├── 📁 PwaInstall
 │   │   ├── 📄 PwaInstall.js
 │   │   └── 🎨 PwaInstall.module.css
@@ -116,8 +135,10 @@
 ├── 📁 lib
 │   ├── 📁 data
 │   │   ├── 📄 extra.js
+│   │   ├── 📄 htmlcss.js
 │   │   ├── 📄 merge.js
 │   │   ├── 📄 modules.js
+│   │   ├── 📄 programming.js
 │   │   └── ⚙️ works.json
 │   ├── 📄 announcements.js
 │   ├── 📄 appCheck.js
@@ -125,8 +146,10 @@
 │   ├── 📄 attestationServer.js
 │   ├── 📄 config.js
 │   ├── 📄 courseCatalog.js
+│   ├── 📄 entitlements.js
 │   ├── 📄 firebase.js
 │   ├── 📄 firebaseAdmin.js
+│   ├── 📄 paymentConfig.js
 │   ├── 📄 progress.js
 │   ├── 📄 quizServer.js
 │   ├── 📄 rateLimit.js
@@ -156,6 +179,7 @@
 │   ├── 🖼️ tuile-studio.png
 │   └── 🖼️ tuile-support.png
 ├── 📁 scripts
+│   ├── 📄 check-courses.mjs
 │   └── 📄 set-admin.mjs
 ├── ⚙️ .gitignore
 ├── 📝 AGENTS.md
